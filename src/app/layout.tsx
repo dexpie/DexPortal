@@ -5,6 +5,11 @@ import { CommandMenu } from "@/components/command-menu";
 import { MusicPlayer } from "@/components/music-player";
 import { KonamiListener } from "@/components/konami-listener";
 import { NeonCursor } from "@/components/neon-cursor";
+import { BootSequence } from "@/components/boot-sequence";
+import { CRTOverlay } from "@/components/crt-overlay";
+import { MatrixRain } from "@/components/matrix-rain";
+import { ParticleNetwork } from "@/components/particle-network";
+import { HackerTerminal } from "@/components/hacker-terminal";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -46,6 +51,11 @@ export default function RootLayout({
         <MusicPlayer />
         <KonamiListener />
         <NeonCursor />
+        <BootSequence />
+        <CRTOverlay />
+        <MatrixRain />
+        <ParticleNetwork />
+        <HackerTerminal />
         {children}
       </body>
     </html>
