@@ -26,7 +26,7 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
             onMouseLeave={() => setIsHovered(false)}
         >
             <Link href={project.href} className="block group relative">
-                <div className="absolute -inset-0.5 bg-gradient-to-r from-red-600 to-purple-600 rounded-2xl opacity-20 group-hover:opacity-75 transition duration-500 blur-lg group-hover:blur-xl" />
+                <div className="absolute -inset-0.5 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-2xl opacity-20 group-hover:opacity-75 transition duration-500 blur-lg group-hover:blur-xl" />
                 <div className="relative h-full bg-neutral-900 border border-white/10 rounded-xl p-6 hover:bg-neutral-800 transition-colors duration-300 flex flex-col justify-between overflow-hidden">
 
                     {/* Shine Effect */}
@@ -45,7 +45,7 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
                             <ArrowUpRight className="text-neutral-500 group-hover:text-red-400 transition-colors duration-300" />
                         </div>
 
-                        <h3 className="text-xl font-bold text-white mb-2 group-hover:text-red-500 transition-colors duration-300">
+                        <h3 className="text-xl font-bold text-white mb-2 group-hover:text-cyan-400 transition-colors duration-300">
                             {project.title}
                         </h3>
                         <p className="text-neutral-400 text-sm leading-relaxed">

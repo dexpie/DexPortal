@@ -46,7 +46,7 @@ export function MusicPlayer() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1 }}
-                className="flex items-center gap-3 p-3 rounded-full bg-black/40 border border-white/10 backdrop-blur-md shadow-2xl shadow-red-900/10"
+                className="flex items-center gap-3 p-3 rounded-full bg-black/40 border border-white/10 backdrop-blur-md shadow-2xl shadow-cyan-900/10"
             >
                 {/* Animated Visualizer */}
                 <div className="hidden sm:flex items-end gap-1 h-4 mx-2">
@@ -65,7 +65,7 @@ export function MusicPlayer() {
                             }}
                             className={cn(
                                 "w-1 rounded-full",
-                                isPlaying ? "bg-red-500" : "bg-neutral-600"
+                                isPlaying ? "bg-cyan-500" : "bg-neutral-600"
                             )}
                         />
                     ))}
@@ -81,7 +81,7 @@ export function MusicPlayer() {
                 <div className="flex items-center gap-2">
                     <button
                         onClick={togglePlay}
-                        className="w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-red-600 hover:text-white transition-colors text-white"
+                        className="w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-cyan-600 hover:text-white transition-colors text-white"
                     >
                         {isPlaying ? <Pause size={14} /> : <Play size={14} className="ml-0.5" />}
                     </button>

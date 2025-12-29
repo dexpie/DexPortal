@@ -30,11 +30,11 @@ export function Hero() {
             {/* Background Elements */}
             <motion.div
                 style={{ x: moveX, y: moveY }}
-                className="absolute inset-0 bg-[radial-gradient(circle_800px_at_center,_var(--tw-gradient-stops))] from-red-900/10 via-background to-background pointer-events-none"
+                className="absolute inset-0 bg-[radial-gradient(circle_800px_at_center,_var(--tw-gradient-stops))] from-cyan-900/20 via-background to-background pointer-events-none"
             />
             <motion.div
                 style={{ x: moveX, y: moveY }}
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-red-600/5 blur-[120px] rounded-full pointer-events-none"
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-600/10 blur-[120px] rounded-full pointer-events-none"
             />
 
             <div className="relative z-10 max-w-2xl text-left space-y-8">
@@ -42,11 +42,11 @@ export function Hero() {
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.5 }}
-                    className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-red-500/30 bg-red-500/10 text-red-400 text-sm font-medium"
+                    className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-cyan-500/30 bg-cyan-500/10 text-cyan-400 text-sm font-medium"
                 >
                     <span className="relative flex h-2 w-2">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
                     </span>
                     Welcome to the Nexus
                 </motion.div>
@@ -58,7 +58,7 @@ export function Hero() {
                     className="text-5xl md:text-7xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-b from-white via-white to-neutral-500 leading-tight"
                 >
                     Your Portal to <br />
-                    <span className="text-red-600">The Dex Ecosystem</span>
+                    <span className="text-cyan-400 drop-shadow-[0_0_15px_rgba(34,211,238,0.5)]">The Dex Ecosystem</span>
                 </motion.h1>
 
                 <motion.p

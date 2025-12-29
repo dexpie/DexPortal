@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { CommandMenu } from "@/components/command-menu";
 import { MusicPlayer } from "@/components/music-player";
+import { KonamiListener } from "@/components/konami-listener";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -42,6 +43,7 @@ export default function RootLayout({
       >
         <CommandMenu />
         <MusicPlayer />
+        <KonamiListener />
         {children}
       </body>
     </html>

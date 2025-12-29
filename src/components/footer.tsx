@@ -3,7 +3,7 @@ export function Footer() {
         <footer className="border-t border-white/5 bg-black py-12">
             <div className="container mx-auto px-6 text-center">
                 <div className="mb-8">
-                    <span className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-red-600 to-red-400">
+                    <span className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-cyan-600 to-blue-400">
                         DexPortal
                     </span>
                 </div>
@@ -12,9 +12,9 @@ export function Footer() {
                 </p>
                 <div className="flex justify-center gap-6 text-neutral-400">
                     {/* Social links or other links could go here */}
-                    <a href="#" className="hover:text-red-500 transition-colors">GitHub</a>
-                    <a href="#" className="hover:text-red-500 transition-colors">Twitter</a>
-                    <a href="#" className="hover:text-red-500 transition-colors">Discord</a>
+                    <a href="#" className="hover:text-cyan-400 transition-colors">GitHub</a>
+                    <a href="#" className="hover:text-cyan-400 transition-colors">Twitter</a>
+                    <a href="#" className="hover:text-cyan-400 transition-colors">Discord</a>
                 </div>
             </div>
         </footer>

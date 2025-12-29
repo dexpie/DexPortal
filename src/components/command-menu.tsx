@@ -49,7 +49,7 @@ export function CommandMenu() {
                             initial={{ opacity: 0, scale: 0.95 }}
                             animate={{ opacity: 1, scale: 1 }}
                             exit={{ opacity: 0, scale: 0.95 }}
-                            className="w-full max-w-lg overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-2xl shadow-red-900/20"
+                            className="w-full max-w-lg overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-2xl shadow-cyan-900/20"
                         >
                             <Command className="w-full bg-transparent">
                                 <div className="flex items-center border-b border-white/10 px-4">
@@ -70,7 +70,7 @@ export function CommandMenu() {
                                             <Command.Item
                                                 key={project.id}
                                                 onSelect={() => runCommand(() => window.open(project.href, '_blank'))}
-                                                className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none aria-selected:bg-red-900/20 aria-selected:text-white data-[disabled]:pointer-events-none data-[disabled]:opacity-50 text-neutral-300"
+                                                className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none aria-selected:bg-cyan-900/20 aria-selected:text-cyan-400 data-[disabled]:pointer-events-none data-[disabled]:opacity-50 text-neutral-300"
                                             >
                                                 <BookOpen className="mr-2 h-4 w-4" />
                                                 <span>{project.title}</span>
