@@ -3,9 +3,11 @@
 import { Navbar } from "@/components/navbar";
 import { Hero } from "@/components/hero";
 import { ProjectCard } from "@/components/project-card";
+import { BlogCard } from "@/components/blog-card";
 import { Footer } from "@/components/footer";
-import { Timeline } from "@/components/timeline";
 import { projects } from "@/lib/projects";
+import { blogPosts } from "@/lib/blog";
+import { Timeline } from "@/components/timeline";
 import { motion } from "framer-motion";
 
 export default function Home() {

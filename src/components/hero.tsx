@@ -3,6 +3,8 @@
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { useEffect } from "react";
 import { CreatorCard } from "./creator-card";
+import { GlitchText } from "./glitch-text";
+import { TypewriterText } from "./typewriter-text";
 
 export function Hero() {
     const x = useMotionValue(0);
@@ -58,16 +60,22 @@ export function Hero() {
                     className="text-5xl md:text-7xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-b from-white via-white to-neutral-500 leading-tight"
                 >
                     Your Portal to <br />
-                    <span className="text-cyan-400 drop-shadow-[0_0_15px_rgba(34,211,238,0.5)]">The Dex Ecosystem</span>
+                    <div className="relative inline-block text-cyan-400 drop-shadow-[0_0_15px_rgba(34,211,238,0.5)]">
+                        <GlitchText text="The Dex Ecosystem" />
+                    </div>
                 </motion.h1>
 
                 <motion.p
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: 0.2 }}
-                    className="text-lg text-neutral-400 max-w-lg"
+                    className="text-lg text-neutral-400 max-w-lg min-h-[84px]"
                 >
-                    Seamlessly navigate through all my projects. From Manga reading to PDF management, experience a unified digital workspace.
+                    <TypewriterText
+                        text="Seamlessly navigate through all my projects. From Manga reading to PDF management, experience a unified digital workspace."
+                        delay={1000}
+                        speed={30}
+                    />
                 </motion.p>
 
                 <motion.div
