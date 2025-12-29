@@ -41,7 +41,7 @@ export function CreatorCard() {
             >
                 {/* Holographic Gradient Overlay */}
                 <div
-                    className="absolute inset-0 rounded-xl opacity-20 bg-gradient-to-br from-cyan-500/20 via-blue-900/20 to-purple-900/20 pointer-events-none"
+                    className="absolute inset-0 rounded-xl opacity-20 bg-gradient-to-br from-cyan-500/20 via-blue-900/20 to-blue-900/20 pointer-events-none"
                     style={{ transform: "translateZ(20px)" }}
                 />
 

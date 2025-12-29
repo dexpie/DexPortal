@@ -24,11 +24,11 @@ export function StatusMonitor() {
             <div className="relative flex h-2 w-2">
                 <span className={cn(
                     "animate-ping absolute inline-flex h-full w-full rounded-full opacity-75",
-                    isOnline ? "bg-green-400" : "bg-red-400"
+                    isOnline ? "bg-cyan-400" : "bg-neutral-600"
                 )}></span>
                 <span className={cn(
                     "relative inline-flex rounded-full h-2 w-2",
-                    isOnline ? "bg-green-500" : "bg-red-500"
+                    isOnline ? "bg-cyan-500" : "bg-neutral-500"
                 )}></span>
             </div>
             <span className="text-xs font-medium text-neutral-400">

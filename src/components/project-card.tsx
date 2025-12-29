@@ -27,7 +27,7 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
         >
             <Link href={project.href} className="block group relative">
                 <div className="absolute -inset-0.5 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-2xl opacity-20 group-hover:opacity-75 transition duration-500 blur-lg group-hover:blur-xl" />
-                <div className="relative h-full bg-neutral-900 border border-white/10 rounded-xl p-6 hover:bg-neutral-800 transition-colors duration-300 flex flex-col justify-between overflow-hidden">
+                <div className="relative h-full bg-black border border-white/10 rounded-xl p-6 hover:bg-neutral-950 transition-colors duration-300 flex flex-col justify-between overflow-hidden">
 
                     {/* Shine Effect */}
                     <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:animate-shine pointer-events-none" />
@@ -42,7 +42,7 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
                             )}>
                                 {project.category}
                             </span>
-                            <ArrowUpRight className="text-neutral-500 group-hover:text-red-400 transition-colors duration-300" />
+                            <ArrowUpRight className="text-neutral-500 group-hover:text-cyan-400 transition-colors duration-300" />
                         </div>
 
                         <h3 className="text-xl font-bold text-white mb-2 group-hover:text-cyan-400 transition-colors duration-300">
@@ -71,7 +71,7 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
                         transition={{ duration: 0.2 }}
                         className="absolute z-50 left-1/2 -translate-x-1/2 bottom-full mb-4 w-72 pointer-events-none"
                     >
-                        <div className="rounded-lg overflow-hidden border border-white/10 shadow-2xl shadow-black/50 bg-neutral-900">
+                        <div className="rounded-lg overflow-hidden border border-white/10 shadow-2xl shadow-cyan-900/50 bg-black">
                             <Image
                                 src={project.previewImage}
                                 alt={`${project.title} preview`}

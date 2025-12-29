@@ -16,7 +16,7 @@ export function Skeleton({ className, ...props }: SkeletonProps) {
 
 export function ProjectCardSkeleton() {
     return (
-        <div className="relative h-full bg-neutral-900 border border-white/10 rounded-xl p-6 flex flex-col justify-between">
+        <div className="relative h-full bg-black border border-white/10 rounded-xl p-6 flex flex-col justify-between">
             <div>
                 <div className="flex justify-between items-start mb-4">
                     <Skeleton className="h-6 w-16 rounded-full" />
@@ -49,7 +49,7 @@ export function HeroSkeleton() {
 
 export function BlogCardSkeleton() {
     return (
-        <div className="p-6 rounded-xl bg-neutral-900/50 border border-white/5">
+        <div className="p-6 rounded-xl bg-black border border-white/10">
             <div className="flex items-center gap-3 mb-4">
                 <Skeleton className="h-6 w-20 rounded-full" />
                 <Skeleton className="h-4 w-24" />
