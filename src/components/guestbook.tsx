@@ -8,9 +8,9 @@ export function Guestbook() {
             <Giscus
                 id="comments"
                 repo="dexpie/DexPortal"
-                repoId="R_kgDONn3Nzw"
+                repoId="R_kgDOQwinwA"
                 category="General"
-                categoryId="DIC_kwDONn3Nz84Cly2j"
+                categoryId="DIC_kwDOQwinwM4C0WZA"
                 mapping="pathname"
                 term="Welcome to my guestbook!"
                 reactionsEnabled="1"
