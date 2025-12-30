@@ -1,7 +1,8 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { GitCommit, Star, GitFork, Eye, Clock } from "lucide-react";
+import { GitCommit, Star, GitFork, Eye, Clock, Loader2 } from "lucide-react";
 
 interface GitHubEvent {
     id: string;
@@ -12,10 +13,6 @@ interface GitHubEvent {
         commits?: { message: string }[];
         action?: string;
     };
-}
-
-interface ActivityFeedProps {
-    events: GitHubEvent[];
 }
 
 function getEventIcon(type: string) {
@@ -35,7 +32,7 @@ function getEventDescription(event: GitHubEvent) {
     switch (event.type) {
         case "PushEvent":
             const commit = event.payload?.commits?.[0];
-            return commit ? `Pushed: "${commit.message.slice(0, 50)}..."` : "Pushed commits";
+            return commit ? `Pushed: "${commit.message.slice(0, 40)}..."` : "Pushed commits";
         case "WatchEvent":
             return `Starred ${event.repo.name}`;
         case "ForkEvent":
@@ -60,7 +57,52 @@ function formatTimeAgo(dateString: string) {
     return `${diffDays}d ago`;
 }
 
-export function ActivityFeed({ events }: ActivityFeedProps) {
+export function ActivityFeed() {
+    const [events, setEvents] = useState<GitHubEvent[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+
+    useEffect(() => {
+        async function fetchEvents() {
+            try {
+                const response = await fetch(`/api/github/activity?t=${Date.now()}`);
+                if (!response.ok) throw new Error("Failed to fetch");
+                const data = await response.json();
+                setEvents(data);
+            } catch (err) {
+                setError("Could not load activity");
+                console.error(err);
+            } finally {
+                setLoading(false);
+            }
+        }
+        fetchEvents();
+    }, []);
+
+    if (loading) {
+        return (
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="p-6 rounded-xl bg-black/80 border border-white/10 backdrop-blur-sm flex items-center justify-center min-h-[300px]"
+            >
+                <Loader2 className="w-6 h-6 animate-spin text-cyan-400" />
+            </motion.div>
+        );
+    }
+
+    if (error) {
+        return (
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="p-6 rounded-xl bg-black/80 border border-white/10 backdrop-blur-sm flex items-center justify-center min-h-[300px]"
+            >
+                <p className="text-neutral-500">{error}</p>
+            </motion.div>
+        );
+    }
+
     return (
         <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -83,8 +125,7 @@ export function ActivityFeed({ events }: ActivityFeedProps) {
                         <motion.div
                             key={event.id}
                             initial={{ opacity: 0, x: -10 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true }}
+                            animate={{ opacity: 1, x: 0 }}
                             transition={{ delay: index * 0.05 }}
                             className="flex items-start gap-3 p-2 rounded-lg hover:bg-white/5 transition-colors"
                         >

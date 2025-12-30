@@ -63,25 +63,8 @@ export default function Home() {
       {/* GitHub Stats & Activity Section */}
       <section className="container mx-auto px-6 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <GitHubStatsWidget
-            username="dexpie"
-            stats={{
-              public_repos: 20,
-              followers: 13,
-              following: 10,
-              totalStars: 6,
-            }}
-          />
-          <ActivityFeed events={[
-            { id: "1", type: "PushEvent", repo: { name: "DexAutoEDA" }, created_at: "2025-12-27T11:59:18Z", payload: { commits: [{ message: "feat: add auto-visualization module" }] } },
-            { id: "2", type: "PushEvent", repo: { name: "DexAutoEDA" }, created_at: "2025-12-27T11:14:51Z", payload: { commits: [{ message: "refactor: improve data processing" }] } },
-            { id: "3", type: "CreateEvent", repo: { name: "DexAutoEDA" }, created_at: "2025-12-27T10:46:07Z" },
-            { id: "4", type: "PushEvent", repo: { name: "DexFileManager" }, created_at: "2025-12-27T10:23:52Z", payload: { commits: [{ message: "feat: add EXIF sorting" }] } },
-            { id: "5", type: "PushEvent", repo: { name: "DexKasir" }, created_at: "2025-12-27T10:08:33Z", payload: { commits: [{ message: "feat: email notifications" }] } },
-            { id: "6", type: "PushEvent", repo: { name: "DexFileManager" }, created_at: "2025-12-27T10:08:25Z", payload: { commits: [{ message: "fix: file conversion bug" }] } },
-            { id: "7", type: "PushEvent", repo: { name: "DexKasir" }, created_at: "2025-12-27T10:05:17Z", payload: { commits: [{ message: "feat: stock opname" }] } },
-            { id: "8", type: "PushEvent", repo: { name: "DexScrapper" }, created_at: "2025-12-27T09:11:01Z", payload: { commits: [{ message: "feat: pipeline orchestrator" }] } },
-          ]} />
+          <GitHubStatsWidget username="dexpie" />
+          <ActivityFeed />
         </div>
       </section>
 

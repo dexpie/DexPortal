@@ -1,25 +1,58 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Star, GitFork, Users, BookOpen } from "lucide-react";
+import { Star, GitFork, Users, BookOpen, Loader2 } from "lucide-react";
+
+interface Stats {
+    public_repos: number;
+    followers: number;
+    following: number;
+    totalStars: number;
+}
 
 interface GitHubStatsWidgetProps {
     username: string;
-    stats: {
-        public_repos: number;
-        followers: number;
-        following: number;
-        totalStars: number;
-    };
 }
 
-export function GitHubStatsWidget({ username, stats }: GitHubStatsWidgetProps) {
-    const statItems = [
+export function GitHubStatsWidget({ username }: GitHubStatsWidgetProps) {
+    const [stats, setStats] = useState<Stats | null>(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        async function fetchStats() {
+            try {
+                const response = await fetch(`/api/github/stats?t=${Date.now()}`);
+                if (!response.ok) throw new Error("Failed to fetch");
+                const data = await response.json();
+                setStats(data);
+            } catch (err) {
+                console.error(err);
+            } finally {
+                setLoading(false);
+            }
+        }
+        fetchStats();
+    }, []);
+
+    const statItems = stats ? [
         { icon: BookOpen, label: "Repositories", value: stats.public_repos, color: "text-blue-400" },
         { icon: Star, label: "Total Stars", value: stats.totalStars, color: "text-yellow-400" },
         { icon: Users, label: "Followers", value: stats.followers, color: "text-cyan-400" },
         { icon: GitFork, label: "Following", value: stats.following, color: "text-purple-400" },
-    ];
+    ] : [];
+
+    if (loading) {
+        return (
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="p-6 rounded-xl bg-black/80 border border-white/10 backdrop-blur-sm flex items-center justify-center min-h-[200px]"
+            >
+                <Loader2 className="w-6 h-6 animate-spin text-cyan-400" />
+            </motion.div>
+        );
+    }
 
     return (
         <motion.div
@@ -45,8 +78,7 @@ export function GitHubStatsWidget({ username, stats }: GitHubStatsWidgetProps) {
                     <motion.div
                         key={item.label}
                         initial={{ opacity: 0, scale: 0.9 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        viewport={{ once: true }}
+                        animate={{ opacity: 1, scale: 1 }}
                         transition={{ delay: index * 0.1 }}
                         className="p-3 rounded-lg bg-white/5 border border-white/5 hover:border-cyan-500/30 transition-colors"
                     >
