@@ -12,9 +12,10 @@ export function Footer() {
                 </p>
                 <div className="flex justify-center gap-6 text-neutral-400">
                     {/* Social links or other links could go here */}
-                    <a href="#" className="hover:text-cyan-400 transition-colors">GitHub</a>
-                    <a href="#" className="hover:text-cyan-400 transition-colors">Twitter</a>
-                    <a href="#" className="hover:text-cyan-400 transition-colors">Discord</a>
+                    <a href="https://github.com/dexpie" target="_blank" rel="noopener noreferrer" className="hover:text-cyan-400 transition-colors">GitHub</a>
+                    <a href="https://saweria.co/dexpie" target="_blank" rel="noopener noreferrer" className="hover:text-yellow-400 transition-colors flex items-center gap-2">
+                        <span>☕</span> Support
+                    </a>
                 </div>
             </div>
         </footer>

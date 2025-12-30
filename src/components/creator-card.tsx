@@ -104,7 +104,14 @@ export function CreatorCard() {
                             <div className="flex gap-2 mt-4 justify-center">
                                 <span className="px-2 py-1 rounded bg-cyan-500/10 border border-cyan-500/20 text-[10px] text-cyan-400 font-mono">DEV</span>
                                 <span className="px-2 py-1 rounded bg-purple-500/10 border border-purple-500/20 text-[10px] text-purple-400 font-mono">PRO</span>
-                                <span className="px-2 py-1 rounded bg-green-500/10 border border-green-500/20 text-[10px] text-green-400 font-mono">A-Z</span>
+                                <a
+                                    href="https://saweria.co/dexpie"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="px-2 py-1 rounded bg-yellow-500/10 border border-yellow-500/20 text-[10px] text-yellow-400 font-mono hover:bg-yellow-500/20 transition-colors cursor-pointer flex items-center gap-1"
+                                >
+                                    <Zap size={8} /> SUPPORT
+                                </a>
                             </div>
                         </div>
 
