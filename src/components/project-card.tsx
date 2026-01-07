@@ -25,7 +25,7 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
         >
-            <Link href={project.href} className="block group relative">
+            <Link href={`/projects/${project.id}`} className="block group relative">
                 <div className="absolute -inset-0.5 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-2xl opacity-20 group-hover:opacity-75 transition duration-500 blur-lg group-hover:blur-xl" />
                 <div className="relative h-full bg-black border border-white/10 rounded-xl p-6 hover:bg-neutral-950 transition-colors duration-300 flex flex-col justify-between overflow-hidden">
 

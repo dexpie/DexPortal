@@ -1,15 +1,16 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Plus, Trash2, Edit2, Save, X, LayoutTemplate, FileText, LogOut, ArrowLeft } from "lucide-react";
+import { Plus, Trash2, Edit2, Save, X, LayoutTemplate, FileText, LogOut, ArrowLeft, MessageSquare } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 export default function AdminPage() {
-    const [activeTab, setActiveTab] = useState<"projects" | "blog">("projects");
+    const [activeTab, setActiveTab] = useState<"projects" | "blog" | "guestbook">("projects");
     const [projects, setProjects] = useState<any[]>([]);
     const [blogPosts, setBlogPosts] = useState<any[]>([]);
+    const [guestbookEntries, setGuestbookEntries] = useState<any[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [isEditing, setIsEditing] = useState<string | null>(null);
     const [editForm, setEditForm] = useState<any>({});
@@ -28,12 +29,14 @@ export default function AdminPage() {
     async function fetchData() {
         setIsLoading(true);
         try {
-            const [projectsRes, blogRes] = await Promise.all([
+            const [projectsRes, blogRes, guestbookRes] = await Promise.all([
                 fetch("/api/projects"),
-                fetch("/api/blog")
+                fetch("/api/blog"),
+                fetch("/api/guestbook")
             ]);
             setProjects(await projectsRes.json());
             setBlogPosts(await blogRes.json());
+            setGuestbookEntries(await guestbookRes.json());
         } catch (error) {
             console.error("Failed to fetch data", error);
         } finally {
@@ -41,7 +44,7 @@ export default function AdminPage() {
         }
     }
 
-    async function handleDelete(id: string, type: "projects" | "blog") {
+    async function handleDelete(id: string, type: "projects" | "blog" | "guestbook") {
         if (!confirm("Are you sure?")) return;
         await fetch(`/api/${type}/${id}`, { method: "DELETE" });
         fetchData();
@@ -50,6 +53,8 @@ export default function AdminPage() {
     async function handleSave(e: React.FormEvent) {
         e.preventDefault();
         const type = activeTab;
+        if (type === "guestbook") return; // Guestbook is delete-only for now
+
         const method = isAdding ? "POST" : "PUT";
         const url = isAdding ? `/api/${type}` : `/api/${type}/${editForm.id}`;
 
@@ -66,12 +71,14 @@ export default function AdminPage() {
     }
 
     const openEdit = (item: any) => {
+        if (activeTab === "guestbook") return;
         setEditForm(item);
         setIsEditing(item.id);
         setIsAdding(false);
     };
 
     const openAdd = () => {
+        if (activeTab === "guestbook") return;
         setEditForm(activeTab === "projects" ? {
             title: "", description: "", href: "", category: "Web App", status: "Development"
         } : {
@@ -79,6 +86,32 @@ export default function AdminPage() {
         });
         setIsAdding(true);
         setIsEditing(null);
+    };
+
+    const renderList = () => {
+        let items = [];
+        if (activeTab === "projects") items = projects;
+        else if (activeTab === "blog") items = blogPosts;
+        else items = guestbookEntries;
+
+        return items.map((item) => (
+            <motion.div
+                key={item.id}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="flex items-center justify-between p-4 bg-white/5 border border-white/5 rounded-lg hover:border-white/10 transition-colors"
+            >
+                <div>
+                    <h3 className="font-bold text-lg">{item.title || item.name}</h3>
+                    <p className="text-sm text-neutral-500">{item.description || item.excerpt || item.message}</p>
+                    {activeTab === "guestbook" && <p className="text-xs text-neutral-600 mt-1">{new Date(item.date).toLocaleString()}</p>}
+                </div>
+                <div className="flex gap-2">
+                    {activeTab !== "guestbook" && <button onClick={() => openEdit(item)} className="p-2 hover:text-cyan-400 transition-colors"><Edit2 size={18} /></button>}
+                    <button onClick={() => handleDelete(item.id, activeTab)} className="p-2 hover:text-red-400 transition-colors"><Trash2 size={18} /></button>
+                </div>
+            </motion.div>
+        ));
     };
 
     return (
@@ -98,25 +131,33 @@ export default function AdminPage() {
                 </button>
             </div>
 
-            <div className="flex gap-4 mb-8">
+            <div className="flex gap-4 mb-8 overflow-x-auto pb-2">
                 <button
                     onClick={() => setActiveTab("projects")}
-                    className={`flex items-center gap-2 px-6 py-3 rounded-lg border transition-all ${activeTab === "projects" ? "bg-cyan-500/10 border-cyan-500 text-cyan-400" : "border-white/10 text-neutral-400 hover:bg-white/5"}`}
+                    className={`flex items-center gap-2 px-6 py-3 rounded-lg border transition-all whitespace-nowrap ${activeTab === "projects" ? "bg-cyan-500/10 border-cyan-500 text-cyan-400" : "border-white/10 text-neutral-400 hover:bg-white/5"}`}
                 >
                     <LayoutTemplate size={18} /> Projects
                 </button>
                 <button
                     onClick={() => setActiveTab("blog")}
-                    className={`flex items-center gap-2 px-6 py-3 rounded-lg border transition-all ${activeTab === "blog" ? "bg-cyan-500/10 border-cyan-500 text-cyan-400" : "border-white/10 text-neutral-400 hover:bg-white/5"}`}
+                    className={`flex items-center gap-2 px-6 py-3 rounded-lg border transition-all whitespace-nowrap ${activeTab === "blog" ? "bg-cyan-500/10 border-cyan-500 text-cyan-400" : "border-white/10 text-neutral-400 hover:bg-white/5"}`}
                 >
                     <FileText size={18} /> Blog Posts
+                </button>
+                <button
+                    onClick={() => setActiveTab("guestbook")}
+                    className={`flex items-center gap-2 px-6 py-3 rounded-lg border transition-all whitespace-nowrap ${activeTab === "guestbook" ? "bg-cyan-500/10 border-cyan-500 text-cyan-400" : "border-white/10 text-neutral-400 hover:bg-white/5"}`}
+                >
+                    <MessageSquare size={18} /> Guestbook
                 </button>
             </div>
 
             <div className="flex justify-end mb-6">
-                <button onClick={openAdd} className="bg-cyan-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-cyan-500 transition-colors">
-                    <Plus size={18} /> Add New
-                </button>
+                {activeTab !== "guestbook" && (
+                    <button onClick={openAdd} className="bg-cyan-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-cyan-500 transition-colors">
+                        <Plus size={18} /> Add New
+                    </button>
+                )}
             </div>
 
             {(isEditing || isAdding) && (
@@ -152,23 +193,7 @@ export default function AdminPage() {
                 {isLoading ? (
                     <div className="text-center py-20 text-neutral-500">Loading data matrix...</div>
                 ) : (
-                    (activeTab === "projects" ? projects : blogPosts).map((item) => (
-                        <motion.div
-                            key={item.id}
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            className="flex items-center justify-between p-4 bg-white/5 border border-white/5 rounded-lg hover:border-white/10 transition-colors"
-                        >
-                            <div>
-                                <h3 className="font-bold text-lg">{item.title}</h3>
-                                <p className="text-sm text-neutral-500">{item.description || item.excerpt}</p>
-                            </div>
-                            <div className="flex gap-2">
-                                <button onClick={() => openEdit(item)} className="p-2 hover:text-cyan-400 transition-colors"><Edit2 size={18} /></button>
-                                <button onClick={() => handleDelete(item.id, activeTab)} className="p-2 hover:text-red-400 transition-colors"><Trash2 size={18} /></button>
-                            </div>
-                        </motion.div>
-                    ))
+                    renderList()
                 )}
             </div>
         </main>
