@@ -3,9 +3,10 @@
 import { useState, useEffect, useRef, KeyboardEvent } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
-import { projects } from "@/lib/projects"; // Can likely swap to API fetch if needed, but imported lib is fine for client component in this context or we fetch
-// Actually, let's fetch projects from API to be consistent with data source
-// But since this is a client component, we'll fetch on mount.
+
+import { Project } from "@/lib/types";
+
+// Client-side fetch on mount used instead for Project List
 
 const helpMessage = [
     "Available commands:",

@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { BlogPost } from "@/lib/blog";
+import { BlogPost } from "@/lib/types";
 import { ArrowRight, Clock } from "lucide-react";
 import { cn } from "@/lib/utils";
 

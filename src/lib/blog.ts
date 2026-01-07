@@ -1,27 +1,8 @@
-export interface BlogPost {
-    id: string;
-    slug: string;
-    title: string;
-    excerpt: string;
-    date: string;
-    author: string;
-    category: "Changelog" | "Tutorial" | "Announcement";
-    readTime: string;
-}
-
 import fs from 'fs';
 import path from 'path';
+import { BlogPost } from './types';
 
-export interface BlogPost {
-    id: string;
-    slug: string;
-    title: string;
-    excerpt: string;
-    date: string;
-    author: string;
-    category: "Changelog" | "Tutorial" | "Announcement";
-    readTime: string;
-}
+export { type BlogPost };
 
 const dataPath = path.join(process.cwd(), 'src', 'data', 'blog.json');
 
@@ -49,7 +30,3 @@ export async function deleteBlogPost(id: string) {
     const newPosts = posts.filter(p => p.id !== id);
     await saveBlogPosts(newPosts);
 }
-
-// Deprecated static export
-export const blogPosts: BlogPost[] = [];
-

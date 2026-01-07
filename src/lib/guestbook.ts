@@ -1,12 +1,8 @@
 import fs from 'fs';
 import path from 'path';
+import { GuestbookEntry } from './types';
 
-export interface GuestbookEntry {
-    id: string;
-    name: string;
-    message: string;
-    date: string;
-}
+export { type GuestbookEntry };
 
 const dataPath = path.join(process.cwd(), 'src', 'data', 'guestbook.json');
 

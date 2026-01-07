@@ -1,25 +1,8 @@
-export interface Project {
-    id: string;
-    title: string;
-    description: string;
-    href: string;
-    category: "Web App" | "Tool" | "Manga" | "Other";
-    status: "Live" | "Development" | "Planned";
-    previewImage?: string;
-}
-
 import fs from 'fs';
 import path from 'path';
+import { Project } from './types';
 
-export interface Project {
-    id: string;
-    title: string;
-    description: string;
-    href: string;
-    category: "Web App" | "Tool" | "Manga" | "Other";
-    status: "Live" | "Development" | "Planned";
-    previewImage?: string;
-}
+export { type Project };
 
 const dataPath = path.join(process.cwd(), 'src', 'data', 'projects.json');
 
@@ -56,7 +39,3 @@ export async function deleteProject(id: string) {
     const newProjects = projects.filter(p => p.id !== id);
     await saveProjects(newProjects);
 }
-
-// Keep this for client-side usage compatibility until fully migrated, though for server components utilize getProjects
-export const projects: Project[] = []; // Deprecated: Use getProjects()
-

@@ -54,8 +54,8 @@ export default async function Home() {
           <h2 className="text-3xl font-bold text-center">Latest Updates</h2>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {recentPosts.slice(0, 3).map((post) => (
-            <BlogCard key={post.id} post={post} />
+          {recentPosts.slice(0, 3).map((post, index) => (
+            <BlogCard key={post.id} post={post} index={index} />
           ))}
         </div>
       </section>

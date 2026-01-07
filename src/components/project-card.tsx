@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import { Project } from "@/lib/projects";
+import { Project } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 interface ProjectCardProps {

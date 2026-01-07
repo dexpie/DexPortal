@@ -5,13 +5,17 @@ import { Command } from "cmdk";
 import { Search, Monitor, Code, BookOpen, User, Github } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import { projects } from "@/lib/projects";
+import { Project } from "@/lib/types";
 
 export function CommandMenu() {
     const [open, setOpen] = React.useState(false);
+    const [projects, setProjects] = React.useState<Project[]>([]);
     const router = useRouter();
 
     React.useEffect(() => {
+        // Fetch projects for search
+        fetch('/api/projects').then(res => res.json()).then(data => setProjects(data)).catch(() => { });
+
         const down = (e: KeyboardEvent) => {
             if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
                 e.preventDefault();
