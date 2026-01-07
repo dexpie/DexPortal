@@ -1,0 +1,32 @@
+[
+    {
+        "id": "1",
+        "slug": "dexportal-v2-launch",
+        "title": "DexPortal v2.0: The Nexus Update",
+        "excerpt": "Introducing Command Palette, Timeline, and 3D interactivity. A complete overhaul of the portal experience.",
+        "date": "Dec 28, 2025",
+        "author": "Dexpie",
+        "category": "Changelog",
+        "readTime": "3 min read"
+    },
+    {
+        "id": "2",
+        "slug": "dexkomik-reader-engine",
+        "title": "New Reader Engine for DexKomik",
+        "excerpt": "We've completely rebuilt the manga reading experience with smoother scrolling and better image loading.",
+        "date": "Dec 25, 2025",
+        "author": "Dexpie",
+        "category": "Changelog",
+        "readTime": "2 min read"
+    },
+    {
+        "id": "3",
+        "slug": "dexpdf-cloud-integration",
+        "title": "DexPDF Now Supports Cloud Storage",
+        "excerpt": "Sync your PDFs with Google Drive and Dropbox seamlessly. Access your documents from anywhere.",
+        "date": "Dec 20, 2025",
+        "author": "Dexpie",
+        "category": "Announcement",
+        "readTime": "4 min read"
+    }
+]

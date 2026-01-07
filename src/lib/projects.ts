@@ -8,47 +8,55 @@ export interface Project {
     previewImage?: string;
 }
 
-export const projects: Project[] = [
-    {
-        id: "dexpdf",
-        title: "DexPDF",
-        description: "A comprehensive PDF management tool for organizing, converting, and editing PDF documents seamlessly.",
-        href: "https://dexpdf.vercel.app",
-        category: "Tool",
-        status: "Live",
-        previewImage: "/previews/dexpdf.png",
-    },
-    {
-        id: "dexkomik",
-        title: "DexKomik",
-        description: "Your ultimate portal for manga and comic reading, featuring a vast library and intuitive reader.",
-        href: "https://dexkomik.vercel.app",
-        category: "Manga",
-        status: "Live",
-        previewImage: "/previews/dexkomik.png",
-    },
-    {
-        id: "dexanime",
-        title: "DexAnime",
-        description: "Premium anime streaming platform with immersive UI and vast collection.",
-        href: "https://dex-anime.vercel.app",
-        category: "Web App",
-        status: "Live",
-    },
-    {
-        id: "dexkasir",
-        title: "DexKasir",
-        description: "An advanced POS utility for managing inventory, sales, and employee shifts.",
-        href: "#",
-        category: "Web App",
-        status: "Development",
-    },
-    {
-        id: "dexscrapper",
-        title: "DexScrapper",
-        description: "High-performance web scraping engine with AI capabilities.",
-        href: "#",
-        category: "Tool",
-        status: "Development",
+import fs from 'fs';
+import path from 'path';
+
+export interface Project {
+    id: string;
+    title: string;
+    description: string;
+    href: string;
+    category: "Web App" | "Tool" | "Manga" | "Other";
+    status: "Live" | "Development" | "Planned";
+    previewImage?: string;
+}
+
+const dataPath = path.join(process.cwd(), 'src', 'data', 'projects.json');
+
+export async function getProjects(): Promise<Project[]> {
+    try {
+        const fileContents = await fs.promises.readFile(dataPath, 'utf8');
+        return JSON.parse(fileContents);
+    } catch (error) {
+        return [];
     }
-];
+}
+
+export async function saveProjects(projects: Project[]) {
+    await fs.promises.writeFile(dataPath, JSON.stringify(projects, null, 2));
+}
+
+export async function addProject(project: Project) {
+    const projects = await getProjects();
+    projects.push(project);
+    await saveProjects(projects);
+}
+
+export async function updateProject(id: string, updatedProject: Partial<Project>) {
+    const projects = await getProjects();
+    const index = projects.findIndex(p => p.id === id);
+    if (index !== -1) {
+        projects[index] = { ...projects[index], ...updatedProject };
+        await saveProjects(projects);
+    }
+}
+
+export async function deleteProject(id: string) {
+    const projects = await getProjects();
+    const newProjects = projects.filter(p => p.id !== id);
+    await saveProjects(newProjects);
+}
+
+// Keep this for client-side usage compatibility until fully migrated, though for server components utilize getProjects
+export const projects: Project[] = []; // Deprecated: Use getProjects()
+

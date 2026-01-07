@@ -1,0 +1,44 @@
+[
+    {
+        "id": "dexpdf",
+        "title": "DexPDF",
+        "description": "A comprehensive PDF management tool for organizing, converting, and editing PDF documents seamlessly.",
+        "href": "https://dexpdf.vercel.app",
+        "category": "Tool",
+        "status": "Live",
+        "previewImage": "/previews/dexpdf.png"
+    },
+    {
+        "id": "dexkomik",
+        "title": "DexKomik",
+        "description": "Your ultimate portal for manga and comic reading, featuring a vast library and intuitive reader.",
+        "href": "https://dexkomik.vercel.app",
+        "category": "Manga",
+        "status": "Live",
+        "previewImage": "/previews/dexkomik.png"
+    },
+    {
+        "id": "dexanime",
+        "title": "DexAnime",
+        "description": "Premium anime streaming platform with immersive UI and vast collection.",
+        "href": "https://dex-anime.vercel.app",
+        "category": "Web App",
+        "status": "Live"
+    },
+    {
+        "id": "dexkasir",
+        "title": "DexKasir",
+        "description": "An advanced POS utility for managing inventory, sales, and employee shifts.",
+        "href": "#",
+        "category": "Web App",
+        "status": "Development"
+    },
+    {
+        "id": "dexscrapper",
+        "title": "DexScrapper",
+        "description": "High-performance web scraping engine with AI capabilities.",
+        "href": "#",
+        "category": "Tool",
+        "status": "Development"
+    }
+]

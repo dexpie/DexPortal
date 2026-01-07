@@ -9,35 +9,47 @@ export interface BlogPost {
     readTime: string;
 }
 
-export const blogPosts: BlogPost[] = [
-    {
-        id: "1",
-        slug: "dexportal-v2-launch",
-        title: "DexPortal v2.0: The Nexus Update",
-        excerpt: "Introducing Command Palette, Timeline, and 3D interactivity. A complete overhaul of the portal experience.",
-        date: "Dec 28, 2025",
-        author: "Dexpie",
-        category: "Changelog",
-        readTime: "3 min read",
-    },
-    {
-        id: "2",
-        slug: "dexkomik-reader-engine",
-        title: "New Reader Engine for DexKomik",
-        excerpt: "We've completely rebuilt the manga reading experience with smoother scrolling and better image loading.",
-        date: "Dec 25, 2025",
-        author: "Dexpie",
-        category: "Changelog",
-        readTime: "2 min read",
-    },
-    {
-        id: "3",
-        slug: "dexpdf-cloud-integration",
-        title: "DexPDF Now Supports Cloud Storage",
-        excerpt: "Sync your PDFs with Google Drive and Dropbox seamlessly. Access your documents from anywhere.",
-        date: "Dec 20, 2025",
-        author: "Dexpie",
-        category: "Announcement",
-        readTime: "4 min read",
-    },
-];
+import fs from 'fs';
+import path from 'path';
+
+export interface BlogPost {
+    id: string;
+    slug: string;
+    title: string;
+    excerpt: string;
+    date: string;
+    author: string;
+    category: "Changelog" | "Tutorial" | "Announcement";
+    readTime: string;
+}
+
+const dataPath = path.join(process.cwd(), 'src', 'data', 'blog.json');
+
+export async function getBlogPosts(): Promise<BlogPost[]> {
+    try {
+        const fileContents = await fs.promises.readFile(dataPath, 'utf8');
+        return JSON.parse(fileContents);
+    } catch (error) {
+        return [];
+    }
+}
+
+export async function saveBlogPosts(posts: BlogPost[]) {
+    await fs.promises.writeFile(dataPath, JSON.stringify(posts, null, 2));
+}
+
+export async function addBlogPost(post: BlogPost) {
+    const posts = await getBlogPosts();
+    posts.push(post);
+    await saveBlogPosts(posts);
+}
+
+export async function deleteBlogPost(id: string) {
+    const posts = await getBlogPosts();
+    const newPosts = posts.filter(p => p.id !== id);
+    await saveBlogPosts(newPosts);
+}
+
+// Deprecated static export
+export const blogPosts: BlogPost[] = [];
+

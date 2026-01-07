@@ -22,8 +22,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "DexPortal | Your Project Hub",
-  description: "A centralized portal for DexPDF, DexKomik, and more.",
+  title: "DexPie Portfolio | Creative Technologist",
+  description: "A digital garden and portfolio showcasing the work of DexPie (Gading).",
   manifest: "/manifest.json",
   themeColor: "#E50914",
   appleWebApp: {
