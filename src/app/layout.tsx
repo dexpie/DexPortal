@@ -10,6 +10,9 @@ import { CRTOverlay } from "@/components/crt-overlay";
 import { MatrixRain } from "@/components/matrix-rain";
 import { ParticleNetwork } from "@/components/particle-network";
 import { HackerTerminal } from "@/components/hacker-terminal";
+import { ScrollProgress } from "@/components/scroll-progress";
+import { MobileNav } from "@/components/mobile-nav";
+import { Toaster } from "sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,7 +28,7 @@ export const metadata: Metadata = {
   title: "DexPie Portfolio | Creative Technologist",
   description: "A digital garden and portfolio showcasing the work of DexPie (Gading).",
   manifest: "/manifest.json",
-  themeColor: "#E50914",
+  themeColor: "#06b6d4",
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
@@ -47,6 +50,18 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <ScrollProgress />
+        <Toaster
+          theme="dark"
+          position="bottom-right"
+          toastOptions={{
+            style: {
+              background: 'rgba(0, 0, 0, 0.9)',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              color: '#fff',
+            },
+          }}
+        />
         <CommandMenu />
         <MusicPlayer />
         <KonamiListener />
@@ -56,7 +71,10 @@ export default function RootLayout({
         <MatrixRain />
         <ParticleNetwork />
         <HackerTerminal />
-        {children}
+        <MobileNav />
+        <div className="pb-16 md:pb-0">
+          {children}
+        </div>
       </body>
     </html>
   );

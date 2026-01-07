@@ -17,8 +17,10 @@ export function Navbar() {
                     </span>
                 </Link>
                 <div className="flex gap-6 text-sm font-medium text-muted-foreground items-center">
+                    <Link href="/about" className="hover:text-cyan-400 transition-colors hidden sm:block">About</Link>
                     <Link href="/blog" className="hover:text-cyan-400 transition-colors">Blog</Link>
-                    <Link href="/guestbook" className="hover:text-cyan-400 transition-colors">Guestbook</Link>
+                    <Link href="/guestbook" className="hover:text-cyan-400 transition-colors hidden sm:block">Guestbook</Link>
+                    <Link href="/contact" className="hover:text-cyan-400 transition-colors hidden sm:block">Contact</Link>
                     <StatusMonitor />
                 </div>
             </div>

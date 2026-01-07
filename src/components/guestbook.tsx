@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Send, Trash2, User, MessageSquare } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { toast } from "sonner";
 
 interface GuestbookEntry {
     id: string;
@@ -49,11 +50,13 @@ export function Guestbook() {
 
             if (res.ok) {
                 setMessage("");
-                // Refresh list
+                toast.success("Message transmitted successfully! 🚀");
                 fetchEntries();
+            } else {
+                toast.error("Failed to transmit message");
             }
         } catch (error) {
-            console.error("Failed to sign");
+            toast.error("Connection failed");
         } finally {
             setIsSending(false);
         }
