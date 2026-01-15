@@ -46,6 +46,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "DexPie Portfolio | Creative Technologist",
   description: "A digital garden and portfolio showcasing the work of DexPie (Gading).",
+  verification: {
+    google: "agO2vFVgbizzTaquR_kQqCsxd8n7dM0yGCAm98ZHvGQ",
+  },
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
