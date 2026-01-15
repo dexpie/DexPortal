@@ -6,6 +6,10 @@ export interface Project {
     category: "Web App" | "Tool" | "Experiment" | "Game";
     status: "Live" | "Development" | "Archived" | "Concept";
     previewImage?: string;
+    techStack?: string[];
+    likes?: number;
+    content?: string; // MDX Content
+    githubUrl?: string;
 }
 
 export interface BlogPost {
@@ -13,6 +17,7 @@ export interface BlogPost {
     slug: string;
     title: string;
     excerpt: string;
+    content: string;
     date: string;
     author: string;
     category: string;

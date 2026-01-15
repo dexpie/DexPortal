@@ -1,3 +1,5 @@
+"use client";
+
 import { cn } from "@/lib/utils";
 
 interface SkeletonProps extends React.HTMLAttributes<HTMLDivElement> { }
@@ -6,11 +8,52 @@ export function Skeleton({ className, ...props }: SkeletonProps) {
     return (
         <div
             className={cn(
-                "animate-pulse rounded-md bg-neutral-800/50",
+                "relative overflow-hidden rounded-md bg-neutral-800/50",
                 className
             )}
             {...props}
-        />
+        >
+            {/* Enhanced shimmer effect */}
+            <div className="absolute inset-0 -translate-x-full animate-[shimmer_2s_infinite] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+        </div>
+    );
+}
+
+export function SkeletonText({ lines = 3, className }: { lines?: number; className?: string }) {
+    return (
+        <div className={cn("space-y-2", className)}>
+            {Array.from({ length: lines }).map((_, i) => (
+                <Skeleton
+                    key={i}
+                    className="h-4"
+                    style={{ width: i === lines - 1 ? "75%" : "100%" }}
+                />
+            ))}
+        </div>
+    );
+}
+
+export function SkeletonAvatar({ size = "md" }: { size?: "sm" | "md" | "lg" }) {
+    const sizeClasses = {
+        sm: "w-8 h-8",
+        md: "w-12 h-12",
+        lg: "w-16 h-16",
+    };
+    return <Skeleton className={cn("rounded-full", sizeClasses[size])} />;
+}
+
+export function SkeletonCard() {
+    return (
+        <div className="p-6 rounded-xl bg-black border border-white/10 space-y-4">
+            <div className="flex items-center gap-3">
+                <SkeletonAvatar />
+                <div className="space-y-2 flex-1">
+                    <Skeleton className="h-4 w-24" />
+                    <Skeleton className="h-3 w-16" />
+                </div>
+            </div>
+            <SkeletonText lines={3} />
+        </div>
     );
 }
 
@@ -25,9 +68,15 @@ export function ProjectCardSkeleton() {
                 <Skeleton className="h-7 w-3/4 mb-3" />
                 <Skeleton className="h-4 w-full mb-2" />
                 <Skeleton className="h-4 w-5/6" />
+                <div className="flex gap-2 mt-4">
+                    <Skeleton className="h-6 w-16 rounded-full" />
+                    <Skeleton className="h-6 w-16 rounded-full" />
+                    <Skeleton className="h-6 w-16 rounded-full" />
+                </div>
             </div>
-            <div className="mt-6 pt-4 border-t border-white/5">
+            <div className="mt-6 pt-4 border-t border-white/5 flex justify-between">
                 <Skeleton className="h-4 w-24" />
+                <Skeleton className="h-6 w-12 rounded-full" />
             </div>
         </div>
     );

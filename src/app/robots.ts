@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
             allow: "/",
             disallow: ["/admin", "/api/"],
         },
-        sitemap: "https://dexpie.dev/sitemap.xml",
+        sitemap: "https://dexportal.vercel.app/sitemap.xml",
     };
 }

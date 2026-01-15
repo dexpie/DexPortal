@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { Send, Trash2, User, MessageSquare } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { Send, Terminal, Hash, Clock, Cpu } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
+import { cn } from "@/lib/utils";
 
 interface GuestbookEntry {
     id: string;
@@ -18,9 +19,13 @@ export function Guestbook() {
     const [message, setMessage] = useState("");
     const [isLoading, setIsLoading] = useState(true);
     const [isSending, setIsSending] = useState(false);
+    const [terminalLines, setTerminalLines] = useState<string[]>(["Initializing secure connection..."]);
 
     useEffect(() => {
         fetchEntries();
+        // Simulate terminal startup sequence
+        setTimeout(() => setTerminalLines(prev => [...prev, "Estabilishing handshake..."]), 500);
+        setTimeout(() => setTerminalLines(prev => [...prev, "Connection secure. Ready for transmission."]), 1200);
     }, []);
 
     async function fetchEntries() {
@@ -41,7 +46,12 @@ export function Guestbook() {
         if (!name.trim() || !message.trim()) return;
 
         setIsSending(true);
+        setTerminalLines(prev => [...prev, `Encrypting outgoing message from [${name}]...`]);
+
         try {
+            // Simulate processing time
+            await new Promise(r => setTimeout(r, 800));
+
             const res = await fetch("/api/guestbook", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -50,12 +60,15 @@ export function Guestbook() {
 
             if (res.ok) {
                 setMessage("");
-                toast.success("Message transmitted successfully! 🚀");
+                setTerminalLines(prev => [...prev, "Transmission successful. Data logged."]);
+                toast.success("Packet delivered.");
                 fetchEntries();
             } else {
-                toast.error("Failed to transmit message");
+                setTerminalLines(prev => [...prev, "ERR: Transmission rejected."]);
+                toast.error("Packet lost.");
             }
         } catch (error) {
+            setTerminalLines(prev => [...prev, "ERR: Connection timed out."]);
             toast.error("Connection failed");
         } finally {
             setIsSending(false);
@@ -63,80 +76,113 @@ export function Guestbook() {
     }
 
     return (
-        <div className="w-full max-w-2xl mx-auto">
-            {/* Sign Form */}
-            <div className="mb-8 p-6 bg-neutral-900/50 border border-cyan-500/20 rounded-xl relative overflow-hidden">
-                <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-cyan-500 to-blue-600" />
-                <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
-                    <MessageSquare size={20} className="text-cyan-400" />
-                    Leave a Message
-                </h3>
+        <div className="w-full max-w-4xl mx-auto font-mono">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
-                <form onSubmit={handleSubmit} className="space-y-4">
-                    <div>
-                        <input
-                            type="text"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            placeholder="Your Name / Codename"
-                            className="w-full bg-black/40 border border-white/10 rounded-lg px-4 py-3 focus:border-cyan-500 outline-none transition-colors"
-                            maxLength={50}
-                            required
-                        />
-                    </div>
-                    <div>
-                        <textarea
-                            value={message}
-                            onChange={(e) => setMessage(e.target.value)}
-                            placeholder="Type your message here..."
-                            className="w-full bg-black/40 border border-white/10 rounded-lg px-4 py-3 min-h-[100px] focus:border-cyan-500 outline-none transition-colors resize-none"
-                            maxLength={280}
-                            required
-                        />
-                    </div>
-                    <div className="flex justify-end">
-                        <button
-                            type="submit"
-                            disabled={isSending}
-                            className="bg-cyan-600 hover:bg-cyan-500 text-white px-6 py-2 rounded-lg font-medium flex items-center gap-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-                        >
-                            {isSending ? "Transmitting..." : <>Send Message <Send size={16} /></>}
-                        </button>
-                    </div>
-                </form>
-            </div>
+                {/* Visual Terminal / Log */}
+                <div className="lg:col-span-2 space-y-6">
+                    <div className="bg-black/80 border border-neutral-800 rounded-lg p-4 h-[500px] overflow-y-auto custom-scrollbar relative">
+                        <div className="absolute top-2 right-4 flex gap-4 text-[10px] text-neutral-600 font-bold uppercase tracking-widest pointer-events-none">
+                            <div className="flex items-center gap-1"><Cpu size={10} /> MEM: 64%</div>
+                            <div className="flex items-center gap-1"><Clock size={10} /> UPTIME: 99.9%</div>
+                        </div>
 
-            {/* Entries List */}
-            <div className="space-y-4">
-                {isLoading ? (
-                    <div className="text-center text-neutral-500 py-8">Loading transmission...</div>
-                ) : entries.length === 0 ? (
-                    <div className="text-center text-neutral-500 py-8">No messages yet. Be the first!</div>
-                ) : (
-                    <AnimatePresence>
-                        {entries.map((entry) => (
-                            <motion.div
-                                key={entry.id}
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                className="p-4 bg-white/5 border border-white/5 rounded-lg hover:border-white/10 transition-colors group"
-                            >
-                                <div className="flex justify-between items-start mb-2">
-                                    <div className="flex items-center gap-2">
-                                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-neutral-700 to-neutral-800 flex items-center justify-center border border-white/10">
-                                            <User size={14} className="text-neutral-400" />
-                                        </div>
-                                        <div>
-                                            <div className="font-bold text-sm text-cyan-400">{entry.name}</div>
-                                            <div className="text-[10px] text-neutral-500">{new Date(entry.date).toLocaleDateString()}</div>
-                                        </div>
+                        {isLoading ? (
+                            <div className="space-y-2">
+                                {terminalLines.map((line, i) => (
+                                    <div key={i} className="text-sm text-green-500/80 font-mono">
+                                        <span className="text-neutral-600 mr-2">{">"}</span>
+                                        {line}
                                     </div>
-                                </div>
-                                <p className="text-neutral-300 text-sm pl-10 leading-relaxed">{entry.message}</p>
-                            </motion.div>
-                        ))}
-                    </AnimatePresence>
-                )}
+                                ))}
+                                <span className="inline-block w-2 h-4 bg-green-500 animate-pulse" />
+                            </div>
+                        ) : (
+                            <AnimatePresence>
+                                {entries.map((entry, i) => (
+                                    <motion.div
+                                        key={entry.id}
+                                        initial={{ opacity: 0, x: -10 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        transition={{ delay: i * 0.05 }}
+                                        className="mb-4 border-l-2 border-neutral-800 pl-4 py-1 hover:border-cyan-500/50 transition-colors group"
+                                    >
+                                        <div className="flex items-center gap-2 text-xs text-neutral-500 mb-1">
+                                            <span className="text-cyan-600 font-bold">[{new Date(entry.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}]</span>
+                                            <span className="text-neutral-400">USR::{entry.name.toUpperCase()}</span>
+                                            <span className="opacity-0 group-hover:opacity-100 transition-opacity text-[10px] text-neutral-600">ID::{entry.id.substring(0, 8)}</span>
+                                        </div>
+                                        <p className="text-neutral-300 text-sm">{entry.message}</p>
+                                    </motion.div>
+                                ))}
+                            </AnimatePresence>
+                        )}
+
+                        {!isLoading && entries.length === 0 && (
+                            <div className="text-neutral-600 italic text-sm mt-4">System Log Empty. Waiting for input...</div>
+                        )}
+                    </div>
+                </div>
+
+                {/* Input Panel */}
+                <div className="lg:col-span-1">
+                    <div className="bg-neutral-900/50 border border-cyan-500/20 rounded-lg p-6 relative overflow-hidden">
+                        <div className="absolute top-0 right-0 p-2 opacity-20">
+                            <Terminal size={100} className="text-cyan-500" />
+                        </div>
+
+                        <h3 className="text-lg font-bold text-cyan-400 mb-6 flex items-center gap-2 relative z-10">
+                            <Hash size={18} />
+                            TRANSMIT_DATA
+                        </h3>
+
+                        <form onSubmit={handleSubmit} className="space-y-4 relative z-10">
+                            <div>
+                                <label className="text-[10px] uppercase tracking-widest text-neutral-500 mb-1 block">Identity</label>
+                                <input
+                                    type="text"
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
+                                    placeholder="CODENAME"
+                                    className="w-full bg-black/50 border border-neutral-800 rounded px-3 py-2 text-sm text-cyan-100 focus:border-cyan-500/50 outline-none transition-colors font-mono"
+                                    maxLength={30}
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <label className="text-[10px] uppercase tracking-widest text-neutral-500 mb-1 block">Payload</label>
+                                <textarea
+                                    value={message}
+                                    onChange={(e) => setMessage(e.target.value)}
+                                    placeholder="Enter encrypted message..."
+                                    className="w-full bg-black/50 border border-neutral-800 rounded px-3 py-2 text-sm text-cyan-100 focus:border-cyan-500/50 outline-none transition-colors font-mono min-h-[120px] resize-none"
+                                    maxLength={280}
+                                    required
+                                />
+                            </div>
+                            <button
+                                type="submit"
+                                disabled={isSending}
+                                className={cn(
+                                    "w-full bg-cyan-900/20 hover:bg-cyan-900/40 border border-cyan-500/30 text-cyan-400 py-3 rounded text-xs font-bold uppercase tracking-widest transition-all flex items-center justify-center gap-2",
+                                    isSending && "opacity-50 cursor-wait bg-cyan-900/10"
+                                )}
+                            >
+                                {isSending ? (
+                                    <span className="animate-pulse">UPLOADING...</span>
+                                ) : (
+                                    <>INITIALIZE_UPLOAD <Send size={12} /></>
+                                )}
+                            </button>
+                        </form>
+                    </div>
+
+                    <div className="mt-6 p-4 bg-yellow-900/10 border border-yellow-500/10 rounded-lg">
+                        <p className="text-[10px] text-yellow-500/60 leading-relaxed uppercase">
+                            Warning: All transmissions are monitored by the Public Network. Do not upload classified credentials.
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
     );

@@ -1,44 +1,87 @@
 [
-    {
-        "id": "dexpdf",
-        "title": "DexPDF",
-        "description": "A comprehensive PDF management tool for organizing, converting, and editing PDF documents seamlessly.",
-        "href": "https://dexpdf.vercel.app",
-        "category": "Tool",
-        "status": "Live",
-        "previewImage": "/previews/dexpdf.png"
-    },
-    {
-        "id": "dexkomik",
-        "title": "DexKomik",
-        "description": "Your ultimate portal for manga and comic reading, featuring a vast library and intuitive reader.",
-        "href": "https://dexkomik.vercel.app",
-        "category": "Manga",
-        "status": "Live",
-        "previewImage": "/previews/dexkomik.png"
-    },
-    {
-        "id": "dexanime",
-        "title": "DexAnime",
-        "description": "Premium anime streaming platform with immersive UI and vast collection.",
-        "href": "https://dex-anime.vercel.app",
-        "category": "Web App",
-        "status": "Live"
-    },
-    {
-        "id": "dexkasir",
-        "title": "DexKasir",
-        "description": "An advanced POS utility for managing inventory, sales, and employee shifts.",
-        "href": "#",
-        "category": "Web App",
-        "status": "Development"
-    },
-    {
-        "id": "dexscrapper",
-        "title": "DexScrapper",
-        "description": "High-performance web scraping engine with AI capabilities.",
-        "href": "#",
-        "category": "Tool",
-        "status": "Development"
-    }
+  {
+    "id": "dexpdf",
+    "title": "DexPDF",
+    "description": "A comprehensive PDF management tool for organizing, converting, and editing PDF documents seamlessly.",
+    "href": "https://dexpdf.vercel.app",
+    "githubUrl": "https://github.com/dexpie/dexpdf",
+    "category": "Tool",
+    "status": "Live",
+    "previewImage": "/previews/dexpdf.png",
+    "techStack": [
+      "Next.js",
+      "TypeScript",
+      "PDF-Lib",
+      "Tailwind"
+    ],
+    "likes": 124,
+    "content": "## Overview\nCheck out **DexPDF**, the ultimate tool for handling PDF files locally in your browser. No data leaves your device, ensuring maximum privacy and security.\n\n### Key Features\n- **Client-Side Processing**: All operations happen in your browser.\n- **Merge & Split**: Combine multiple PDFs or extract pages with ease.\n- **Image to PDF**: Convert your images into professional documents."
+  },
+  {
+    "id": "dexkomik",
+    "title": "DexKomik",
+    "description": "Your ultimate portal for manga and comic reading, featuring a vast library and intuitive reader.",
+    "href": "https://dexkomik.vercel.app",
+    "githubUrl": "https://github.com/dexpie/dexkomik",
+    "category": "Manga",
+    "status": "Live",
+    "previewImage": "/previews/dexkomik.png",
+    "techStack": [
+      "Next.js",
+      "Cheerio",
+      "Puppeteer",
+      "Vercel"
+    ],
+    "likes": 89,
+    "content": "## The Reading Experience\nDexKomik provides a distraction-free environment for reading your favorite manga. \n\n### Technical Challenges\nBuilding a robust scraping engine that respects rate limits while delivering fast content was the main challenge. We utilized **server-side caching** and optimized parsing logic to achieve sub-second load times."
+  },
+  {
+    "id": "dexanime",
+    "title": "DexAnime",
+    "description": "Premium anime streaming platform with immersive UI and vast collection.",
+    "href": "https://dex-anime.vercel.app",
+    "githubUrl": "https://github.com/dexpie/dexanime",
+    "category": "Web App",
+    "status": "Live",
+    "techStack": [
+      "Next.js",
+      "Consumet API",
+      "Framer Motion",
+      "Shadcn"
+    ],
+    "likes": 257,
+    "content": "## Streaming Next-Gen\nDexAnime brings a Netflix-like experience to anime streaming. \n\n### UI/UX Design\nThe interface is designed to be immersive, with auto-playing trailers, smooth transitions powered by **Framer Motion**, and a dark, cinematic aesthetic."
+  },
+  {
+    "id": "dexkasir",
+    "title": "DexKasir",
+    "description": "An advanced POS utility for managing inventory, sales, and employee shifts.",
+    "href": "#",
+    "githubUrl": "https://github.com/dexpie/dexkasir",
+    "category": "Web App",
+    "status": "Development",
+    "techStack": [
+      "Python",
+      "Flask",
+      "PostgreSQL",
+      "React"
+    ],
+    "likes": 42
+  },
+  {
+    "id": "dexscrapper",
+    "title": "DexScrapper",
+    "description": "High-performance web scraping engine with AI capabilities.",
+    "href": "#",
+    "githubUrl": "https://github.com/dexpie/dexscrapper",
+    "category": "Tool",
+    "status": "Development",
+    "techStack": [
+      "Python",
+      "Selenium",
+      "OpenAI API",
+      "FastAPI"
+    ],
+    "likes": 15
+  }
 ]

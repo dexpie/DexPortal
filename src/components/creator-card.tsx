@@ -1,13 +1,17 @@
 "use client";
 
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { Github, Twitter, Linkedin, MapPin, Zap, Fingerprint } from "lucide-react";
+import { Github, Twitter, Linkedin, MapPin, Zap, Fingerprint, Music, Code, Disc } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useLanyard } from "use-lanyard";
+
+const DISCORD_ID = "461830617131384833";
 
 export function CreatorCard() {
     const x = useMotionValue(0);
     const rotate = useSpring(x, { stiffness: 150, damping: 15, mass: 1.2 });
     const [mounted, setMounted] = useState(false);
+    const { data: presence } = useLanyard(DISCORD_ID);
 
     useEffect(() => setMounted(true), []);
 
@@ -19,6 +23,30 @@ export function CreatorCard() {
 
     function onMouseLeave() {
         x.set(0);
+    }
+
+    // Dynamic Data Helpers
+    const statusColor = presence?.discord_status === "online" ? "bg-green-500" :
+        presence?.discord_status === "idle" ? "bg-yellow-500" :
+            presence?.discord_status === "dnd" ? "bg-red-500" : "bg-neutral-500";
+
+    const avatarUrl = "https://github.com/dexpie.png";
+
+    const spotify = presence?.spotify;
+    const activity = presence?.activities.find(a => a.name !== "Spotify");
+
+    // Status Text Logic
+    let statusText = "NEXUS OPERATOR";
+    let statusIcon = null;
+
+    if (spotify) {
+        statusText = spotify.song.length > 20 ? spotify.song.slice(0, 20) + "..." : spotify.song;
+        statusIcon = <Music size={10} className="animate-pulse" />;
+    } else if (activity) {
+        statusText = activity.name;
+        statusIcon = <Code size={10} />;
+    } else if (presence) {
+        statusText = presence.discord_status.toUpperCase();
     }
 
     return (
@@ -82,28 +110,40 @@ export function CreatorCard() {
                         <div className="flex-1 p-6 flex flex-col items-center text-center relative">
                             {/* Profile Image with Ring */}
                             <div className="-mt-16 relative">
-                                <div className="absolute inset-0 bg-cyan-500 rounded-full blur-md opacity-20 animate-pulse" />
+                                <div className={`absolute inset-0 ${presence?.discord_status === 'online' ? 'bg-green-500' : 'bg-cyan-500'} rounded-full blur-md opacity-20 animate-pulse`} />
                                 <div className="w-28 h-28 rounded-full p-1 bg-gradient-to-br from-cyan-500/50 to-blue-600/50 backdrop-blur-md relative z-10">
                                     <img
-                                        src="https://github.com/dexpie.png"
+                                        src={avatarUrl}
                                         alt="Profile"
                                         className="w-full h-full rounded-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 ring-2 ring-black"
                                     />
                                     {/* Status Dot */}
                                     <div className="absolute bottom-2 right-2 w-4 h-4 bg-black rounded-full flex items-center justify-center">
-                                        <div className="w-2.5 h-2.5 bg-green-500 rounded-full animate-ping absolute opacity-75" />
-                                        <div className="w-2.5 h-2.5 bg-green-500 rounded-full relative" />
+                                        <div className={`w-2.5 h-2.5 rounded-full animate-ping absolute opacity-75 ${statusColor}`} />
+                                        <div className={`w-2.5 h-2.5 rounded-full relative ${statusColor}`} />
                                     </div>
                                 </div>
                             </div>
 
                             <h2 className="text-3xl font-bold text-white mt-4 tracking-tight group-hover:text-cyan-400 transition-colors">DEXPIE</h2>
-                            <p className="text-xs text-neutral-400 font-mono tracking-widest mt-1">NEXUS OPERATOR</p>
+
+                            <div className="flex items-center gap-2 mt-2 px-3 py-1 rounded-full bg-white/5 border border-white/10">
+                                <span className="text-cyan-400">{statusIcon}</span>
+                                <p className="text-xs text-neutral-300 font-mono tracking-widest uppercase">
+                                    {statusText}
+                                </p>
+                            </div>
 
                             {/* Tags/Badges */}
                             <div className="flex gap-2 mt-4 justify-center">
                                 <span className="px-2 py-1 rounded bg-cyan-500/10 border border-cyan-500/20 text-[10px] text-cyan-400 font-mono">DEV</span>
-                                <span className="px-2 py-1 rounded bg-purple-500/10 border border-purple-500/20 text-[10px] text-purple-400 font-mono">PRO</span>
+                                {spotify ? (
+                                    <span className="px-2 py-1 rounded bg-green-500/10 border border-green-500/20 text-[10px] text-green-400 font-mono flex items-center gap-1">
+                                        <Disc size={8} className="animate-spin" /> SPOTIFY
+                                    </span>
+                                ) : (
+                                    <span className="px-2 py-1 rounded bg-purple-500/10 border border-purple-500/20 text-[10px] text-purple-400 font-mono">PRO</span>
+                                )}
                                 <a
                                     href="https://saweria.co/dexpie"
                                     target="_blank"
@@ -121,7 +161,7 @@ export function CreatorCard() {
                                 <span className="text-black font-mono text-xs font-bold tracking-tighter">ID: D3X-P13-001</span>
                                 <div className="flex gap-0.5 h-8 items-end">
                                     {[...Array(20)].map((_, i) => (
-                                        <div key={i} className={`w-0.5 bg-black ${Math.random() > 0.5 ? 'h-full' : 'h-1/2'}`} />
+                                        <div key={i} className={`w-0.5 bg-black ${i % 3 === 0 || i % 5 === 0 ? 'h-full' : 'h-1/2'}`} />
                                     ))}
                                 </div>
                             </div>

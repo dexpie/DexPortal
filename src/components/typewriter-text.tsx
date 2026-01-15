@@ -1,51 +1,72 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
 
 interface TypewriterTextProps {
-    text: string;
-    speed?: number;
+    text?: string;
+    texts?: string[];
     delay?: number;
+    speed?: number;
+    loop?: boolean;
     className?: string;
 }
 
-export function TypewriterText({ text, speed = 30, delay = 0, className }: TypewriterTextProps) {
-    const [displayedText, setDisplayedText] = useState("");
-    const [started, setStarted] = useState(false);
+export function TypewriterText({
+    text,
+    texts,
+    delay = 0,
+    speed = 50,
+    loop = false,
+    className = ""
+}: TypewriterTextProps) {
+    const [displayText, setDisplayText] = useState("");
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const [isDeleting, setIsDeleting] = useState(false);
+    const [isWaiting, setIsWaiting] = useState(false);
+
+    const phrases = texts || (text ? [text] : [""]);
+    const currentPhrase = phrases[currentIndex];
 
     useEffect(() => {
-        const startTimeout = setTimeout(() => {
-            setStarted(true);
-        }, delay);
+        let timeout: NodeJS.Timeout;
 
-        return () => clearTimeout(startTimeout);
-    }, [delay]);
-
-    useEffect(() => {
-        if (!started) return;
-
-        let currentIndex = 0;
-        const intervalId = setInterval(() => {
-            if (currentIndex <= text.length) {
-                setDisplayedText(text.slice(0, currentIndex));
-                currentIndex++;
+        if (delay && displayText === "" && !isDeleting) {
+            timeout = setTimeout(() => {
+                setDisplayText("");
+            }, delay);
+        } else if (isWaiting) {
+            timeout = setTimeout(() => {
+                setIsWaiting(false);
+                setIsDeleting(true);
+            }, 2000);
+        } else if (isDeleting) {
+            if (displayText === "") {
+                setIsDeleting(false);
+                setCurrentIndex((prev) => (prev + 1) % phrases.length);
             } else {
-                clearInterval(intervalId);
+                timeout = setTimeout(() => {
+                    setDisplayText(displayText.slice(0, -1));
+                }, speed / 2);
             }
-        }, speed);
+        } else {
+            if (displayText === currentPhrase) {
+                if (loop && phrases.length > 1) {
+                    setIsWaiting(true);
+                }
+            } else {
+                timeout = setTimeout(() => {
+                    setDisplayText(currentPhrase.slice(0, displayText.length + 1));
+                }, speed);
+            }
+        }
 
-        return () => clearInterval(intervalId);
-    }, [text, speed, started]);
+        return () => clearTimeout(timeout);
+    }, [displayText, isDeleting, isWaiting, currentPhrase, phrases.length, delay, speed, loop]);
 
     return (
         <span className={className}>
-            {displayedText}
-            <motion.span
-                animate={{ opacity: [1, 0] }}
-                transition={{ duration: 0.5, repeat: Infinity, ease: "linear" }}
-                className="inline-block w-[2px] h-[1em] bg-cyan-500 ml-1 align-middle"
-            />
+            {displayText}
+            <span className="animate-pulse ml-0.5 text-cyan-400">|</span>
         </span>
     );
 }

@@ -2,9 +2,11 @@
 
 import { useEffect, useState } from "react";
 import confetti from "canvas-confetti";
+import { AdminOverlay } from "@/components/admin-overlay";
 
 export function KonamiListener() {
     const [input, setInput] = useState<string[]>([]);
+    const [showOverlay, setShowOverlay] = useState(false);
 
     // The Sequence: Up Up Down Down Left Right Left Right B A
     const KONAMI_CODE = [
@@ -70,11 +72,15 @@ export function KonamiListener() {
 
             const particleCount = 50 * (timeLeft / duration);
 
-            // since particles fall down, start a bit higher than random
             confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } });
             confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } });
         }, 250);
+
+        // 3. Show Admin Overlay
+        setShowOverlay(true);
     };
 
-    return null; // This component doesn't render anything visible
+    return (
+        <AdminOverlay isOpen={showOverlay} onClose={() => setShowOverlay(false)} />
+    );
 }

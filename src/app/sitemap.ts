@@ -3,7 +3,7 @@ import { getProjects } from "@/lib/projects";
 import { MetadataRoute } from "next";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-    const baseUrl = "https://dexpie.dev";
+    const baseUrl = "https://dexportal.vercel.app";
 
     const posts = await getBlogPosts();
     const projects = await getProjects();

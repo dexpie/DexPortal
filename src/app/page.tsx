@@ -1,6 +1,6 @@
+import { ProjectsSection } from "@/components/projects-section";
 import { Navbar } from "@/components/navbar";
 import { Hero } from "@/components/hero";
-import { ProjectCard } from "@/components/project-card";
 import { BlogCard } from "@/components/blog-card";
 import { Footer } from "@/components/footer";
 import { getProjects } from "@/lib/projects";
@@ -9,11 +9,22 @@ import { Timeline } from "@/components/timeline";
 import { GitHubRepos } from "@/components/github-repos";
 import { GitHubStatsWidget } from "@/components/github-stats";
 import { ActivityFeed } from "@/components/activity-feed";
-import * as motion from "framer-motion/client";
+import { DiscordStatus } from "@/components/discord-status";
+import { SkillsSection } from "@/components/skills-section";
+import { Testimonials } from "@/components/testimonials";
+import { Newsletter } from "@/components/newsletter";
+import { VisitorCounter } from "@/components/visitor-counter";
+import { LocalTime } from "@/components/local-time";
+import { ServicesSection } from "@/components/services-section";
+import { QuoteOfTheDay } from "@/components/quote-of-the-day";
+import { AnimatedStats } from "@/components/animated-stats";
+import { FeaturedCarousel } from "@/components/featured-carousel";
+import { getGithubRepos } from "@/lib/github";
 
 export default async function Home() {
   const projects = await getProjects();
   const recentPosts = await getBlogPosts();
+  const githubRepos = await getGithubRepos("dexpie");
 
   return (
     <main className="min-h-screen bg-background text-foreground selection:bg-cyan-500/30">
@@ -21,31 +32,29 @@ export default async function Home() {
 
       <Hero />
 
-      {/* Projects Section */}
-      <section className="container mx-auto px-6 py-20">
-        <div className="flex flex-col items-center mb-16">
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="h-1 w-20 bg-gradient-to-r from-transparent via-cyan-600 to-transparent mb-6"
-          />
-          <motion.h2
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-3xl font-bold text-center"
-          >
-            Explore Projects
-          </motion.h2>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {projects.map((project, index) => (
-            <ProjectCard key={project.id} project={project} index={index} />
-          ))}
+      {/* Status Bar - Visitor & Time */}
+      <section className="container mx-auto px-6 -mt-8 mb-8">
+        <div className="flex flex-wrap items-center justify-center gap-4">
+          <VisitorCounter />
+          <LocalTime />
         </div>
       </section>
+
+      <section className="container mx-auto px-6 py-20 border-b border-white/5">
+        <SkillsSection />
+      </section>
+
+      {/* Animated Stats - NEW Wave 3 */}
+      <AnimatedStats />
+
+      {/* Services Section */}
+      <ServicesSection />
+
+      {/* Featured Projects Carousel - NEW Wave 3 */}
+      <FeaturedCarousel projects={projects} />
+
+      {/* Projects Section (Interactive) */}
+      <ProjectsSection initialProjects={projects} />
 
       {/* Latest Updates Section */}
       <section className="container mx-auto px-6 py-20 border-t border-white/5">
@@ -64,24 +73,27 @@ export default async function Home() {
         <Timeline />
       </section>
 
-      <GitHubRepos repos={[
-        { name: "readmegenerator", description: "AI-powered README Generator for your projects.", html_url: "https://github.com/dexpie/readmegenerator", stargazers_count: 3, forks_count: 0, language: "TypeScript", homepage: "https://readmegenerator-three.vercel.app" },
-        { name: "DexScrapper", description: "Advanced web scraping automation with AI integration.", html_url: "https://github.com/dexpie/DexScrapper", stargazers_count: 1, forks_count: 0, language: "Python", homepage: null },
-        { name: "portfolio", description: "Personal portfolio website.", html_url: "https://github.com/dexpie/portfolio", stargazers_count: 1, forks_count: 0, language: "HTML", homepage: null },
-        { name: "dexpie", description: "GitHub Profile README.", html_url: "https://github.com/dexpie/dexpie", stargazers_count: 1, forks_count: 0, language: null, homepage: null },
-        { name: "DexAutoEDA", description: "Automated Exploratory Data Analysis tool.", html_url: "https://github.com/dexpie/DexAutoEDA", stargazers_count: 0, forks_count: 0, language: "Python", homepage: null },
-        { name: "DexFileManager", description: "Smart file organization and management system.", html_url: "https://github.com/dexpie/DexFileManager", stargazers_count: 0, forks_count: 0, language: "Python", homepage: null },
-        { name: "DexKasir", description: "Point of Sale (POS) application with inventory management.", html_url: "https://github.com/dexpie/DexKasir", stargazers_count: 0, forks_count: 0, language: "Python", homepage: null },
-        { name: "wajik-anime-api", description: "Anime streaming API service.", html_url: "https://github.com/dexpie/wajik-anime-api", stargazers_count: 0, forks_count: 0, language: "TypeScript", homepage: null },
-      ]} />
+      <GitHubRepos repos={githubRepos} />
 
       {/* GitHub Stats & Activity Section */}
       <section className="container mx-auto px-6 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <GitHubStatsWidget username="dexpie" />
-          <ActivityFeed />
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="lg:col-span-1 space-y-6">
+            <DiscordStatus />
+            <QuoteOfTheDay />
+          </div>
+          <div className="lg:col-span-2 space-y-6">
+            <GitHubStatsWidget username="dexpie" />
+            <ActivityFeed />
+          </div>
         </div>
       </section>
+
+      {/* Testimonials Section */}
+      <Testimonials />
+
+      {/* Newsletter Section */}
+      <Newsletter />
 
       <Footer />
     </main>
