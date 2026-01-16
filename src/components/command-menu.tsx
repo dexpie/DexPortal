@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { Command } from "cmdk";
-import { Search, Monitor, Code, BookOpen, User, Github, Terminal, Zap, Power, Volume2, Globe } from "lucide-react";
+import { Search, Monitor, Code, BookOpen, User, Github, Terminal, Zap, Power, Volume2, Globe, Trophy } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { Project } from "@/lib/types";
@@ -135,6 +135,16 @@ export function CommandMenu() {
                                         >
                                             <Power className="mr-2 h-4 w-4 group-aria-selected:text-red-500 transition-colors" />
                                             <span className="font-mono">System Reboot</span>
+                                        </Command.Item>
+                                    </Command.Group>
+
+                                    <Command.Group heading="GAME_CENTER" className="text-cyan-600/70 px-2 py-1.5 text-[10px] font-mono font-bold tracking-widest uppercase mt-2">
+                                        <Command.Item
+                                            onSelect={() => runCommand(() => window.dispatchEvent(new CustomEvent("open-tictactoe")))}
+                                            className="group relative flex cursor-pointer select-none items-center rounded-sm px-2 py-2 text-sm outline-none aria-selected:bg-cyan-900/30 aria-selected:text-cyan-300 text-neutral-400 transition-colors"
+                                        >
+                                            <Trophy className="mr-2 h-4 w-4" />
+                                            <span className="font-mono">Play Tic-Tac-Toe</span>
                                         </Command.Item>
                                     </Command.Group>
 

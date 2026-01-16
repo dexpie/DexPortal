@@ -10,7 +10,7 @@ import { GitHubRepos } from "@/components/github-repos";
 import { GitHubStatsWidget } from "@/components/github-stats";
 import { ActivityFeed } from "@/components/activity-feed";
 import { DiscordStatus } from "@/components/discord-status";
-import { SkillsSection } from "@/components/skills-section";
+import { BentoGrid } from "@/components/bento-grid";
 import { Testimonials } from "@/components/testimonials";
 import { Newsletter } from "@/components/newsletter";
 import { VisitorCounter } from "@/components/visitor-counter";
@@ -41,7 +41,7 @@ export default async function Home() {
       </section>
 
       <section className="container mx-auto px-6 py-20 border-b border-white/5">
-        <SkillsSection />
+        <BentoGrid />
       </section>
 
       {/* Animated Stats - NEW Wave 3 */}

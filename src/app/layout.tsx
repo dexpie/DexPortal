@@ -30,17 +30,20 @@ import { PomodoroTimer } from "@/components/pomodoro-timer";
 import { ZenMode } from "@/components/zen-mode";
 import { AccessibilityMenu } from "@/components/accessibility-menu";
 import { KeyboardVisualizer } from "@/components/keyboard-visualizer";
+import { TicTacToe } from "@/components/tic-tac-toe";
 import { JsonLd } from "@/components/json-ld";
 import { Toaster } from "sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  display: "swap",
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -136,6 +139,7 @@ export default function RootLayout({
             <PomodoroTimer />
             <ZenMode />
             <KeyboardVisualizer />
+            <TicTacToe />
 
             {/* Corner Utilities */}
             <div className="fixed top-6 right-6 z-50 flex items-center gap-2">
