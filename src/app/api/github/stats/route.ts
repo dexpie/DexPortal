@@ -13,7 +13,7 @@ export async function GET() {
                 headers: {
                     Accept: "application/vnd.github.v3+json",
                 },
-                next: { revalidate: 0 },
+                next: { revalidate: 3600 },
             }
         );
 
@@ -30,7 +30,7 @@ export async function GET() {
                 headers: {
                     Accept: "application/vnd.github.v3+json",
                 },
-                next: { revalidate: 0 },
+                next: { revalidate: 3600 },
             }
         );
 

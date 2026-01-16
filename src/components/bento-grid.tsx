@@ -17,7 +17,7 @@ function ProfileCell() {
             <div className="z-10">
                 <div className="w-20 h-20 rounded-full border-2 border-cyan-500/30 overflow-hidden mb-4 relative">
                     <Image
-                        src="/avatar.png"
+                        src="https://github.com/dexpie.png"
                         alt="Profile"
                         fill
                         className="object-cover transition-transform duration-500 group-hover:scale-110"

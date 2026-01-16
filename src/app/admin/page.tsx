@@ -1,259 +1,236 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Plus, Trash2, Edit2, Save, X, LayoutTemplate, FileText, LogOut, ArrowLeft, MessageSquare, Activity } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
+import { createClient } from "@supabase/supabase-js";
+import { Trash2, AlertTriangle, Lock, LogOut, Loader2, MessageSquare, Eye } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Toaster, toast } from "sonner";
+
+// Use environment variables in real app. For this demo we use browser prompting or simple state.
+// We will assume Supabase client is available via common lib or recreate here for admin simplicity.
+const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL || "https://placeholder.supabase.co",
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "placeholder"
+);
+
+const ADMIN_PIN = "1337"; // Simple client-side gate for demo. In real app, use Auth/Middleware.
 
 export default function AdminPage() {
-    const [activeTab, setActiveTab] = useState<"projects" | "blog" | "guestbook" | "overview">("overview");
-    const [projects, setProjects] = useState<any[]>([]);
-    const [blogPosts, setBlogPosts] = useState<any[]>([]);
-    const [guestbookEntries, setGuestbookEntries] = useState<any[]>([]);
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [pinInput, setPinInput] = useState("");
+    const [messages, setMessages] = useState<any[]>([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [isEditing, setIsEditing] = useState<string | null>(null);
-    const [editForm, setEditForm] = useState<any>({});
-    const [isAdding, setIsAdding] = useState(false);
-    const router = useRouter();
+    const [stats, setStats] = useState({ visitors: 0, messages: 0 });
 
     useEffect(() => {
-        fetchData();
+        // Recover session if possible or valid
+        if (sessionStorage.getItem("admin_session") === "true") {
+            setIsAuthenticated(true);
+            fetchData();
+        }
     }, []);
 
-    async function handleLogout() {
-        await fetch("/api/auth/logout", { method: "POST" });
-        router.push("/login");
-    }
-
-    async function fetchData() {
+    const fetchData = async () => {
         setIsLoading(true);
         try {
-            const [projectsRes, blogRes, guestbookRes] = await Promise.all([
-                fetch("/api/projects"),
-                fetch("/api/blog"),
-                fetch("/api/guestbook")
-            ]);
-            setProjects(await projectsRes.json());
-            setBlogPosts(await blogRes.json());
-            setGuestbookEntries(await guestbookRes.json());
+            // Fetch messages
+            const { data: msgData, error: msgError } = await supabase
+                .from('guestbook')
+                .select('*')
+                .order('created_at', { ascending: false });
+
+            if (msgError) throw msgError;
+            setMessages(msgData || []);
+            setStats(s => ({ ...s, messages: (msgData || []).length }));
+
+            // Simulate visitor stat fetch (or real table if you have one)
+            // const { count } = await supabase.from('page_views').select('*', { count: 'exact' });
+            setStats(s => ({ ...s, visitors: 12450 })); // Mock for now
+
         } catch (error) {
-            console.error("Failed to fetch data", error);
+            toast.error("Failed to load data");
+            console.error(error);
         } finally {
             setIsLoading(false);
         }
-    }
+    };
 
-    async function handleDelete(id: string, type: "projects" | "blog" | "guestbook") {
-        if (!confirm("Are you sure?")) return;
-        await fetch(`/api/${type}/${id}`, { method: "DELETE" });
-        fetchData();
-    }
-
-    async function handleSave(e: React.FormEvent) {
+    const handleLogin = (e: React.FormEvent) => {
         e.preventDefault();
-        const type = activeTab;
-        if (type === "guestbook") return; // Guestbook is delete-only for now
+        if (pinInput === ADMIN_PIN) {
+            setIsAuthenticated(true);
+            sessionStorage.setItem("admin_session", "true");
+            fetchData();
+            toast.success("Welcome back, Commander.");
+        } else {
+            toast.error("Access Denied: Invalid PIN");
+            setPinInput("");
+        }
+    };
 
-        const method = isAdding ? "POST" : "PUT";
-        const url = isAdding ? `/api/${type}` : `/api/${type}/${editForm.id}`;
+    const handleDelete = async (id: string) => {
+        const confirm = window.confirm("Nuke this message? This cannot be undone.");
+        if (!confirm) return;
 
-        await fetch(url, {
-            method,
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(editForm),
-        });
+        try {
+            const { error } = await supabase
+                .from('guestbook')
+                .delete()
+                .eq('id', id);
 
-        setIsEditing(null);
-        setIsAdding(false);
-        setEditForm({});
-        fetchData();
+            if (error) throw error;
+
+            setMessages(prev => prev.filter(m => m.id !== id));
+            toast.success("Message neutralized.");
+        } catch (error) {
+            toast.error("Deletion failed");
+        }
+    };
+
+    if (!isAuthenticated) {
+        return (
+            <div className="min-h-screen bg-black flex items-center justify-center p-4">
+                <div className="max-w-md w-full bg-neutral-900 border border-neutral-800 p-8 rounded-2xl shadow-2xl">
+                    <div className="text-center mb-8">
+                        <Lock size={48} className="mx-auto text-red-500 mb-4 animate-pulse" />
+                        <h1 className="text-2xl font-bold text-white">Restricted Access</h1>
+                        <p className="text-neutral-400 text-sm">Nexus Command Center</p>
+                    </div>
+                    <form onSubmit={handleLogin} className="space-y-4">
+                        <input
+                            type="password"
+                            value={pinInput}
+                            onChange={(e) => setPinInput(e.target.value)}
+                            className="w-full bg-black border border-neutral-700 rounded-lg px-4 py-3 text-center text-white text-xl tracking-widest focus:outline-none focus:border-red-500 transition-colors"
+                            placeholder="ENTER PIN"
+                            autoFocus
+                        />
+                        <Button className="w-full bg-red-600 hover:bg-red-700 text-white font-bold h-12">
+                            AUTHENTICATE
+                        </Button>
+                    </form>
+                </div>
+                <Toaster />
+            </div>
+        );
     }
-
-    const openEdit = (item: any) => {
-        if (activeTab === "guestbook") return;
-        setEditForm(item);
-        setIsEditing(item.id);
-        setIsAdding(false);
-    };
-
-    const openAdd = () => {
-        if (activeTab === "guestbook") return;
-        setEditForm(activeTab === "projects" ? {
-            title: "", description: "", href: "", category: "Web App", status: "Development"
-        } : {
-            title: "", excerpt: "", slug: "", date: new Date().toLocaleDateString(), author: "Dexpie", category: "Changelog", readTime: "1 min read"
-        });
-        setIsAdding(true);
-        setIsEditing(null);
-    };
-
-    const renderList = () => {
-        let items = [];
-        if (activeTab === "projects") items = projects;
-        else if (activeTab === "blog") items = blogPosts;
-        else items = guestbookEntries;
-
-        return items.map((item) => (
-            <motion.div
-                key={item.id}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="flex items-center justify-between p-4 bg-white/5 border border-white/5 rounded-lg hover:border-white/10 transition-colors"
-            >
-                <div>
-                    <h3 className="font-bold text-lg">{item.title || item.name}</h3>
-                    <p className="text-sm text-neutral-500">{item.description || item.excerpt || item.message}</p>
-                    {activeTab === "guestbook" && <p className="text-xs text-neutral-600 mt-1">{new Date(item.date).toLocaleString()}</p>}
-                </div>
-                <div className="flex gap-2">
-                    {activeTab !== "guestbook" && activeTab !== "overview" && <button onClick={() => openEdit(item)} className="p-2 hover:text-cyan-400 transition-colors"><Edit2 size={18} /></button>}
-                    {activeTab !== "overview" && <button onClick={() => handleDelete(item.id, activeTab as "projects" | "blog" | "guestbook")} className="p-2 hover:text-red-400 transition-colors"><Trash2 size={18} /></button>}
-                </div>
-            </motion.div>
-        ));
-    };
 
     return (
-        <main className="min-h-screen bg-background container mx-auto px-6 py-24">
-            <div className="flex justify-between items-center mb-8">
+        <div className="min-h-screen bg-black text-white p-6 md:p-12 font-mono">
+            <Toaster theme="dark" />
+
+            {/* Header */}
+            <div className="flex justify-between items-center mb-12 pb-6 border-b border-neutral-800">
                 <div>
-                    <Link href="/" className="inline-flex items-center gap-2 text-sm text-neutral-500 hover:text-cyan-400 mb-2 transition-colors">
-                        <ArrowLeft size={16} /> Back to Portal
-                    </Link>
-                    <h1 className="text-4xl font-bold text-cyan-400">Command Center</h1>
+                    <h1 className="text-3xl font-bold flex items-center gap-3 text-red-500">
+                        <AlertTriangle /> COMMAND CENTER
+                    </h1>
+                    <p className="text-neutral-500 mt-1">System Status: OPERATIONAL</p>
                 </div>
-                <button
-                    onClick={handleLogout}
-                    className="flex items-center gap-2 px-4 py-2 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 hover:bg-red-500/20 transition-all font-mono text-sm"
+                <Button
+                    variant="outline"
+                    onClick={() => {
+                        setIsAuthenticated(false);
+                        sessionStorage.removeItem("admin_session");
+                    }}
+                    className="gap-2 border-neutral-700 hover:bg-neutral-800"
                 >
-                    <LogOut size={16} /> DISCONNECT
-                </button>
+                    <LogOut size={16} /> Logout
+                </Button>
             </div>
 
-            <div className="flex gap-4 mb-8 overflow-x-auto pb-2">
-                <button
-                    onClick={() => setActiveTab("overview")}
-                    className={`flex items-center gap-2 px-6 py-3 rounded-lg border transition-all whitespace-nowrap ${activeTab === "overview" ? "bg-cyan-500/10 border-cyan-500 text-cyan-400" : "border-white/10 text-neutral-400 hover:bg-white/5"}`}
-                >
-                    <Activity size={18} /> Overview
-                </button>
-                <button
-                    onClick={() => setActiveTab("projects")}
-                    className={`flex items-center gap-2 px-6 py-3 rounded-lg border transition-all whitespace-nowrap ${activeTab === "projects" ? "bg-cyan-500/10 border-cyan-500 text-cyan-400" : "border-white/10 text-neutral-400 hover:bg-white/5"}`}
-                >
-                    <LayoutTemplate size={18} /> Projects
-                </button>
-                <button
-                    onClick={() => setActiveTab("blog")}
-                    className={`flex items-center gap-2 px-6 py-3 rounded-lg border transition-all whitespace-nowrap ${activeTab === "blog" ? "bg-cyan-500/10 border-cyan-500 text-cyan-400" : "border-white/10 text-neutral-400 hover:bg-white/5"}`}
-                >
-                    <FileText size={18} /> Blog Posts
-                </button>
-                <button
-                    onClick={() => setActiveTab("guestbook")}
-                    className={`flex items-center gap-2 px-6 py-3 rounded-lg border transition-all whitespace-nowrap ${activeTab === "guestbook" ? "bg-cyan-500/10 border-cyan-500 text-cyan-400" : "border-white/10 text-neutral-400 hover:bg-white/5"}`}
-                >
-                    <MessageSquare size={18} /> Guestbook
-                </button>
-            </div>
-
-            <div className="flex justify-end mb-6">
-                {activeTab !== "guestbook" && activeTab !== "overview" && (
-                    <button onClick={openAdd} className="bg-cyan-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-cyan-500 transition-colors">
-                        <Plus size={18} /> Add New
-                    </button>
-                )}
-            </div>
-
-            {(isEditing || isAdding) && (
-                <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-8 p-6 bg-white/5 border border-white/10 rounded-xl">
-                    <div className="flex justify-between mb-4">
-                        <h3 className="text-xl font-bold">{isAdding ? "Create New" : "Edit Item"}</h3>
-                        <button onClick={() => { setIsEditing(null); setIsAdding(false); }}><X size={20} /></button>
+            {/* Stats Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                <div className="bg-neutral-900 border border-neutral-800 p-6 rounded-xl">
+                    <div className="flex justify-between items-start mb-4">
+                        <div className="p-3 bg-blue-500/10 rounded-lg text-blue-400"><Eye size={20} /></div>
+                        <span className="text-xs text-neutral-500">TOTAL TRAFFIC</span>
                     </div>
-                    <form onSubmit={handleSave} className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        {Object.keys(editForm).map((key) => {
-                            if (key === 'id') return null;
-                            if (key === 'content') {
-                                return (
-                                    <div key={key} className="col-span-full flex flex-col gap-2">
-                                        <label className="capitalize text-sm text-neutral-400">{key} (Markdown)</label>
-                                        <textarea
-                                            className="bg-black/40 border border-white/10 rounded p-2 focus:border-cyan-500 outline-none font-mono text-sm h-64 resize-y"
-                                            value={editForm[key] || ""}
-                                            onChange={(e) => setEditForm({ ...editForm, [key]: e.target.value })}
-                                        />
-                                    </div>
-                                );
-                            }
-                            return (
-                                <div key={key} className="flex flex-col gap-2">
-                                    <label className="capitalize text-sm text-neutral-400">{key}</label>
-                                    <input
-                                        className="bg-black/40 border border-white/10 rounded p-2 focus:border-cyan-500 outline-none"
-                                        value={editForm[key] || ""}
-                                        onChange={(e) => setEditForm({ ...editForm, [key]: e.target.value })}
-                                    />
+                    <div className="text-4xl font-bold text-white mb-2">{stats.visitors.toLocaleString()}</div>
+                    <div className="text-xs text-green-400">+12% vs last week</div>
+                </div>
+
+                <div className="bg-neutral-900 border border-neutral-800 p-6 rounded-xl">
+                    <div className="flex justify-between items-start mb-4">
+                        <div className="p-3 bg-purple-500/10 rounded-lg text-purple-400"><MessageSquare size={20} /></div>
+                        <span className="text-xs text-neutral-500">GUESTBOOK ENTRIES</span>
+                    </div>
+                    <div className="text-4xl font-bold text-white mb-2">{stats.messages}</div>
+                    <div className="text-xs text-neutral-400">Total stored messages</div>
+                </div>
+
+                <div className="bg-neutral-900 border border-neutral-800 p-6 rounded-xl relative overflow-hidden">
+                    <div className="absolute inset-0 bg-red-900/10 animate-pulse" />
+                    <div className="relative z-10">
+                        <div className="flex justify-between items-start mb-4">
+                            <div className="p-3 bg-red-500/10 rounded-lg text-red-400"><AlertTriangle size={20} /></div>
+                            <span className="text-xs text-neutral-500">SYSTEM HEALTH</span>
+                        </div>
+                        <div className="text-4xl font-bold text-green-400 mb-2">98.9%</div>
+                        <div className="text-xs text-green-600">All systems nominal</div>
+                    </div>
+                </div>
+            </div>
+
+            {/* Message Management */}
+            <div className="bg-neutral-900 border border-neutral-800 rounded-xl overflow-hidden">
+                <div className="p-6 border-b border-neutral-800 flex justify-between items-center">
+                    <h2 className="text-xl font-bold">Inbox Stream</h2>
+                    <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={fetchData}
+                        disabled={isLoading}
+                        className="text-neutral-400 hover:text-white"
+                    >
+                        <Loader2 className={`mr-2 h-3 w-3 ${isLoading ? 'animate-spin' : ''}`} />
+                        Refresh
+                    </Button>
+                </div>
+
+                <div className="divide-y divide-neutral-800">
+                    <AnimatePresence mode="popLayout">
+                        {messages.map((msg) => (
+                            <motion.div
+                                key={msg.id}
+                                layout
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0, x: -100, height: 0 }}
+                                className="p-6 flex items-start gap-4 hover:bg-neutral-800/50 transition-colors group"
+                            >
+                                <div className="h-10 w-10 rounded-full bg-gradient-to-br from-neutral-700 to-neutral-800 flex items-center justify-center text-xs font-bold shrink-0">
+                                    {msg.name?.charAt(0).toUpperCase() || "?"}
                                 </div>
-                            );
-                        })}
-                        <div className="col-span-full pt-4">
-                            <button type="submit" className="bg-green-600 hover:bg-green-500 text-white px-6 py-2 rounded-lg flex items-center gap-2 w-full justify-center">
-                                <Save size={18} /> Save Changes
-                            </button>
-                        </div>
-                    </form>
-                </motion.div>
-            )}
-
-            <div className="grid gap-4">
-                {isLoading ? (
-                    <div className="text-center py-20 text-neutral-500">Loading data matrix...</div>
-                ) : activeTab === "overview" ? (
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        {/* Mock Stats */}
-                        <div className="p-6 bg-white/5 border border-white/10 rounded-xl">
-                            <h3 className="text-sm text-neutral-400 mb-2">Total Visits</h3>
-                            <div className="text-3xl font-bold text-white">12,453</div>
-                            <div className="text-xs text-green-400 mt-1 flex items-center gap-1">
-                                <Activity size={12} /> +12% this week
-                            </div>
-                        </div>
-                        <div className="p-6 bg-white/5 border border-white/10 rounded-xl">
-                            <h3 className="text-sm text-neutral-400 mb-2">Real-time Users</h3>
-                            <div className="text-3xl font-bold text-cyan-400 animate-pulse">4</div>
-                            <div className="text-xs text-neutral-500 mt-1">Active now</div>
-                        </div>
-                        <div className="p-6 bg-white/5 border border-white/10 rounded-xl">
-                            <h3 className="text-sm text-neutral-400 mb-2">System Status</h3>
-                            <div className="text-3xl font-bold text-green-400">ONLINE</div>
-                            <div className="text-xs text-neutral-500 mt-1">All systems nominal</div>
-                        </div>
-
-                        {/* Recent Activity Log */}
-                        <div className="col-span-full mt-4 p-6 bg-white/5 border border-white/10 rounded-xl">
-                            <h3 className="text-lg font-bold mb-4">Recent System Activity</h3>
-                            <div className="space-y-4">
-                                {[
-                                    { msg: "User login detected (Admin)", time: "2 mins ago" },
-                                    { msg: "New guestbook entry received", time: "1 hour ago" },
-                                    { msg: "Project 'DexPortal' updated", time: "3 hours ago" },
-                                    { msg: "Database backup completed", time: "5 hours ago" },
-                                    { msg: "System reboot initiated", time: "1 day ago" },
-                                ].map((log, i) => (
-                                    <div key={i} className="flex justify-between items-center border-b border-white/5 pb-2 last:border-0 last:pb-0">
-                                        <span className="text-sm text-neutral-300">{log.msg}</span>
-                                        <span className="text-xs text-neutral-500 font-mono">{log.time}</span>
+                                <div className="flex-1 min-w-0">
+                                    <div className="flex justify-between items-baseline mb-1">
+                                        <h3 className="font-bold text-white truncate">{msg.name}</h3>
+                                        <span className="text-xs text-neutral-500 font-mono">
+                                            {new Date(msg.created_at).toLocaleDateString()}
+                                        </span>
                                     </div>
-                                ))}
-                            </div>
+                                    <p className="text-neutral-300 text-sm leading-relaxed break-words">{msg.message}</p>
+                                </div>
+                                <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    onClick={() => handleDelete(msg.id)}
+                                    className="text-neutral-600 hover:text-red-500 hover:bg-red-500/10 opacity-0 group-hover:opacity-100 transition-all"
+                                >
+                                    <Trash2 size={16} />
+                                </Button>
+                            </motion.div>
+                        ))}
+                    </AnimatePresence>
+
+                    {!isLoading && messages.length === 0 && (
+                        <div className="p-12 text-center text-neutral-500">
+                            No active signals detected.
                         </div>
-                    </div>
-                ) : (
-                    renderList()
-                )}
+                    )}
+                </div>
             </div>
-        </main>
+        </div>
     );
 }
