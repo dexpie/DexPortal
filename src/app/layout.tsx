@@ -33,6 +33,7 @@ import { KeyboardVisualizer } from "@/components/keyboard-visualizer";
 import { TicTacToe } from "@/components/tic-tac-toe";
 import { JsonLd } from "@/components/json-ld";
 import { Toaster } from "sonner";
+import { SmoothScroll } from "@/components/smooth-scroll";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -89,67 +90,69 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <SoundProvider>
-          <AchievementsProvider>
-            <ScrollProgress />
-            <Toaster
-              theme="dark"
-              position="bottom-right"
-              toastOptions={{
-                style: {
-                  background: 'rgba(0, 0, 0, 0.9)',
-                  border: '1px solid rgba(255, 255, 255, 0.1)',
-                  color: '#fff',
-                },
-              }}
-            />
+          <SmoothScroll>
+            <AchievementsProvider>
+              <ScrollProgress />
+              <Toaster
+                theme="dark"
+                position="bottom-right"
+                toastOptions={{
+                  style: {
+                    background: 'rgba(0, 0, 0, 0.9)',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    color: '#fff',
+                  },
+                }}
+              />
 
-            {/* Core UI Components */}
-            <CommandMenu />
-            <MusicPlayer />
-            <KonamiListener />
-            <NeonCursor />
-            <BootSequence />
-            <CRTOverlay />
-            <MatrixRain />
-            <ParticleNetwork />
-            <HackerTerminal />
-            <MobileNav />
+              {/* Core UI Components */}
+              <CommandMenu />
+              <MusicPlayer />
+              <KonamiListener />
+              <NeonCursor />
+              <BootSequence />
+              <CRTOverlay />
+              <MatrixRain />
+              <ParticleNetwork />
+              <HackerTerminal />
+              <MobileNav />
 
-            {/* Wave 1 Components */}
-            <SocialDock />
-            <KeyboardShortcuts />
-            <EasterEggs />
-            <FabMenu />
-            <ScrollToTop />
+              {/* Wave 1 Components */}
+              <SocialDock />
+              <KeyboardShortcuts />
+              <EasterEggs />
+              <FabMenu />
+              <ScrollToTop />
 
-            {/* Wave 2 Components */}
-            <RandomTip />
-            <ChatBot />
-            <OfflineIndicator />
+              {/* Wave 2 Components */}
+              <RandomTip />
+              <ChatBot />
+              <OfflineIndicator />
 
-            {/* Wave 3 Components */}
-            <ReadingProgress />
-            <CursorReactions />
-            <SpotlightCard />
+              {/* Wave 3 Components */}
+              <ReadingProgress />
+              <CursorReactions />
+              <SpotlightCard />
 
-            {/* Wave 4 Components */}
-            <AlertContainer />
+              {/* Wave 4 Components */}
+              <AlertContainer />
 
-            {/* Wave 5 Components */}
-            <PomodoroTimer />
-            <ZenMode />
-            <KeyboardVisualizer />
-            <TicTacToe />
+              {/* Wave 5 Components */}
+              <PomodoroTimer />
+              <ZenMode />
+              <KeyboardVisualizer />
+              <TicTacToe />
 
-            {/* Corner Utilities */}
-            <div className="fixed top-6 right-6 z-50 flex items-center gap-2">
-              <AccessibilityMenu />
-            </div>
+              {/* Corner Utilities */}
+              <div className="fixed top-6 right-6 z-50 flex items-center gap-2">
+                <AccessibilityMenu />
+              </div>
 
-            <div className="pb-16 md:pb-0">
-              {children}
-            </div>
-          </AchievementsProvider>
+              <div className="pb-16 md:pb-0">
+                {children}
+              </div>
+            </AchievementsProvider>
+          </SmoothScroll>
         </SoundProvider>
         <JsonLd />
       </body>
