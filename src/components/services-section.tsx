@@ -53,11 +53,11 @@ const colorClasses: Record<string, { bg: string; border: string; text: string; g
 
 export function ServicesSection() {
     return (
-        <section className="container mx-auto px-6 py-20 border-t border-white/5">
+        <section className="container mx-auto px-6 py-20 border-t border-border dark:border-white/5">
             <div className="flex flex-col items-center mb-16">
                 <div className="h-1 w-20 bg-gradient-to-r from-transparent via-cyan-600 to-transparent mb-6" />
                 <h2 className="text-3xl font-bold text-center">What I Do</h2>
-                <p className="text-neutral-400 text-center mt-2 max-w-md">
+                <p className="text-muted-foreground dark:text-neutral-400 text-center mt-2 max-w-md">
                     Transforming ideas into digital reality with modern technologies.
                 </p>
             </div>
@@ -74,15 +74,15 @@ export function ServicesSection() {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ delay: index * 0.1 }}
-                            className={`group p-6 rounded-xl bg-white/5 border border-white/10 hover:border-white/20 transition-all hover:shadow-lg ${colors.glow}`}
+                            className={`group p-6 rounded-xl bg-card dark:bg-white/5 border border-border dark:border-white/10 hover:border-cyan-500/30 dark:hover:border-white/20 transition-all hover:shadow-lg ${colors.glow}`}
                         >
                             <div className={`w-12 h-12 rounded-lg ${colors.bg} ${colors.border} border flex items-center justify-center mb-4`}>
                                 <Icon className={`${colors.text}`} size={24} />
                             </div>
-                            <h3 className="text-lg font-bold text-white mb-2 group-hover:text-cyan-400 transition-colors">
+                            <h3 className="text-lg font-bold text-card-foreground dark:text-white mb-2 group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">
                                 {service.title}
                             </h3>
-                            <p className="text-neutral-400 text-sm leading-relaxed">
+                            <p className="text-muted-foreground dark:text-neutral-400 text-sm leading-relaxed">
                                 {service.description}
                             </p>
                         </motion.div>

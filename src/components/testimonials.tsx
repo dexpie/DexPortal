@@ -58,7 +58,7 @@ export function Testimonials() {
     };
 
     return (
-        <section className="container mx-auto px-6 py-20 border-t border-white/5">
+        <section className="container mx-auto px-6 py-20 border-t border-border dark:border-white/5">
             <div className="flex flex-col items-center mb-16">
                 <div className="h-1 w-20 bg-gradient-to-r from-transparent via-purple-600 to-transparent mb-6" />
                 <h2 className="text-3xl font-bold text-center">What People Say</h2>
@@ -72,19 +72,19 @@ export function Testimonials() {
                 {/* Navigation Buttons */}
                 <button
                     onClick={prevTestimonial}
-                    className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-12 p-2 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 transition-colors hidden md:block"
+                    className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-12 p-2 rounded-full bg-secondary/50 dark:bg-white/5 border border-border dark:border-white/10 hover:bg-secondary dark:hover:bg-white/10 transition-colors hidden md:block"
                 >
-                    <ChevronLeft size={20} className="text-neutral-400" />
+                    <ChevronLeft size={20} className="text-muted-foreground dark:text-neutral-400" />
                 </button>
                 <button
                     onClick={nextTestimonial}
-                    className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-12 p-2 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 transition-colors hidden md:block"
+                    className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-12 p-2 rounded-full bg-secondary/50 dark:bg-white/5 border border-border dark:border-white/10 hover:bg-secondary dark:hover:bg-white/10 transition-colors hidden md:block"
                 >
-                    <ChevronRight size={20} className="text-neutral-400" />
+                    <ChevronRight size={20} className="text-muted-foreground dark:text-neutral-400" />
                 </button>
 
                 {/* Testimonial Card */}
-                <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-white/5 to-white/[0.02] border border-white/10 p-8 md:p-12">
+                <div className="relative overflow-hidden rounded-2xl bg-white dark:bg-transparent dark:bg-gradient-to-br dark:from-white/5 dark:to-white/[0.02] border border-border dark:border-white/10 p-8 md:p-12 shadow-lg dark:shadow-none">
                     <Quote className="absolute top-6 left-6 w-12 h-12 text-cyan-500/20" />
 
                     <AnimatePresence mode="wait">
@@ -96,7 +96,7 @@ export function Testimonials() {
                             transition={{ duration: 0.5 }}
                             className="relative z-10"
                         >
-                            <p className="text-lg md:text-xl text-neutral-300 leading-relaxed mb-8 italic">
+                            <p className="text-lg md:text-xl text-muted-foreground dark:text-neutral-300 leading-relaxed mb-8 italic">
                                 "{testimonials[currentIndex].content}"
                             </p>
 
@@ -107,8 +107,8 @@ export function Testimonials() {
                                     className="w-12 h-12 rounded-full border-2 border-cyan-500/30"
                                 />
                                 <div>
-                                    <p className="font-bold text-white">{testimonials[currentIndex].name}</p>
-                                    <p className="text-sm text-neutral-500">{testimonials[currentIndex].role}</p>
+                                    <p className="font-bold text-foreground dark:text-white">{testimonials[currentIndex].name}</p>
+                                    <p className="text-sm text-muted-foreground dark:text-neutral-500">{testimonials[currentIndex].role}</p>
                                 </div>
                             </div>
                         </motion.div>
@@ -121,7 +121,7 @@ export function Testimonials() {
                         <button
                             key={i}
                             onClick={() => setCurrentIndex(i)}
-                            className={`w-2 h-2 rounded-full transition-all duration-300 ${i === currentIndex ? "bg-cyan-400 w-6" : "bg-white/20 hover:bg-white/40"
+                            className={`w-2 h-2 rounded-full transition-all duration-300 ${i === currentIndex ? "bg-cyan-500 w-6" : "bg-border dark:bg-white/20 hover:bg-cyan-200 dark:hover:bg-white/40"
                                 }`}
                         />
                     ))}

@@ -23,11 +23,11 @@ function ProfileCell() {
                         className="object-cover transition-transform duration-500 group-hover:scale-110"
                     />
                 </div>
-                <h3 className="text-2xl font-bold text-white">Gading (DexPie)</h3>
-                <p className="text-cyan-400 font-medium">Creative Technologist</p>
+                <h3 className="text-2xl font-bold text-foreground dark:text-white">Gading (DexPie)</h3>
+                <p className="text-cyan-600 dark:text-cyan-400 font-medium">Creative Technologist</p>
             </div>
             <div className="z-10 mt-4">
-                <p className="text-sm text-neutral-400 leading-relaxed">
+                <p className="text-sm text-muted-foreground dark:text-neutral-400 leading-relaxed">
                     Building digital experiences at the intersection of design and code.
                     Obsessed with pixel perfection and motion.
                 </p>
@@ -41,9 +41,9 @@ function ProfileCell() {
 
 function MapCell() {
     return (
-        <div className="relative h-full w-full bg-neutral-900 flex items-center justify-center overflow-hidden">
+        <div className="relative h-full w-full bg-card dark:bg-neutral-900 flex items-center justify-center overflow-hidden border-2 border-black dark:border-none">
             {/* Abstract Map UI */}
-            <div className="absolute inset-0 opacity-20 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:16px_16px]" />
+            <div className="absolute inset-0 opacity-20 bg-[radial-gradient(#000000_1px,transparent_1px)] dark:bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:16px_16px]" />
 
             <div className="relative z-10 flex flex-col items-center">
                 <div className="relative">
@@ -52,9 +52,9 @@ function MapCell() {
                         <span className="relative inline-flex rounded-full h-4 w-4 bg-cyan-500"></span>
                     </span>
                 </div>
-                <div className="mt-4 bg-black/50 backdrop-blur-md border border-white/10 px-3 py-1.5 rounded-full flex items-center gap-2">
+                <div className="mt-4 bg-white/80 dark:bg-black/50 backdrop-blur-md border border-border dark:border-white/10 px-3 py-1.5 rounded-full flex items-center gap-2">
                     <MapPin size={14} className="text-red-500" />
-                    <span className="text-xs font-mono text-white">Jakarta, ID</span>
+                    <span className="text-xs font-mono text-foreground dark:text-white">Jakarta, ID</span>
                 </div>
             </div>
         </div>
@@ -91,25 +91,25 @@ function SpotifyCell() {
 function TechStackCell() {
     const stack = ["React", "Next.js", "TypeScript", "Tailwind", "Node.js", "Three.js", "Framer", "Supabase"];
     return (
-        <div className="h-full flex flex-col justify-center bg-neutral-900/50 relative overflow-hidden">
-            <div className="absolute inset-0 bg-grid-white/[0.02] [mask-image:linear-gradient(to_bottom,transparent,black,transparent)]" />
+        <div className="h-full flex flex-col justify-center bg-card dark:bg-neutral-900/50 relative overflow-hidden">
+            <div className="absolute inset-0 bg-grid-black/[0.05] dark:bg-grid-white/[0.02] [mask-image:linear-gradient(to_bottom,transparent,black,transparent)]" />
 
             <div className="flex flex-col gap-4 -rotate-12 scale-110 opacity-50 hover:opacity-100 transition-opacity duration-500">
                 <div className="flex gap-2 animate-infinite-scroll">
                     {stack.map((tech, i) => (
-                        <span key={i} className="px-3 py-1 bg-white/5 border border-white/10 rounded text-xs font-mono text-neutral-400 whitespace-nowrap">
+                        <span key={i} className="px-3 py-1 bg-secondary/50 dark:bg-white/5 border border-border dark:border-white/10 rounded text-xs font-mono text-muted-foreground dark:text-neutral-400 whitespace-nowrap">
                             {tech}
                         </span>
                     ))}
                     {stack.map((tech, i) => (
-                        <span key={`dup-${i}`} className="px-3 py-1 bg-white/5 border border-white/10 rounded text-xs font-mono text-neutral-400 whitespace-nowrap">
+                        <span key={`dup-${i}`} className="px-3 py-1 bg-secondary/50 dark:bg-white/5 border border-border dark:border-white/10 rounded text-xs font-mono text-muted-foreground dark:text-neutral-400 whitespace-nowrap">
                             {tech}
                         </span>
                     ))}
                 </div>
                 <div className="flex gap-2 animate-infinite-scroll-reverse">
                     {stack.reverse().map((tech, i) => (
-                        <span key={i} className="px-3 py-1 bg-white/5 border border-white/10 rounded text-xs font-mono text-neutral-400 whitespace-nowrap">
+                        <span key={i} className="px-3 py-1 bg-secondary/50 dark:bg-white/5 border border-border dark:border-white/10 rounded text-xs font-mono text-muted-foreground dark:text-neutral-400 whitespace-nowrap">
                             {tech}
                         </span>
                     ))}
@@ -133,14 +133,14 @@ function SocialsCell() {
 
     return (
         <div className="h-full flex flex-col items-center justify-center p-6 gap-4">
-            <p className="text-xs font-mono text-neutral-500 uppercase tracking-widest">Connect</p>
+            <p className="text-xs font-mono text-muted-foreground dark:text-neutral-500 uppercase tracking-widest">Connect</p>
             <div className="flex gap-4">
                 {socials.map((s, i) => (
                     <Link
                         key={i}
                         href={s.href}
                         target="_blank"
-                        className={`p-3 bg-white/5 rounded-full border border-white/10 transition-colors ${s.color}`}
+                        className={`p-3 bg-secondary/50 dark:bg-white/5 rounded-none dark:rounded-full border-2 border-black dark:border-white/10 transition-all hover:bg-black hover:text-white dark:hover:bg-cyan-500/20 ${s.color} text-muted-foreground dark:text-white`}
                     >
                         <s.icon size={20} />
                     </Link>
@@ -152,7 +152,7 @@ function SocialsCell() {
 
 function StatusCell() {
     return (
-        <div className="h-full flex items-center justify-between px-6 bg-green-500/5 border border-green-500/20">
+        <div className="h-full flex items-center justify-between px-6 bg-green-500/5 border-t-2 border-black dark:border-green-500/20">
             <div className="flex items-center gap-3">
                 <span className="relative flex h-3 w-3">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
@@ -176,7 +176,7 @@ const BentoItem = ({ children, className }: { children: React.ReactNode; classNa
         viewport={{ once: true }}
         transition={{ duration: 0.5 }}
         className={cn(
-            "relative rounded-3xl bg-neutral-900/50 border border-white/10 overflow-hidden backdrop-blur-sm hover:border-white/20 transition-colors group",
+            "relative rounded-xl dark:rounded-3xl bg-card dark:bg-neutral-900/50 border-2 border-black dark:border-white/10 overflow-hidden backdrop-blur-sm transition-all duration-300 group hover:-translate-y-1 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-none dark:hover:border-cyan-500/20",
             className
         )}
     >
@@ -190,7 +190,7 @@ export function BentoGrid() {
             <div className="grid grid-cols-1 md:grid-cols-4 md:grid-rows-3 gap-4 h-[1200px] md:h-[600px]">
 
                 {/* 1. Profile - Large (2x2) */}
-                <BentoItem className="md:col-span-2 md:row-span-2 bg-gradient-to-b from-neutral-900 to-black">
+                <BentoItem className="md:col-span-2 md:row-span-2 bg-gradient-to-b from-slate-50 to-white dark:from-neutral-900 dark:to-black">
                     <ProfileCell />
                 </BentoItem>
 
@@ -220,22 +220,22 @@ export function BentoGrid() {
                 </BentoItem>
 
                 {/* 7. Filler/Portfolio Link - (1x1) */}
-                <BentoItem className="md:col-span-1 md:row-span-1 flex items-center justify-center bg-white/5 hover:bg-white/10 cursor-pointer group">
+                <BentoItem className="md:col-span-1 md:row-span-1 flex items-center justify-center bg-secondary/50 dark:bg-white/5 hover:bg-secondary dark:hover:bg-white/10 cursor-pointer group">
                     <Link href="/projects" className="flex flex-col items-center gap-2">
-                        <div className="p-4 bg-cyan-500/20 rounded-full text-cyan-400 group-hover:scale-110 transition-transform">
+                        <div className="p-4 bg-cyan-500/20 rounded-full text-cyan-600 dark:text-cyan-400 group-hover:scale-110 transition-transform">
                             <Code2 size={24} />
                         </div>
-                        <span className="font-bold">View Projects</span>
+                        <span className="font-bold text-foreground dark:text-white">View Projects</span>
                     </Link>
                 </BentoItem>
 
                 {/* 8. Another filler (1x1) - Guestbook */}
                 <BentoItem className="md:col-span-1 md:row-span-1 flex items-center justify-center bg-purple-500/5 hover:bg-purple-500/10 cursor-pointer group">
                     <Link href="/guestbook" className="flex flex-col items-center gap-2">
-                        <div className="p-4 bg-purple-500/20 rounded-full text-purple-400 group-hover:scale-110 transition-transform">
+                        <div className="p-4 bg-purple-500/20 rounded-full text-purple-600 dark:text-purple-400 group-hover:scale-110 transition-transform">
                             <Terminal size={24} />
                         </div>
-                        <span className="font-bold">Sign Guestbook</span>
+                        <span className="font-bold text-foreground dark:text-white">Sign Guestbook</span>
                     </Link>
                 </BentoItem>
 

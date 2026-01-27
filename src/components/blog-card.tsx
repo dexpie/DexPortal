@@ -19,7 +19,7 @@ export function BlogCard({ post, index }: BlogCardProps) {
             transition={{ duration: 0.5, delay: index * 0.1 }}
         >
             <Link href={`/blog/${post.slug}`} className="block group">
-                <div className="relative p-6 rounded-xl bg-neutral-900/50 border border-white/5 hover:border-cyan-500/30 transition-all duration-300 hover:bg-neutral-900">
+                <div className="relative p-6 rounded-xl bg-card dark:bg-neutral-900/50 border border-border dark:border-white/5 hover:border-cyan-500/30 transition-all duration-300 hover:bg-muted/50 dark:hover:bg-neutral-900">
                     <div className="flex items-center gap-3 mb-4">
                         <span className={cn(
                             "text-xs font-medium px-2.5 py-1 rounded-full",
@@ -29,17 +29,17 @@ export function BlogCard({ post, index }: BlogCardProps) {
                         )}>
                             {post.category}
                         </span>
-                        <span className="text-xs text-neutral-500 font-mono">{post.date}</span>
+                        <span className="text-xs text-muted-foreground font-mono">{post.date}</span>
                     </div>
 
-                    <h3 className="text-xl font-bold text-white mb-2 group-hover:text-cyan-400 transition-colors">
+                    <h3 className="text-xl font-bold text-card-foreground dark:text-white mb-2 group-hover:text-cyan-400 transition-colors">
                         {post.title}
                     </h3>
-                    <p className="text-neutral-400 text-sm leading-relaxed mb-4">
+                    <p className="text-muted-foreground dark:text-neutral-400 text-sm leading-relaxed mb-4">
                         {post.excerpt}
                     </p>
 
-                    <div className="flex items-center justify-between text-xs text-neutral-500">
+                    <div className="flex items-center justify-between text-xs text-muted-foreground">
                         <div className="flex items-center gap-2">
                             <Clock size={14} />
                             <span>{post.readTime}</span>

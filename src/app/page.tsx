@@ -21,6 +21,8 @@ import { AnimatedStats } from "@/components/animated-stats";
 import { FeaturedCarousel } from "@/components/featured-carousel";
 import { getGithubRepos } from "@/lib/github";
 
+import { SkillsSection } from "@/components/skills-section";
+
 export default async function Home() {
   const projects = await getProjects();
   const recentPosts = await getBlogPosts();
@@ -40,9 +42,12 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="container mx-auto px-6 py-20 border-b border-white/5">
+      <section className="container mx-auto px-6 py-20 border-b border-border dark:border-white/5">
         <BentoGrid />
       </section>
+
+      {/* Skills Universe (3D) */}
+      <SkillsSection />
 
       {/* Animated Stats - NEW Wave 3 */}
       <AnimatedStats />
@@ -57,7 +62,7 @@ export default async function Home() {
       <ProjectsSection initialProjects={projects} />
 
       {/* Latest Updates Section */}
-      <section className="container mx-auto px-6 py-20 border-t border-white/5">
+      <section className="container mx-auto px-6 py-20 border-t border-border dark:border-white/5">
         <div className="flex flex-col items-center mb-16">
           <div className="h-1 w-20 bg-gradient-to-r from-transparent via-purple-600 to-transparent mb-6" />
           <h2 className="text-3xl font-bold text-center">Latest Updates</h2>
@@ -69,7 +74,7 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="bg-neutral-950/30 border-y border-white/5">
+      <section className="bg-muted/30 dark:bg-neutral-950/30 border-y border-border dark:border-white/5">
         <Timeline />
       </section>
 

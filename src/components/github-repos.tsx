@@ -39,16 +39,16 @@ function GitHubRepoCard({ repo, index }: GitHubRepoCardProps) {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.3, delay: index * 0.05 }}
-            className="group block p-4 rounded-xl bg-black/80 border border-white/10 hover:border-cyan-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-900/20"
+            className="group block p-4 rounded-xl bg-card dark:bg-black/80 border border-border dark:border-white/10 hover:border-cyan-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-900/20"
         >
             <div className="flex items-start justify-between gap-2 mb-2">
-                <h3 className="font-bold text-white group-hover:text-cyan-400 transition-colors truncate">
+                <h3 className="font-bold text-card-foreground dark:text-white group-hover:text-cyan-400 transition-colors truncate">
                     {repo.name}
                 </h3>
-                <ExternalLink size={14} className="text-neutral-500 group-hover:text-cyan-400 flex-shrink-0" />
+                <ExternalLink size={14} className="text-muted-foreground dark:text-neutral-500 group-hover:text-cyan-400 flex-shrink-0" />
             </div>
 
-            <p className="text-sm text-neutral-400 line-clamp-2 mb-3 min-h-[40px]">
+            <p className="text-sm text-muted-foreground dark:text-neutral-400 line-clamp-2 mb-3 min-h-[40px]">
                 {repo.description || "No description provided."}
             </p>
 
@@ -93,7 +93,7 @@ export function GitHubRepos({ repos }: GitHubReposProps) {
                     initial={{ opacity: 0, y: 10 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    className="text-3xl font-bold text-center text-white"
+                    className="text-3xl font-bold text-center text-foreground dark:text-white"
                 >
                     GitHub Repositories
                 </motion.h2>
@@ -102,7 +102,7 @@ export function GitHubRepos({ repos }: GitHubReposProps) {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: 0.1 }}
-                    className="text-neutral-400 text-center mt-2 max-w-lg"
+                    className="text-muted-foreground dark:text-neutral-400 text-center mt-2 max-w-lg"
                 >
                     Explore my open source projects. Feel free to fork, star, or contribute!
                 </motion.p>

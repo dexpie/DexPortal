@@ -20,7 +20,7 @@ export function StatusMonitor() {
     }, []);
 
     return (
-        <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/40 border border-white/5 backdrop-blur-sm">
+        <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-background/80 dark:bg-black/40 border border-border dark:border-white/5 backdrop-blur-sm shadow-sm dark:shadow-none">
             <div className="relative flex h-2 w-2">
                 <span className={cn(
                     "animate-ping absolute inline-flex h-full w-full rounded-full opacity-75",

@@ -108,14 +108,14 @@ export function ActivityFeed() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="p-6 rounded-xl bg-black/80 border border-white/10 backdrop-blur-sm"
+            className="p-6 rounded-xl bg-card dark:bg-black/80 border border-border dark:border-white/10 backdrop-blur-sm"
         >
             <div className="flex items-center gap-2 mb-4">
                 <div className="relative">
                     <span className="absolute inline-flex h-2 w-2 rounded-full bg-green-400 opacity-75 animate-ping" />
                     <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500" />
                 </div>
-                <h3 className="font-bold text-white text-sm">Live Activity</h3>
+                <h3 className="font-bold text-card-foreground dark:text-white text-sm">Live Activity</h3>
             </div>
 
             <div className="space-y-3 max-h-[300px] overflow-y-auto pr-2">
@@ -127,16 +127,16 @@ export function ActivityFeed() {
                             initial={{ opacity: 0, x: -10 }}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ delay: index * 0.05 }}
-                            className="flex items-start gap-3 p-2 rounded-lg hover:bg-white/5 transition-colors"
+                            className="flex items-start gap-3 p-2 rounded-lg hover:bg-muted/50 dark:hover:bg-white/5 transition-colors"
                         >
                             <div className="p-1.5 rounded bg-cyan-500/10 text-cyan-400">
                                 <Icon size={12} />
                             </div>
                             <div className="flex-1 min-w-0">
-                                <p className="text-sm text-neutral-300 truncate">
+                                <p className="text-sm text-muted-foreground dark:text-neutral-300 truncate">
                                     {getEventDescription(event)}
                                 </p>
-                                <p className="text-xs text-neutral-500 flex items-center gap-1">
+                                <p className="text-xs text-muted-foreground dark:text-neutral-500 flex items-center gap-1">
                                     <Clock size={10} />
                                     {formatTimeAgo(event.created_at)}
                                 </p>

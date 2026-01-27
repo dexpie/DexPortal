@@ -39,19 +39,19 @@ export function Newsletter() {
                 className="relative max-w-2xl mx-auto text-center"
             >
                 {/* Background Glow */}
-                <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10 rounded-3xl blur-3xl" />
+                <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10 rounded-3xl blur-3xl opacity-50 dark:opacity-100" />
 
-                <div className="relative bg-black/50 border border-white/10 rounded-2xl p-8 md:p-12">
+                <div className="relative bg-card dark:bg-black/50 border border-border dark:border-white/10 rounded-2xl p-8 md:p-12 shadow-lg dark:shadow-none">
                     <div className="flex justify-center mb-6">
                         <div className="p-3 rounded-full bg-cyan-500/10 border border-cyan-500/20">
                             <Mail className="w-6 h-6 text-cyan-400" />
                         </div>
                     </div>
 
-                    <h3 className="text-2xl md:text-3xl font-bold text-white mb-3">
+                    <h3 className="text-2xl md:text-3xl font-bold text-foreground dark:text-white mb-3">
                         Stay in the Loop
                     </h3>
-                    <p className="text-neutral-400 mb-8 max-w-md mx-auto">
+                    <p className="text-muted-foreground dark:text-neutral-400 mb-8 max-w-md mx-auto">
                         Get notified about new projects, blog posts, and exclusive content. No spam, ever.
                     </p>
 
@@ -63,9 +63,9 @@ export function Newsletter() {
                                 onChange={(e) => setEmail(e.target.value)}
                                 placeholder="your@email.com"
                                 disabled={status === "loading" || status === "success"}
-                                className="w-full px-4 py-3 pl-11 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-neutral-500 focus:outline-none focus:border-cyan-500/50 transition-colors disabled:opacity-50"
+                                className="w-full px-4 py-3 pl-11 bg-secondary/50 dark:bg-white/5 border border-border dark:border-white/10 rounded-xl text-foreground dark:text-white placeholder:text-muted-foreground dark:placeholder:text-neutral-500 focus:outline-none focus:border-cyan-500/50 transition-colors disabled:opacity-50"
                             />
-                            <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-500" />
+                            <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground dark:text-neutral-500" />
                         </div>
 
                         <motion.button
@@ -103,7 +103,7 @@ export function Newsletter() {
                         </motion.div>
                     )}
 
-                    <p className="mt-6 text-[10px] text-neutral-600">
+                    <p className="mt-6 text-[10px] text-muted-foreground dark:text-neutral-600">
                         By subscribing, you agree to receive updates. Unsubscribe anytime.
                     </p>
                 </div>

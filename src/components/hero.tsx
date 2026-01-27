@@ -23,7 +23,7 @@ export function Hero() {
                         className="flex flex-col items-start gap-6 max-w-2xl"
                     >
                         {/* Badge */}
-                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/10 bg-white/5 backdrop-blur-md text-xs font-mono text-neutral-300">
+                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-border/40 bg-secondary/30 dark:bg-white/5 backdrop-blur-md text-xs font-mono text-muted-foreground dark:text-neutral-300">
                             <span className="relative flex h-2 w-2">
                                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
                                 <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
@@ -31,14 +31,14 @@ export function Hero() {
                             v2.0 SYSTEM ONLINE
                         </div>
 
-                        <h1 className="text-5xl md:text-8xl font-bold tracking-tight text-white leading-[0.9]">
+                        <h1 className="text-5xl md:text-8xl font-bold tracking-tight text-foreground dark:text-white leading-[0.9]">
                             Digital <br />
                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500">
                                 Alchemist
                             </span>
                         </h1>
 
-                        <div className="text-lg md:text-xl text-neutral-300 max-w-lg leading-relaxed">
+                        <div className="text-lg md:text-xl text-muted-foreground dark:text-neutral-300 max-w-lg leading-relaxed">
                             <TypewriterText
                                 text="Crafting heavy-duty web experiences with a touch of magic. Full-stack developer based in Jakarta."
                                 delay={1000}
@@ -49,7 +49,7 @@ export function Hero() {
                         <div className="flex flex-wrap gap-4 mt-4">
                             <Button
                                 size="lg"
-                                className="bg-white text-black hover:bg-neutral-200 rounded-full px-8 text-base font-bold shadow-[0_0_20px_rgba(255,255,255,0.3)] transition-all hover:scale-105"
+                                className="bg-foreground text-background hover:bg-foreground/90 dark:bg-white dark:text-black dark:hover:bg-neutral-200 rounded-full px-8 text-base font-bold shadow-lg transition-all hover:scale-105"
                                 onClick={() => window.dispatchEvent(new KeyboardEvent("keydown", { shiftKey: true, key: "k" }))}
                             >
                                 <Command className="mr-2 h-4 w-4" /> Open Command
@@ -57,7 +57,7 @@ export function Hero() {
                             <Button
                                 variant="outline"
                                 size="lg"
-                                className="rounded-full px-8 border-white/20 hover:bg-white/10 text-white backdrop-blur-sm"
+                                className="rounded-full px-8 border-border/40 dark:border-white/20 hover:bg-secondary/50 dark:hover:bg-white/10 text-foreground dark:text-white backdrop-blur-sm"
                                 onClick={() => document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" })}
                             >
                                 View Projects

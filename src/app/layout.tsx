@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Archivo_Black, Space_Mono } from "next/font/google";
 import "./globals.css";
 import { CommandMenu } from "@/components/command-menu";
 import { MusicPlayer } from "@/components/music-player";
@@ -35,14 +35,16 @@ import { JsonLd } from "@/components/json-ld";
 import { Toaster } from "sonner";
 import { SmoothScroll } from "@/components/smooth-scroll";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const archivoBlack = Archivo_Black({
+  weight: "400",
+  variable: "--font-archivo-black",
   subsets: ["latin"],
   display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const spaceMono = Space_Mono({
+  weight: ["400", "700"],
+  variable: "--font-space-mono",
   subsets: ["latin"],
   display: "swap",
 });
@@ -87,22 +89,18 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${archivoBlack.variable} ${spaceMono.variable} antialiased`}
       >
         <SoundProvider>
           <SmoothScroll>
             <AchievementsProvider>
               <ScrollProgress />
+              <ScrollProgress />
               <Toaster
-                theme="dark"
                 position="bottom-right"
-                toastOptions={{
-                  style: {
-                    background: 'rgba(0, 0, 0, 0.9)',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
-                    color: '#fff',
-                  },
-                }}
+                // Removed hardcoded theme="dark" and custom styles to let Sonner adapt to system theme or use its own default styles which are usually good
+                richColors
+                closeButton
               />
 
               {/* Core UI Components */}
@@ -111,9 +109,14 @@ export default function RootLayout({
               <KonamiListener />
               <NeonCursor />
               <BootSequence />
-              <CRTOverlay />
-              <MatrixRain />
-              <ParticleNetwork />
+              {/* Hide heavy cyber overlays in light mode for a cleaner look */}
+              <BootSequence />
+              {/* Hide heavy cyber overlays in light mode for a cleaner look */}
+              <div className="hidden dark:block">
+                <CRTOverlay />
+                <MatrixRain />
+                <ParticleNetwork />
+              </div>
               <HackerTerminal />
               <MobileNav />
 
