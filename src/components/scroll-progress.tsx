@@ -33,18 +33,21 @@ export function ScrollProgress() {
                 }}
             />
 
-            {/* Shine/Shimmer Effect */}
+            {/* Rocket Ship */}
             <motion.div
-                className="fixed top-0 left-0 h-1 w-20 z-[101] opacity-50"
+                className="fixed top-[-6px] left-0 z-[101] text-xl filter drop-shadow-[0_0_8px_rgba(236,72,153,0.8)]"
                 style={{
-                    x: useTransform(scaleX, [0, 1], ["-100%", "100vw"]),
-                    background: "linear-gradient(90deg, transparent, white, transparent)",
+                    x: useTransform(scrollYProgress, [0, 1], ["0vw", "100vw"]),
+                    translateX: "-50%",
+                    rotate: 90
                 }}
-            />
+            >
+                🚀
+            </motion.div>
 
             {/* Percentage Indicator */}
             <motion.div
-                className="fixed top-3 right-4 z-[100] text-[10px] font-mono text-neutral-500 opacity-0 hover:opacity-100 transition-opacity"
+                className="fixed top-4 right-4 z-[100] text-[10px] font-mono font-bold text-cyan-500 bg-black/50 backdrop-blur px-2 py-1 rounded border border-cyan-500/30 opacity-0 hover:opacity-100 transition-opacity"
                 style={{ opacity: useTransform(scrollYProgress, [0, 0.02], [0, 1]) }}
             >
                 <motion.span>

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Archivo_Black, Space_Mono } from "next/font/google";
+import { Outfit, Inter, Space_Mono } from "next/font/google";
 import "./globals.css";
 import { CommandMenu } from "@/components/command-menu";
 import { MusicPlayer } from "@/components/music-player";
@@ -9,6 +9,8 @@ import { BootSequence } from "@/components/boot-sequence";
 import { CRTOverlay } from "@/components/crt-overlay";
 import { MatrixRain } from "@/components/matrix-rain";
 import { ParticleNetwork } from "@/components/particle-network";
+import { EmojiBurst } from "@/components/emoji-burst";
+import { AchievementsWrapper } from "@/components/achievements-wrapper";
 import { HackerTerminal } from "@/components/hacker-terminal";
 import { ScrollProgress } from "@/components/scroll-progress";
 import { MobileNav } from "@/components/mobile-nav";
@@ -35,10 +37,15 @@ import { JsonLd } from "@/components/json-ld";
 import { Toaster } from "sonner";
 import { SmoothScroll } from "@/components/smooth-scroll";
 
-const archivoBlack = Archivo_Black({
-  weight: "400",
-  variable: "--font-archivo-black",
+const outfit = Outfit({
   subsets: ["latin"],
+  variable: "--font-outfit",
+  display: "swap",
+});
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
   display: "swap",
 });
 
@@ -89,7 +96,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body
-        className={`${archivoBlack.variable} ${spaceMono.variable} antialiased`}
+        className={`${outfit.variable} ${inter.variable} ${spaceMono.variable} antialiased`}
       >
         <SoundProvider>
           <SmoothScroll>
@@ -124,6 +131,8 @@ export default function RootLayout({
               <SocialDock />
               <KeyboardShortcuts />
               <EasterEggs />
+              <EmojiBurst />
+              <AchievementsWrapper />
               <FabMenu />
               <ScrollToTop />
 

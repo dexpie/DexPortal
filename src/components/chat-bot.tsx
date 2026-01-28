@@ -101,16 +101,22 @@ export function ChatBot() {
                         className="fixed bottom-20 left-6 z-40 w-80 sm:w-96 h-[400px] bg-black/95 border border-white/10 rounded-xl overflow-hidden shadow-2xl shadow-cyan-900/20 flex flex-col"
                     >
                         {/* Header */}
-                        <div className="p-4 border-b border-white/10 bg-gradient-to-r from-cyan-500/10 to-blue-500/10">
-                            <div className="flex items-center gap-3">
-                                <div className="w-8 h-8 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 flex items-center justify-center">
-                                    <Bot size={16} className="text-white" />
+                        <div className="p-4 border-b border-white/10 bg-black relative overflow-hidden">
+                            <div className="absolute inset-0 bg-cyan-500/5 animate-pulse" />
+                            {/* Scanline */}
+                            <div className="absolute top-0 left-0 w-full h-[1px] bg-cyan-500/50 animate-scan" />
+
+                            <div className="relative flex items-center gap-3">
+                                <div className="relative w-10 h-10 flex items-center justify-center">
+                                    <div className="absolute inset-0 border border-cyan-500/50 rounded-full animate-[spin_4s_linear_infinite]" />
+                                    <div className="absolute inset-2 border border-cyan-500/30 rounded-full animate-[spin_3s_linear_infinite_reverse]" />
+                                    <Bot size={18} className="text-cyan-400 relative z-10" />
                                 </div>
                                 <div>
-                                    <h3 className="font-bold text-white text-sm">DexBot</h3>
-                                    <p className="text-[10px] text-green-400 flex items-center gap-1">
-                                        <span className="w-1.5 h-1.5 rounded-full bg-green-400" />
-                                        Always online
+                                    <h3 className="font-bold text-white text-sm font-mono tracking-wider">CORTEX_AI</h3>
+                                    <p className="text-[10px] text-cyan-500 flex items-center gap-1 font-mono">
+                                        <span className="w-1.5 h-1.5 rounded-full bg-cyan-500 animate-pulse" />
+                                        SYSTEM ONLINE
                                     </p>
                                 </div>
                             </div>
@@ -132,8 +138,8 @@ export function ChatBot() {
                                     )}
                                     <div
                                         className={`max-w-[80%] px-3 py-2 rounded-lg text-sm whitespace-pre-wrap ${msg.role === "user"
-                                                ? "bg-cyan-500/20 text-cyan-100"
-                                                : "bg-white/5 text-neutral-300"
+                                            ? "bg-cyan-500/20 text-cyan-100"
+                                            : "bg-white/5 text-neutral-300"
                                             }`}
                                     >
                                         {msg.content}

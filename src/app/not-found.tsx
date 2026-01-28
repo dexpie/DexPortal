@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { Home, RefreshCw, Trophy } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { useSounds } from "@/components/sound-system";
 
 // Constants
 const GRID_SIZE = 20;
@@ -54,6 +55,8 @@ export default function NotFound() {
         setGameStarted(true);
     };
 
+    const { playSuccess, playError } = useSounds();
+
     const moveSnake = useCallback(() => {
         if (gameOver) return;
 
@@ -70,6 +73,7 @@ export default function NotFound() {
                 newHead[1] < 0 ||
                 newHead[1] >= GRID_SIZE
             ) {
+                playError();
                 setGameOver(true);
                 return prevSnake;
             }
@@ -77,6 +81,7 @@ export default function NotFound() {
             // Check collision with self
             for (const segment of prevSnake) {
                 if (newHead[0] === segment[0] && newHead[1] === segment[1]) {
+                    playError();
                     setGameOver(true);
                     return prevSnake;
                 }
@@ -86,6 +91,7 @@ export default function NotFound() {
 
             // Check food
             if (newHead[0] === food[0] && newHead[1] === food[1]) {
+                playSuccess();
                 setScore((s) => s + 1);
                 setFood(generateFood());
             } else {
@@ -94,7 +100,7 @@ export default function NotFound() {
 
             return newSnake;
         });
-    }, [direction, food, gameOver, generateFood]);
+    }, [direction, food, gameOver, generateFood, playSuccess, playError]);
 
     // Game Loop
     useEffect(() => {

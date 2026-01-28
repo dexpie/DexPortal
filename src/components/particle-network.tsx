@@ -16,7 +16,7 @@ export function ParticleNetwork() {
 
     const initPoints = useCallback((width: number, height: number) => {
         const points: Point[] = [];
-        const numPoints = Math.floor((width * height) / 15000);
+        const numPoints = Math.floor((width * height) / 25000);
 
         for (let i = 0; i < numPoints; i++) {
             points.push({
@@ -36,9 +36,15 @@ export function ParticleNetwork() {
         const ctx = canvas.getContext("2d");
         if (!ctx) return;
 
+        let animationId: number;
+        let lastFrameTime = 0;
+        const targetFPS = 30; // Limit to 30 FPS for performance
+        const frameInterval = 1000 / targetFPS;
+
         const resize = () => {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
+            // Reduce particle density for better performance
             pointsRef.current = initPoints(canvas.width, canvas.height);
         };
         resize();
@@ -49,60 +55,86 @@ export function ParticleNetwork() {
         window.addEventListener("resize", resize);
         window.addEventListener("mousemove", handleMouseMove);
 
-        const animate = () => {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            const points = pointsRef.current;
-            const mouse = mouseRef.current;
+        const animate = (timestamp: number) => {
+            if (document.hidden) {
+                animationId = requestAnimationFrame(animate);
+                return;
+            }
 
-            // Update and draw points
-            points.forEach((point, i) => {
-                // Move
-                point.x += point.vx;
-                point.y += point.vy;
+            const elapsed = timestamp - lastFrameTime;
 
-                // Bounce off walls
-                if (point.x < 0 || point.x > canvas.width) point.vx *= -1;
-                if (point.y < 0 || point.y > canvas.height) point.vy *= -1;
+            if (elapsed > frameInterval) {
+                lastFrameTime = timestamp - (elapsed % frameInterval);
 
-                // Draw point
-                ctx.beginPath();
-                ctx.arc(point.x, point.y, 1.5, 0, Math.PI * 2);
-                ctx.fillStyle = "rgba(6, 182, 212, 0.5)";
-                ctx.fill();
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                const points = pointsRef.current;
+                const mouse = mouseRef.current;
 
-                // Draw connections
-                for (let j = i + 1; j < points.length; j++) {
-                    const other = points[j];
-                    const dx = point.x - other.x;
-                    const dy = point.y - other.y;
-                    const dist = Math.sqrt(dx * dx + dy * dy);
+                // PERFORMANCE: Check if we are in light mode (canvas hidden via CSS) or checking a global state? 
+                // Since this component is inside a div hidden by CSS in light mode, the JS still runs.
+                // Let's check computed style for visibility/display, but that is expensive.
+                // Instead, rely on the fact that if it's hidden, we shouldn't draw.
+                // For now, let's just stick to 30FPS and reduced count.
 
-                    if (dist < 150) {
+                // Update and draw points
+                points.forEach((point, i) => {
+                    // Move
+                    point.x += point.vx;
+                    point.y += point.vy;
+
+                    // Bounce off walls
+                    if (point.x < 0 || point.x > canvas.width) point.vx *= -1;
+                    if (point.y < 0 || point.y > canvas.height) point.vy *= -1;
+
+                    // Draw point
+                    ctx.beginPath();
+                    ctx.arc(point.x, point.y, 1.5, 0, Math.PI * 2);
+                    ctx.fillStyle = "rgba(6, 182, 212, 0.5)";
+                    ctx.fill();
+
+                    // Draw connections - OPTIMIZED DISTANCE CHECK
+                    // Only check points nearby to avoid O(N^2) checks if possible? 
+                    // No, simple distance check is O(N^2), but N is small.
+                    // Just reduce max distance to draw less lines.
+
+                    for (let j = i + 1; j < points.length; j++) {
+                        const other = points[j];
+                        const dx = point.x - other.x;
+                        const dy = point.y - other.y;
+                        const distSq = dx * dx + dy * dy;
+
+                        // 150*150 = 22500
+                        if (distSq < 22500) {
+                            const dist = Math.sqrt(distSq);
+                            ctx.beginPath();
+                            ctx.moveTo(point.x, point.y);
+                            ctx.lineTo(other.x, other.y);
+                            ctx.strokeStyle = `rgba(6, 182, 212, ${0.2 * (1 - dist / 150)})`;
+                            ctx.stroke();
+                        }
+                    }
+
+                    // Mouse interaction
+                    const mdx = point.x - mouse.x;
+                    const mdy = point.y - mouse.y;
+                    const mDistSq = mdx * mdx + mdy * mdy;
+
+                    // 100*100 = 10000
+                    if (mDistSq < 10000) {
+                        const mDist = Math.sqrt(mDistSq);
                         ctx.beginPath();
                         ctx.moveTo(point.x, point.y);
-                        ctx.lineTo(other.x, other.y);
-                        ctx.strokeStyle = `rgba(6, 182, 212, ${0.2 * (1 - dist / 150)})`;
+                        ctx.lineTo(mouse.x, mouse.y);
+                        ctx.strokeStyle = `rgba(34, 211, 238, ${0.4 * (1 - mDist / 100)})`;
                         ctx.stroke();
                     }
-                }
+                });
+            }
 
-                // Mouse interaction
-                const mdx = point.x - mouse.x;
-                const mdy = point.y - mouse.y;
-                const mDist = Math.sqrt(mdx * mdx + mdy * mdy);
-                if (mDist < 100) {
-                    ctx.beginPath();
-                    ctx.moveTo(point.x, point.y);
-                    ctx.lineTo(mouse.x, mouse.y);
-                    ctx.strokeStyle = `rgba(34, 211, 238, ${0.4 * (1 - mDist / 100)})`;
-                    ctx.stroke();
-                }
-            });
-
-            requestAnimationFrame(animate);
+            animationId = requestAnimationFrame(animate);
         };
 
-        const animationId = requestAnimationFrame(animate);
+        animationId = requestAnimationFrame(animate);
 
         return () => {
             cancelAnimationFrame(animationId);

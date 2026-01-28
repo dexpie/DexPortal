@@ -25,29 +25,46 @@ export function MatrixRain() {
         const columns = Math.floor(canvas.width / fontSize);
         const drops: number[] = Array(columns).fill(1);
 
-        const draw = () => {
-            ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        let animationId: number;
+        let lastFrameTime = 0;
+        const targetFPS = 24; // Lower FPS for matrix rain is actually fine and aesthetic
+        const frameInterval = 1000 / targetFPS;
 
-            ctx.fillStyle = "#0ff";
-            ctx.font = `${fontSize}px monospace`;
-
-            for (let i = 0; i < drops.length; i++) {
-                const text = charArray[Math.floor(Math.random() * charArray.length)];
-                ctx.globalAlpha = 0.1;
-                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-
-                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-                    drops[i] = 0;
-                }
-                drops[i]++;
+        const draw = (timestamp: number) => {
+            if (document.hidden) {
+                animationId = requestAnimationFrame(draw);
+                return;
             }
+
+            const elapsed = timestamp - lastFrameTime;
+
+            if (elapsed > frameInterval) {
+                lastFrameTime = timestamp - (elapsed % frameInterval);
+
+                ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                ctx.fillStyle = "#0ff";
+                ctx.font = `${fontSize}px monospace`;
+
+                for (let i = 0; i < drops.length; i++) {
+                    const text = charArray[Math.floor(Math.random() * charArray.length)];
+                    ctx.globalAlpha = 0.1;
+                    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                        drops[i] = 0;
+                    }
+                    drops[i]++;
+                }
+            }
+            animationId = requestAnimationFrame(draw);
         };
 
-        const interval = setInterval(draw, 50);
+        animationId = requestAnimationFrame(draw);
 
         return () => {
-            clearInterval(interval);
+            cancelAnimationFrame(animationId);
             window.removeEventListener("resize", resizeCanvas);
         };
     }, []);

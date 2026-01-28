@@ -176,7 +176,7 @@ const BentoItem = ({ children, className }: { children: React.ReactNode; classNa
         viewport={{ once: true }}
         transition={{ duration: 0.5 }}
         className={cn(
-            "relative rounded-xl dark:rounded-3xl bg-card dark:bg-neutral-900/50 border-2 border-black dark:border-white/10 overflow-hidden backdrop-blur-sm transition-all duration-300 group hover:-translate-y-1 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-none dark:hover:border-cyan-500/20",
+            "relative rounded-3xl bg-black/40 border border-white/10 overflow-hidden backdrop-blur-md transition-all duration-500 group hover:-translate-y-1 hover:border-cyan-500/30 hover:shadow-[0_0_30px_rgba(6,182,212,0.15)]",
             className
         )}
     >

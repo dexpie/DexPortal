@@ -40,11 +40,22 @@ export function AchievementsProvider({ children }: { children: ReactNode }) {
     useEffect(() => {
         const saved = localStorage.getItem("dexportal_achievements");
         if (saved) {
-            setAchievements(JSON.parse(saved));
+            try {
+                const parsed: Achievement[] = JSON.parse(saved);
+                // Merge saved unlock status with default icons
+                setAchievements(prev => prev.map(def => {
+                    const savedItem = parsed.find(p => p.id === def.id);
+                    return savedItem ? { ...def, unlocked: savedItem.unlocked, unlockedAt: savedItem.unlockedAt } : def;
+                }));
+            } catch (e) {
+                console.error("Failed to parse achievements", e);
+            }
         }
         const savedProgress = localStorage.getItem("dexportal_progress");
         if (savedProgress) {
-            setProgress(JSON.parse(savedProgress));
+            try {
+                setProgress(JSON.parse(savedProgress));
+            } catch (e) { /* ignore */ }
         }
     }, []);
 
@@ -69,7 +80,11 @@ export function AchievementsProvider({ children }: { children: ReactNode }) {
                 const updated = prev.map(a =>
                     a.id === id ? { ...a, unlocked: true, unlockedAt: new Date().toISOString() } : a
                 );
-                localStorage.setItem("dexportal_achievements", JSON.stringify(updated));
+
+                // Persist only safe data (exclude icons)
+                const safeToSave = updated.map(({ icon, ...rest }) => rest);
+                localStorage.setItem("dexportal_achievements", JSON.stringify(safeToSave));
+
                 return updated;
             }
             return prev;

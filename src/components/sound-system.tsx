@@ -40,7 +40,7 @@ function createOscillator(frequency: number, duration: number, type: OscillatorT
 }
 
 export function SoundProvider({ children }: { children: ReactNode }) {
-    const [enabled, setEnabled] = useState(false);
+    const [enabled, setEnabled] = useState(true);
 
     const toggle = useCallback(() => {
         setEnabled(prev => !prev);

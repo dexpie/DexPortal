@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { Project } from "@/lib/types";
 import { toast } from "sonner";
-import useSound from "use-sound";
+import { useSounds } from "@/components/sound-system";
 
 export function CommandMenu() {
     const [open, setOpen] = React.useState(false);
@@ -16,8 +16,7 @@ export function CommandMenu() {
 
     // Sound effects (using placeholders or reliable CDNs if available, otherwise just simulated logic)
     // We'll simulate sound effects for now to avoid external dependency failures if files aren't present.
-    const playOpen = () => { /* Placeholder for sound */ };
-    const playSelect = () => { /* Placeholder for sound */ };
+    const { playClick, playWhoosh, playSuccess } = useSounds();
 
     React.useEffect(() => {
         fetch('/api/projects').then(res => res.json()).then(data => setProjects(data)).catch(() => { });
@@ -26,7 +25,7 @@ export function CommandMenu() {
             if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
                 e.preventDefault();
                 setOpen((open) => {
-                    if (!open) playOpen();
+                    if (!open) playWhoosh();
                     return !open;
                 });
             }
@@ -34,13 +33,13 @@ export function CommandMenu() {
 
         document.addEventListener("keydown", down);
         return () => document.removeEventListener("keydown", down);
-    }, []);
+    }, [playWhoosh]);
 
     const runCommand = React.useCallback((command: () => unknown) => {
-        playSelect();
+        playSuccess();
         setOpen(false);
         command();
-    }, []);
+    }, [playSuccess]);
 
     const systemDiagnostics = () => {
         toast.promise(

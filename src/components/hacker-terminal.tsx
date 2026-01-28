@@ -42,8 +42,16 @@ export function HackerTerminal() {
                 setIsOpen((prev) => !prev);
             }
         };
+
+        const handleToggle = () => setIsOpen((prev) => !prev);
+
         window.addEventListener("keydown", handleKeyDown);
-        return () => window.removeEventListener("keydown", handleKeyDown);
+        window.addEventListener("toggle-terminal", handleToggle);
+
+        return () => {
+            window.removeEventListener("keydown", handleKeyDown);
+            window.removeEventListener("toggle-terminal", handleToggle);
+        };
     }, []);
 
     useEffect(() => {

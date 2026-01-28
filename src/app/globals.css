@@ -56,8 +56,9 @@
   --color-border: var(--border);
   --color-input: var(--input);
 
-  --font-sans: var(--font-archivo-black);
-  --font-mono: var(--font-space-mono);
+  --font-sans: var(--font-outfit), var(--font-inter), sans-serif;
+  --font-heading: var(--font-outfit), sans-serif;
+  --font-mono: var(--font-space-mono), monospace;
 }
 
 body {
@@ -161,6 +162,23 @@ body {
   background-clip: text;
 }
 
+/* Spotlight Animation */
+@keyframes spotlight {
+  0% {
+    opacity: 0;
+    transform: translate(-72%, -62%) scale(0.5);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -40%) scale(1);
+  }
+}
+
+.animate-spotlight {
+  animation: spotlight 2s ease .75s 1 forwards;
+}
+
 /* --- Wave 5 Enhancements --- */
 
 /* Accessibility */
@@ -171,6 +189,16 @@ body.reduced-motion * {
 
 body.high-contrast {
   filter: contrast(1.5);
+}
+
+.animate-scroll {
+  animation: scroll var(--animation-duration, 40s) var(--animation-direction, forwards) linear infinite;
+}
+
+@keyframes scroll {
+  to {
+    transform: translate(calc(-50% - 0.5rem));
+  }
 }
 
 /* Zen Mode */

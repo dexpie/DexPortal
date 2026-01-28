@@ -92,27 +92,29 @@ export function MusicPlayer() {
                         transition={{ ease: "linear", duration: 10, repeat: Infinity }}
                     />
                 ) : (
-                    <div className="hidden sm:flex items-end gap-1 h-4 mx-2">
-                        {[...Array(3)].map((_, i) => (
+                    <div className="hidden sm:flex items-end gap-[2px] h-5 mx-2">
+                        {[...Array(5)].map((_, i) => (
                             <motion.div
                                 key={i}
                                 animate={{
-                                    height: isPlaying ? [4, 16, 4] : 4,
+                                    height: isPlaying ? [4, 12 + Math.random() * 8, 4] : 4,
                                 }}
                                 transition={{
-                                    duration: 0.5,
+                                    duration: 0.4,
                                     repeat: Infinity,
-                                    delay: i * 0.1,
+                                    delay: i * 0.05,
+                                    repeatType: "reverse",
                                     ease: "easeInOut"
                                 }}
                                 className={cn(
                                     "w-1 rounded-full",
-                                    isPlaying ? "bg-cyan-500" : "bg-neutral-600"
+                                    isPlaying ? "bg-gradient-to-t from-cyan-500 to-blue-400 shadow-[0_0_8px_rgba(6,182,212,0.8)]" : "bg-neutral-600"
                                 )}
                             />
                         ))}
                     </div>
-                )}
+                )
+                }
 
                 {/* Track Info */}
                 <div className="hidden sm:block mr-2 w-32 overflow-hidden">
@@ -151,8 +153,8 @@ export function MusicPlayer() {
                         </button>
                     )}
                 </div>
-            </motion.div>
-        </div>
+            </motion.div >
+        </div >
     );
 }
 
