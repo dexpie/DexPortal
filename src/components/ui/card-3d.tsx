@@ -38,6 +38,9 @@ export const Card3D = ({ children, className = "" }: { children: React.ReactNode
         y.set(0);
     };
 
+    const glareX = useTransform(x, [-0.5, 0.5], ["0%", "100%"]);
+    const glareY = useTransform(y, [-0.5, 0.5], ["0%", "100%"]);
+
     return (
         <motion.div
             ref={ref}
@@ -53,6 +56,15 @@ export const Card3D = ({ children, className = "" }: { children: React.ReactNode
             <div style={{ transform: "translateZ(50px)", transformStyle: "preserve-3d" }}>
                 {children}
             </div>
+
+            {/* Glare Effect */}
+            <motion.div
+                className="absolute inset-0 rounded-2xl pointer-events-none z-50 brightness-150 contrast-200 opacity-20"
+                style={{
+                    background: `radial-gradient(circle at ${glareX} ${glareY}, rgba(255,255,255,0.8) 0%, transparent 80%)`,
+                    transform: "translateZ(60px)"
+                }}
+            />
         </motion.div>
     );
 };

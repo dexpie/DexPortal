@@ -8,6 +8,7 @@ import { StatusMonitor } from "@/components/status-monitor";
 import { ThemeToggle } from "@/components/theme-toggle";
 import Magnetic from "@/components/magnetic";
 import { cn } from "@/lib/utils";
+import { useClickSound } from "@/lib/use-click-sound";
 
 const navLinks = [
     { href: "/about", label: "About" },
@@ -17,6 +18,7 @@ const navLinks = [
 ];
 
 export function Navbar() {
+    const { playClick, playHover } = useClickSound();
     const pathname = usePathname();
 
     return (
@@ -46,6 +48,8 @@ export function Navbar() {
                                 <Magnetic key={link.href}>
                                     <Link
                                         href={link.href}
+                                        onMouseEnter={() => playHover()}
+                                        onClick={() => playClick()}
                                         className={cn(
                                             "relative px-4 py-1.5 rounded-full transition-all duration-300 block",
                                             isActive
