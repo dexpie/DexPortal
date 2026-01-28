@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { Trophy } from "lucide-react";
 import { StatusMonitor } from "@/components/status-monitor";
 import { ThemeToggle } from "@/components/theme-toggle";
+import Magnetic from "@/components/magnetic";
 import { cn } from "@/lib/utils";
 
 const navLinks = [
@@ -42,18 +43,19 @@ export function Navbar() {
                             const isActive = pathname === link.href || pathname.startsWith(link.href + "/");
 
                             return (
-                                <Link
-                                    key={link.href}
-                                    href={link.href}
-                                    className={cn(
-                                        "relative px-4 py-1.5 rounded-full transition-all duration-300",
-                                        isActive
-                                            ? "text-white bg-white/10 shadow-sm"
-                                            : "hover:text-white hover:bg-white/5"
-                                    )}
-                                >
-                                    {link.label}
-                                </Link>
+                                <Magnetic key={link.href}>
+                                    <Link
+                                        href={link.href}
+                                        className={cn(
+                                            "relative px-4 py-1.5 rounded-full transition-all duration-300 block",
+                                            isActive
+                                                ? "text-white bg-white/10 shadow-sm"
+                                                : "hover:text-white hover:bg-white/5"
+                                        )}
+                                    >
+                                        {link.label}
+                                    </Link>
+                                </Magnetic>
                             );
                         })}
                     </div>

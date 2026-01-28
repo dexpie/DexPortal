@@ -1,5 +1,6 @@
 import { ProjectsSection } from "@/components/projects-section";
 import { Navbar } from "@/components/navbar";
+import { TechMarquee } from "@/components/tech-marquee";
 import { Hero } from "@/components/hero";
 import { BlogCard } from "@/components/blog-card";
 import { Footer } from "@/components/footer";
@@ -99,6 +100,8 @@ export default async function Home() {
 
       {/* Newsletter Section */}
       <Newsletter />
+
+      <TechMarquee />
 
       <Footer />
     </main>
