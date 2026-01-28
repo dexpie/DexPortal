@@ -36,6 +36,9 @@ import { TicTacToe } from "@/components/tic-tac-toe";
 import { JsonLd } from "@/components/json-ld";
 import { Toaster } from "sonner";
 import { SmoothScroll } from "@/components/smooth-scroll";
+import { LivePresence } from "@/components/live-presence";
+import { GhostCursors } from "@/components/ghost-cursors";
+import { ActivityFeed } from "@/components/activity-feed";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -154,6 +157,9 @@ export default function RootLayout({
               <ZenMode />
               <KeyboardVisualizer />
               <TicTacToe />
+              <LivePresence />
+              <GhostCursors />
+              <ActivityFeed />
 
               {/* Corner Utilities */}
               <div className="fixed top-6 right-6 z-50 flex items-center gap-2">
