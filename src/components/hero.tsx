@@ -12,7 +12,11 @@ import { Spotlight } from "@/components/ui/spotlight";
 
 export function Hero() {
     return (
-        <section className="relative min-h-[90vh] w-full overflow-hidden flex flex-col items-center justify-center">
+        <section
+            data-component="Hero"
+            data-type="Server Component (Async)"
+            className="relative min-h-[90vh] w-full overflow-hidden flex flex-col items-center justify-center"
+        >
             <AuroraBackground className="absolute inset-0 z-0">
                 <Spotlight
                     className="-top-40 left-0 md:left-60 md:-top-20"

@@ -22,7 +22,11 @@ export function Navbar() {
     const pathname = usePathname();
 
     return (
-        <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-full max-w-5xl px-4 sm:px-0">
+        <nav
+            data-component="Navbar"
+            data-type="Client Component"
+            className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-full max-w-5xl px-4 sm:px-0"
+        >
             <div className="mx-auto flex h-14 items-center justify-between rounded-full border border-white/10 bg-black/50 backdrop-blur-xl px-6 shadow-2xl shadow-cyan-900/20 ring-1 ring-white/5 transition-all duration-300 hover:bg-black/60 hover:ring-white/10 hover:shadow-cyan-900/30">
                 {/* Logo */}
                 <Link href="/" className="flex items-center gap-2 group mr-8">

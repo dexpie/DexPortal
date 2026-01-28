@@ -39,6 +39,8 @@ import { SmoothScroll } from "@/components/smooth-scroll";
 import { LivePresence } from "@/components/live-presence";
 import { GhostCursors } from "@/components/ghost-cursors";
 import { ActivityFeed } from "@/components/activity-feed";
+import { InspectorMode } from "@/components/inspector-mode";
+import { TechScanner } from "@/components/tech-scanner";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -160,6 +162,8 @@ export default function RootLayout({
               <LivePresence />
               <GhostCursors />
               <ActivityFeed />
+              <InspectorMode />
+              <TechScanner />
 
               {/* Corner Utilities */}
               <div className="fixed top-6 right-6 z-50 flex items-center gap-2">

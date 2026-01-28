@@ -43,7 +43,11 @@ export function Footer() {
     }, []);
 
     return (
-        <footer className="relative bg-[#050505] text-white pt-20 pb-10 overflow-hidden border-t border-white/5">
+        <footer
+            data-component="Footer"
+            data-type="Server Component"
+            className="relative bg-[#050505] text-white pt-20 pb-10 overflow-hidden border-t border-white/5"
+        >
             {/* Background Grid */}
             <div className="absolute inset-0 z-0 opacity-10"
                 style={{
