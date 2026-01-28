@@ -135,6 +135,22 @@ export function CommandMenu() {
                                             <Power className="mr-2 h-4 w-4 group-aria-selected:text-red-500 transition-colors" />
                                             <span className="font-mono">System Reboot</span>
                                         </Command.Item>
+                                        <Command.Item
+                                            onSelect={() => runCommand(() => {
+                                                toast.error("⚠️ SYSTEM PURGE INITIATED ⚠️", {
+                                                    description: "Deleting all local assets... (Just kidding)",
+                                                    duration: 3000
+                                                });
+                                                setTimeout(() => {
+                                                    document.documentElement.classList.add("invert");
+                                                    setTimeout(() => window.location.reload(), 1500);
+                                                }, 1000);
+                                            })}
+                                            className="group relative flex cursor-pointer select-none items-center rounded-sm px-2 py-2 text-sm outline-none aria-selected:bg-red-950/40 aria-selected:text-red-500 text-neutral-400 transition-colors"
+                                        >
+                                            <svg className="mr-2 h-4 w-4 text-red-600 animate-pulse" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                                            <span className="font-mono font-bold text-red-500">SYSTEM PURGE</span>
+                                        </Command.Item>
                                     </Command.Group>
 
                                     <Command.Group heading="GAME_CENTER" className="text-cyan-600/70 px-2 py-1.5 text-[10px] font-mono font-bold tracking-widest uppercase mt-2">

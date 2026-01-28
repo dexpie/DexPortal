@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import { cn } from "@/lib/utils";
 
-export function NeonCursor() {
+export function CyberCursor() {
     const [isVisible, setIsVisible] = useState(false);
     const [isClicking, setIsClicking] = useState(false);
     const [isHovering, setIsHovering] = useState(false);
@@ -50,29 +50,33 @@ export function NeonCursor() {
         };
     }, []);
 
+    // Hide default cursor on body (usually done in CSS, but checking here)
+    useEffect(() => {
+        document.documentElement.classList.add("cyber-cursor-active");
+        return () => {
+            document.documentElement.classList.remove("cyber-cursor-active");
+        };
+    }, []);
+
     if (!isVisible) return null;
 
     return (
-        <div className="fixed top-0 left-0 w-full h-full pointer-events-none z-[9999] hidden md:block overflow-hidden">
+        <div className="fixed top-0 left-0 w-full h-full pointer-events-none z-[9999] hidden md:block">
             {/* Main Cursor (Exact Position) */}
             <motion.div
                 className={cn(
-                    "absolute w-4 h-4 rounded-full border border-cyan-500 bg-cyan-500/20 backdrop-blur-sm -translate-x-1/2 -translate-y-1/2 transition-all duration-100 ease-out flex items-center justify-center",
+                    "absolute w-4 h-4 rounded-full border border-cyan-500 bg-cyan-500/20 backdrop-blur-sm -translate-x-1/2 -translate-y-1/2 transition-all duration-100 ease-out",
                     isHovering ? "w-12 h-12 bg-cyan-500/5 border-cyan-400" : "",
                     isClicking ? "scale-75 bg-cyan-500/40" : ""
                 )}
                 style={{ x: mouseX, y: mouseY }}
             >
-                <div className={cn(
-                    "absolute inset-0 rounded-full border-t border-cyan-200/50 opacity-50 transition-all duration-500",
-                    isHovering ? "animate-spin-slow border-t-2 opacity-100" : ""
-                )} />
-                <div className="w-1 h-1 bg-cyan-400 rounded-full" />
+                <div className="absolute inset-0 rounded-full animate-spin-slow border-t border-cyan-200/50 opacity-50" />
             </motion.div>
 
             {/* Trailing Cursor (Spring) */}
             <motion.div
-                className="absolute w-2 h-2 rounded-full bg-cyan-400/50 -translate-x-1/2 -translate-y-1/2 blur-[1px]"
+                className="absolute w-2 h-2 rounded-full bg-cyan-400 -translate-x-1/2 -translate-y-1/2"
                 style={{ x: cursorX, y: cursorY }}
             />
         </div>

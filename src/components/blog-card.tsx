@@ -3,8 +3,9 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { BlogPost } from "@/lib/types";
-import { ArrowRight, Clock } from "lucide-react";
+import { ArrowRight, Clock, Heart } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useState, useEffect } from "react";
 
 interface BlogCardProps {
     post: BlogPost;
@@ -12,6 +13,33 @@ interface BlogCardProps {
 }
 
 export function BlogCard({ post, index }: BlogCardProps) {
+    const [likes, setLikes] = useState(0);
+    const [liked, setLiked] = useState(false);
+
+    useEffect(() => {
+        // Deterministic "fake" likes based on slug length to make it look active
+        const baseLikes = post.slug.length * 12 + index * 5;
+        const stored = localStorage.getItem(`blog_like_${post.slug}`);
+        setLikes(baseLikes + (stored ? 1 : 0));
+        setLiked(!!stored);
+    }, [post.slug, index]);
+
+    const handleLike = (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        if (liked) {
+            setLikes(prev => prev - 1);
+            setLiked(false);
+            localStorage.removeItem(`blog_like_${post.slug}`);
+        } else {
+            setLikes(prev => prev + 1);
+            setLiked(true);
+            localStorage.setItem(`blog_like_${post.slug}`, "true");
+            // Trigger a mini burst if possible, or just visual feedback
+        }
+    };
+
     return (
         <motion.article
             initial={{ opacity: 0, y: 20 }}
@@ -19,7 +47,7 @@ export function BlogCard({ post, index }: BlogCardProps) {
             transition={{ duration: 0.5, delay: index * 0.1 }}
         >
             <Link href={`/blog/${post.slug}`} className="block group">
-                <div className="relative p-6 rounded-xl bg-card dark:bg-neutral-900/50 border border-border dark:border-white/5 hover:border-cyan-500/30 transition-all duration-300 hover:bg-muted/50 dark:hover:bg-neutral-900">
+                <div className="relative p-6 rounded-xl bg-card dark:bg-neutral-900/50 border border-border dark:border-white/5 hover:border-cyan-500/30 transition-all duration-300 hover:bg-muted/50 dark:hover:bg-neutral-900 group-hover:shadow-lg group-hover:shadow-cyan-500/10">
                     <div className="flex items-center gap-3 mb-4">
                         <span className={cn(
                             "text-xs font-medium px-2.5 py-1 rounded-full",
@@ -40,9 +68,21 @@ export function BlogCard({ post, index }: BlogCardProps) {
                     </p>
 
                     <div className="flex items-center justify-between text-xs text-muted-foreground">
-                        <div className="flex items-center gap-2">
-                            <Clock size={14} />
-                            <span>{post.readTime}</span>
+                        <div className="flex items-center gap-4">
+                            <div className="flex items-center gap-1.5">
+                                <Clock size={14} />
+                                <span>{post.readTime}</span>
+                            </div>
+                            <button
+                                onClick={handleLike}
+                                className={cn(
+                                    "flex items-center gap-1.5 transition-all hover:scale-110",
+                                    liked ? "text-pink-500" : "hover:text-pink-400"
+                                )}
+                            >
+                                <Heart size={14} className={cn(liked && "fill-current")} />
+                                <span>{likes}</span>
+                            </button>
                         </div>
                         <div className="flex items-center gap-1 text-cyan-400 group-hover:translate-x-1 transition-transform">
                             <span>Read More</span>
