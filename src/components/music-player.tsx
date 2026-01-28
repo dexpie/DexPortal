@@ -22,7 +22,7 @@ export function MusicPlayer() {
                 const data = await res.json();
                 if (data.isPlaying) {
                     setSpotifyData(data);
-                    // If Spotify is playing, we might want to pause our local audio
+                    // If Spotify is playing, pause local audio
                     if (audioRef.current && isPlaying) {
                         audioRef.current.pause();
                         setIsPlaying(false);
@@ -42,7 +42,6 @@ export function MusicPlayer() {
 
     const togglePlay = () => {
         if (spotifyData) {
-            // If spotify is active, maybe open the song?
             window.open(spotifyData.songUrl, '_blank');
             return;
         }
@@ -78,7 +77,7 @@ export function MusicPlayer() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1 }}
-                className="flex items-center gap-3 p-3 rounded-full bg-black/80 border border-white/10 backdrop-blur-md shadow-2xl shadow-cyan-900/10 hover:border-cyan-500/30 transition-colors"
+                className="flex items-center gap-4 p-3 pr-6 rounded-full bg-black/80 border border-white/10 backdrop-blur-md shadow-2xl shadow-cyan-900/10 hover:border-cyan-500/30 transition-colors group"
                 title={spotifyData ? "Playing on Spotify" : "Local Lofi Radio"}
             >
                 {/* Visualizer / Image */}
@@ -86,35 +85,34 @@ export function MusicPlayer() {
                     <motion.img
                         src={spotifyData.albumImageUrl}
                         alt="Album"
-                        className="w-10 h-10 rounded-full animate-spin-slow" // animate-spin-slow would need to be added to tailwind or custom
-                        style={{ animationDuration: '10s' }}
+                        className="w-10 h-10 rounded-full"
                         animate={{ rotate: 360 }}
                         transition={{ ease: "linear", duration: 10, repeat: Infinity }}
                     />
                 ) : (
-                    <div className="hidden sm:flex items-end gap-[2px] h-5 mx-2">
-                        {[...Array(5)].map((_, i) => (
+                    <div className="hidden sm:flex items-end gap-[1px] h-6 mx-2">
+                        {[...Array(12)].map((_, i) => (
                             <motion.div
                                 key={i}
                                 animate={{
-                                    height: isPlaying ? [4, 12 + Math.random() * 8, 4] : 4,
+                                    height: isPlaying ? [4, Math.random() * 24 + 4, 4] : 4,
+                                    backgroundColor: isPlaying ? ["#06b6d4", "#3b82f6", "#06b6d4"] : "#52525b",
                                 }}
                                 transition={{
-                                    duration: 0.4,
+                                    duration: 0.2,
                                     repeat: Infinity,
                                     delay: i * 0.05,
-                                    repeatType: "reverse",
+                                    repeatType: "mirror",
                                     ease: "easeInOut"
                                 }}
                                 className={cn(
                                     "w-1 rounded-full",
-                                    isPlaying ? "bg-gradient-to-t from-cyan-500 to-blue-400 shadow-[0_0_8px_rgba(6,182,212,0.8)]" : "bg-neutral-600"
+                                    isPlaying ? "shadow-[0_0_5px_rgba(6,182,212,0.8)]" : ""
                                 )}
                             />
                         ))}
                     </div>
-                )
-                }
+                )}
 
                 {/* Track Info */}
                 <div className="hidden sm:block mr-2 w-32 overflow-hidden">
@@ -138,7 +136,7 @@ export function MusicPlayer() {
                         )}
                     >
                         {spotifyData ? (
-                            <ExternalLinkIcon size={14} /> // Open Spotify
+                            <ExternalLinkIcon size={14} />
                         ) : (
                             isPlaying ? <Pause size={14} /> : <Play size={14} className="ml-0.5" />
                         )}
@@ -153,8 +151,8 @@ export function MusicPlayer() {
                         </button>
                     )}
                 </div>
-            </motion.div >
-        </div >
+            </motion.div>
+        </div>
     );
 }
 
