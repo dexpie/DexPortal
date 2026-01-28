@@ -2,21 +2,24 @@
 
 import React, { useRef } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { useSysConfig } from "@/store/use-sys-config";
 
 export const Card3D = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => {
     const ref = useRef<HTMLDivElement>(null);
+    const { zenMode, lowMotion } = useSysConfig();
 
     const x = useMotionValue(0);
     const y = useMotionValue(0);
 
-    const mouseXSpring = useSpring(x);
-    const mouseYSpring = useSpring(y);
+    // Disable springs if zen/lowMotion active
+    const mouseXSpring = useSpring(x, { stiffness: zenMode || lowMotion ? 0 : 100, damping: 10 });
+    const mouseYSpring = useSpring(y, { stiffness: zenMode || lowMotion ? 0 : 100, damping: 10 });
 
     const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["10deg", "-10deg"]);
     const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-10deg", "10deg"]);
 
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-        if (!ref.current) return;
+        if (!ref.current || zenMode || lowMotion) return;
 
         const rect = ref.current.getBoundingClientRect();
 

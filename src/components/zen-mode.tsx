@@ -1,15 +1,16 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Eye } from "lucide-react";
+import { useSysConfig } from "@/store/use-sys-config";
 
 export function ZenMode() {
-    const [isZen, setIsZen] = useState(false);
+    const { zenMode, toggleZenMode } = useSysConfig();
 
     useEffect(() => {
         const root = document.documentElement;
-        if (isZen) {
+        if (zenMode) {
             root.classList.add("zen-mode");
             document.body.style.overflow = "hidden"; // Optional for strict focus
         } else {
@@ -22,34 +23,29 @@ export function ZenMode() {
             root.classList.remove("zen-mode");
             document.body.style.overflow = "";
         };
-    }, [isZen]);
+    }, [zenMode]);
 
     // Keyboard shortcut: Shift+Z to toggle
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
             if (e.shiftKey && e.key.toLowerCase() === "z") {
-                setIsZen(prev => !prev);
+                toggleZenMode();
             }
         };
         window.addEventListener("keydown", handleKeyDown);
         return () => window.removeEventListener("keydown", handleKeyDown);
-    }, []);
+    }, [toggleZenMode]);
 
     // Custom event listener for external triggers (like CommandMenu)
     useEffect(() => {
-
-        // Note: attaching to window for custom event, make sure the type matches
-        // But for simplicity with CommandMenu, let's just use the keyboard event dispatch there
-        // which we already did in command-menu.tsx.
-        // Or if we want a custom event "toggle-zen-mode"
-        const handleGlobalEvent = () => setIsZen(prev => !prev);
+        const handleGlobalEvent = () => toggleZenMode();
         window.addEventListener("toggle-zen-mode", handleGlobalEvent);
         return () => window.removeEventListener("toggle-zen-mode", handleGlobalEvent);
-    }, []);
+    }, [toggleZenMode]);
 
     return (
         <AnimatePresence>
-            {isZen && (
+            {zenMode && (
                 <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
@@ -60,11 +56,11 @@ export function ZenMode() {
 
             <div className="fixed bottom-6 left-6 z-[101]">
                 {/* Visual indicator when Zen Mode is ON */}
-                {isZen && (
+                {zenMode && (
                     <motion.button
                         initial={{ opacity: 0, scale: 0 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        onClick={() => setIsZen(false)}
+                        onClick={toggleZenMode}
                         className="flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-full backdrop-blur-md border border-white/10 transition-colors pointer-events-auto"
                     >
                         <Eye size={16} />
