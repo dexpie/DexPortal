@@ -10,33 +10,42 @@ interface Message {
     content: string;
 }
 
-const botResponses: Record<string, string> = {
-    "hello": "Hey there! 👋 Welcome to DexPortal. How can I help you today?",
-    "hi": "Hello! 👋 Nice to meet you. What would you like to know?",
-    "who are you": "I'm DexBot, a friendly assistant for DexPortal! I can help you navigate the site or answer questions about DexPie's work.",
-    "projects": "DexPie has worked on several cool projects! Check out the Projects section on the homepage, or press ⌘K to search for specific ones.",
-    "contact": "You can reach DexPie through the Contact page, or send an email directly. There's also a Guestbook if you want to leave a message!",
-    "skills": "DexPie specializes in TypeScript, React, Next.js, and enjoys working with Tailwind CSS and Framer Motion. Check out the Skills section!",
-    "hire": "Interested in working together? Head to the Contact page and let's discuss your project!",
-    "help": "I can help you with:\n• 🔍 Finding projects\n• 📧 Contact information\n• 💼 Skills & experience\n• ☕ How to support DexPie\n\nJust ask!",
-    "support": "If you enjoy DexPie's work, you can support via Saweria! There's a link in the footer or on the creator card.",
-    "default": "Hmm, I'm not sure about that. Try asking about projects, skills, contact, or type 'help' for options!",
-};
+// Brain of the bot
+const knowledgeBase = [
+    { keywords: ["hello", "hi", "hey", "pagi", "sore", "malam"], response: "System online. Greetings, user. How may CORTEX assist you?" },
+    { keywords: ["who", "what are you", "identity"], response: "I am CORTEX_AI (v2.4), a neural interface designed to navigate DexPie's digital construct." },
+    { keywords: ["project", "work", "portfolio", "build"], response: "Accessing project database... DexPie has deployed multiple high-value assets. Use the 'Projects' command or ask for specifics." },
+    { keywords: ["contact", "email", "hire", "reach"], response: "Comm-link available. You can transmit data via the Contact form or send a direct signal to his email." },
+    { keywords: ["skill", "tech", "stack"], response: "Core competencies loaded: TypeScript, Next.js, React, Three.js, and System Architecture." },
+    { keywords: ["help", "menu", "assist"], response: "Available commands:\n- /projects\n- /contact\n- /skills\n- /status" },
+    { keywords: ["joke", "funny"], response: "Why do programmers prefer dark mode? Because light attracts bugs. [LAUGH_TRACK_MISSING]" },
+    { keywords: ["matrix", "neo"], response: "The Matrix is everywhere. It is all around us. Even now, in this very room." },
+];
 
 function getBotResponse(input: string): string {
     const lower = input.toLowerCase();
-    for (const key of Object.keys(botResponses)) {
-        if (lower.includes(key)) {
-            return botResponses[key];
+
+    // Check knowledge base
+    for (const entry of knowledgeBase) {
+        if (entry.keywords.some(k => lower.includes(k))) {
+            return entry.response;
         }
     }
-    return botResponses["default"];
+
+    // Default fallback
+    const fallbacks = [
+        "Query not recognized. Please rephrase.",
+        "Data packet corrupted. Try again.",
+        "I need more context to process that request.",
+        "Access denied. Just kidding, I simply don't understand.",
+    ];
+    return fallbacks[Math.floor(Math.random() * fallbacks.length)];
 }
 
 export function ChatBot() {
     const [isOpen, setIsOpen] = useState(false);
     const [messages, setMessages] = useState<Message[]>([
-        { id: 0, role: "bot", content: "Hey! 👋 I'm DexBot. Ask me anything about DexPie's work!" },
+        { id: 0, role: "bot", content: "CORTEX_AI Initialized. Waiting for input..." },
     ]);
     const [input, setInput] = useState("");
     const [isTyping, setIsTyping] = useState(false);

@@ -2,25 +2,23 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
+import { Shield, Cpu, Wifi, Lock, ChevronRight } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 const bootMessages = [
-    "DEXPORTAL BIOS v10.4",
-    "Copyright (c) 2024 Dex Ecosystem",
-    "",
-    "Initializing system components...",
-    "Loading neural interface... OK",
-    "Mounting project database... OK",
-    "Establishing secure connection... OK",
-    "Calibrating neon matrix... OK",
-    "",
-    "All systems operational.",
-    "Welcome, User.",
+    { text: "BIOS_CHECK_INTEGRITY...", icon: Shield, color: "text-blue-400" },
+    { text: "LOADING_KERNEL_MODULES", icon: Cpu, color: "text-cyan-400" },
+    { text: "ESTABLISHING_SECURE_UPLINK", icon: Wifi, color: "text-emerald-400" },
+    { text: "DECRYPTING_USER_PROFILE", icon: Lock, color: "text-purple-400" },
+    { text: "MOUNTING_VIRTUAL_DOM...", icon: ChevronRight, color: "text-neutral-400" },
+    { text: "SYSTEM_READY", icon: Shield, color: "text-green-500 font-bold" },
 ];
 
 export function BootSequence() {
     const [isBooting, setIsBooting] = useState(true);
     const [currentLine, setCurrentLine] = useState(0);
     const [progress, setProgress] = useState(0);
+    const [accessGranted, setAccessGranted] = useState(false);
 
     useEffect(() => {
         // Check if already booted this session
@@ -29,112 +27,133 @@ export function BootSequence() {
             return;
         }
 
-        // Animate boot messages
-        const lineInterval = setInterval(() => {
-            setCurrentLine((prev) => {
-                if (prev < bootMessages.length - 1) {
-                    return prev + 1;
-                }
-                clearInterval(lineInterval);
-                return prev;
-            });
-        }, 200);
-
-        // Animate progress bar
+        // 1. Progress Bar
         const progressInterval = setInterval(() => {
             setProgress((prev) => {
-                if (prev < 100) {
-                    return prev + 2;
+                if (prev >= 100) {
+                    clearInterval(progressInterval);
+                    return 100;
                 }
-                clearInterval(progressInterval);
-                return 100;
+                return prev + Math.floor(Math.random() * 5) + 1;
             });
         }, 50);
 
-        // End boot sequence
-        const timeout = setTimeout(() => {
-            sessionStorage.setItem("dexportal_booted", "true");
-            setIsBooting(false);
-        }, 4000);
+        // 2. Message Lines
+        const lineInterval = setInterval(() => {
+            setCurrentLine((prev) => {
+                if (prev < bootMessages.length - 1) return prev + 1;
+                clearInterval(lineInterval);
+                return prev;
+            });
+        }, 400);
 
-        // Skip on any key press
-        const handleKeyDown = () => {
+        // 3. Access Granted Sequence
+        setTimeout(() => {
+            setAccessGranted(true);
+            // Play success sound here if sound system allowed
+        }, 2500);
+
+        // 4. Finish
+        const finishTimeout = setTimeout(() => {
             sessionStorage.setItem("dexportal_booted", "true");
             setIsBooting(false);
-        };
-        window.addEventListener("keydown", handleKeyDown);
+        }, 3500);
 
         return () => {
-            clearInterval(lineInterval);
             clearInterval(progressInterval);
-            clearTimeout(timeout);
-            window.removeEventListener("keydown", handleKeyDown);
+            clearInterval(lineInterval);
+            clearTimeout(finishTimeout);
         };
     }, []);
+
+    const skipBoot = () => {
+        sessionStorage.setItem("dexportal_booted", "true");
+        setIsBooting(false);
+    };
 
     return (
         <AnimatePresence>
             {isBooting && (
                 <motion.div
+                    className="fixed inset-0 z-[9999] bg-black flex flex-col items-center justify-center font-mono overflow-hidden"
                     initial={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.5 }}
-                    className="fixed inset-0 z-[9999] bg-black flex flex-col items-center justify-center p-8 font-mono"
+                    exit={{ opacity: 0, scale: 1.1, filter: "blur(10px)" }}
+                    transition={{ duration: 0.8 }}
+                    onClick={skipBoot}
                 >
-                    {/* Terminal Output */}
-                    <div className="w-full max-w-2xl space-y-1 text-left mb-8">
-                        {bootMessages.slice(0, currentLine + 1).map((line, index) => (
-                            <motion.div
-                                key={index}
-                                initial={{ opacity: 0, x: -10 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                className={`text-sm ${index === 0
-                                    ? "text-cyan-400 text-lg font-bold"
-                                    : index === 1
-                                        ? "text-neutral-500"
-                                        : line.includes("OK")
-                                            ? "text-green-400"
-                                            : line.includes("Welcome")
-                                                ? "text-cyan-400 font-bold"
-                                                : "text-neutral-300"
-                                    }`}
-                            >
-                                {line || "\u00A0"}
-                            </motion.div>
-                        ))}
+                    {/* Background Grid Grid */}
+                    <div className="absolute inset-0 bg-[linear-gradient(rgba(0,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,255,0.05)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none" />
 
-                        {/* Blinking Cursor */}
-                        <motion.span
-                            animate={{ opacity: [1, 0] }}
-                            transition={{ duration: 0.5, repeat: Infinity }}
-                            className="inline-block w-2 h-4 bg-cyan-500"
-                        />
-                    </div>
+                    {/* Vignette */}
+                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,black_100%)] pointer-events-none" />
 
-                    {/* Progress Bar */}
-                    <div className="w-full max-w-2xl">
-                        <div className="flex justify-between text-xs text-neutral-500 mb-2">
-                            <span>LOADING DEXPORTAL</span>
+                    <div className="w-full max-w-md relative z-10 p-6">
+                        {/* Header */}
+                        <motion.div
+                            initial={{ opacity: 0, y: -20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            className="flex justify-between items-end mb-8 border-b border-cyan-900/50 pb-2"
+                        >
+                            <div className="flex flex-col">
+                                <span className="text-xs text-cyan-700">SYSTEM_BOOT_SEQUENCE</span>
+                                <span className="text-xl font-bold text-cyan-500 tracking-widest">DEXPORTAL_OS</span>
+                            </div>
+                            <span className="text-xs text-cyan-700">v2.0.4</span>
+                        </motion.div>
+
+                        {/* Terminal Output */}
+                        <div className="space-y-3 mb-8 min-h-[200px]">
+                            {bootMessages.slice(0, currentLine + 1).map((msg, idx) => {
+                                const Icon = msg.icon;
+                                return (
+                                    <motion.div
+                                        key={idx}
+                                        initial={{ opacity: 0, x: -10 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        className="flex items-center gap-3"
+                                    >
+                                        <Icon size={14} className={cn("shrink-0", msg.color)} />
+                                        <span className={cn("text-sm tracking-wide", msg.color)}>
+                                            {msg.text}
+                                            {idx < bootMessages.length - 1 && <span className="animate-pulse">_</span>}
+                                        </span>
+                                    </motion.div>
+                                );
+                            })}
+                        </div>
+
+                        {/* Progress Bar */}
+                        <div className="mb-2 flex justify-between text-xs text-cyan-600">
+                            <span>LOADING_ASSETS</span>
                             <span>{progress}%</span>
                         </div>
-                        <div className="w-full h-2 bg-neutral-800 rounded-full overflow-hidden">
+                        <div className="h-1 w-full bg-cyan-950 rounded-full overflow-hidden mb-8">
                             <motion.div
-                                initial={{ width: 0 }}
-                                animate={{ width: `${progress}%` }}
-                                className="h-full bg-gradient-to-r from-cyan-500 to-blue-500 shadow-[0_0_10px_rgba(6,182,212,0.5)]"
+                                className="h-full bg-cyan-500 shadow-[0_0_15px_rgba(6,182,212,0.8)]"
+                                style={{ width: `${progress}%` }}
                             />
                         </div>
-                    </div>
 
-                    {/* Skip Hint */}
-                    <motion.p
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 1 }}
-                        className="mt-8 text-xs text-neutral-600"
-                    >
-                        Press any key to skip...
-                    </motion.p>
+                        {/* Access Granted Badge */}
+                        <AnimatePresence>
+                            {accessGranted && (
+                                <motion.div
+                                    initial={{ opacity: 0, scale: 0.5 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    className="absolute inset-x-0 bottom-20 flex justify-center"
+                                >
+                                    <div className="border border-green-500/50 bg-green-500/10 px-6 py-2 rounded text-green-400 font-bold tracking-[0.2em] shadow-[0_0_30px_rgba(34,197,94,0.3)] backdrop-blur-sm">
+                                        ACCESS GRANTED
+                                    </div>
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
+
+                        {/* Skip Hint */}
+                        <div className="mt-12 text-center">
+                            <span className="text-[10px] text-neutral-600 animate-pulse">Click anywhere to skip initialization</span>
+                        </div>
+                    </div>
                 </motion.div>
             )}
         </AnimatePresence>

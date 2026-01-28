@@ -81,6 +81,13 @@ export function KonamiListener() {
     };
 
     return (
-        <AdminOverlay isOpen={showOverlay} onClose={() => setShowOverlay(false)} />
+        <>
+            <AdminOverlay isOpen={showOverlay} onClose={() => setShowOverlay(false)} />
+
+            {/* Secret Hint */}
+            <div className="fixed bottom-2 right-2 opacity-0 hover:opacity-10 transition-opacity pointer-events-none">
+                <span className="text-[10px] text-white">↑↑↓↓←→←→BA</span>
+            </div>
+        </>
     );
 }
