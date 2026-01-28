@@ -56,8 +56,8 @@ export function InspectorMode() {
                 <button
                     onClick={() => setInspectorActive(!inspectorActive)}
                     className={`p-2 rounded-full transition-all duration-300 border ${inspectorActive
-                            ? "bg-cyan-500/20 text-cyan-400 border-cyan-500/50 shadow-[0_0_15px_rgba(6,182,212,0.3)]"
-                            : "bg-black/50 text-neutral-500 border-white/10 hover:text-white"
+                        ? "bg-cyan-500/20 text-cyan-400 border-cyan-500/50 shadow-[0_0_15px_rgba(6,182,212,0.3)]"
+                        : "bg-black/50 text-neutral-500 border-white/10 hover:text-white"
                         }`}
                     title="Toggle Inspector Mode (Ctrl+I)"
                 >
@@ -72,12 +72,17 @@ export function InspectorMode() {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="fixed pointer-events-none z-[9999] border-2 border-cyan-500/80 bg-cyan-500/5 backdrop-blur-[1px] rounded transition-all duration-75"
+                        className="fixed z-[9999] border-2 border-cyan-500/80 bg-cyan-500/5 backdrop-blur-[1px] rounded transition-all duration-75 cursor-pointer hover:bg-cyan-500/10"
                         style={{
                             top: target.rect.top,
                             left: target.rect.left,
                             width: target.rect.width,
                             height: target.rect.height,
+                        }}
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            window.dispatchEvent(new CustomEvent("open-source-modal", { detail: { name: target.name } }));
+                            setInspectorActive(false); // Auto close inspector
                         }}
                     >
                         {/* Label Tag */}
@@ -85,6 +90,7 @@ export function InspectorMode() {
                             <Code size={10} />
                             <span>{`<${target.name} />`}</span>
                             <span className="opacity-50 border-l border-black/20 pl-1.5">{target.type}</span>
+                            <span className="opacity-75 text-[8px] bg-black/20 px-1 rounded ml-1">CLICK TO VIEW</span>
                         </div>
 
                         {/* Dimensions Tag */}

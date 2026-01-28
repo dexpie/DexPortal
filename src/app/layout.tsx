@@ -41,6 +41,8 @@ import { GhostCursors } from "@/components/ghost-cursors";
 import { ActivityFeed } from "@/components/activity-feed";
 import { InspectorMode } from "@/components/inspector-mode";
 import { TechScanner } from "@/components/tech-scanner";
+import { ThemeEngine } from "@/components/theme-engine";
+import { SourceCodeModal } from "@/components/source-code-modal";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -164,6 +166,8 @@ export default function RootLayout({
               <ActivityFeed />
               <InspectorMode />
               <TechScanner />
+              <ThemeEngine />
+              <SourceCodeModal />
 
               {/* Corner Utilities */}
               <div className="fixed top-6 right-6 z-50 flex items-center gap-2">
