@@ -7,132 +7,94 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 // Placeholder song data - easy to swap
+// Timestamps are in seconds
 const SONG = {
     title: "Metakritik",
     artist: ".Feast",
     album: "Membangun & Menghancurkan",
-    cover: "https://images.genius.com/39a6673bf8791097893c5c9604118ea5.1000x1000x1.jpg",
+    cover: "/images/metakritik-cover.png",
     duration: "4:16",
     lyrics: [
-        "Apa kabar para pengadil?",
-        "Yang menghakimi tanpa adil",
-        "Duduk manis di balik layar",
-        "Menyebar benci tanpa harus bayar",
-        "",
-        "Satu salah, semua menyerang",
-        "Lupa cermin, lupa hari terang",
-        "Kritikmu suci, kritikku dosa",
-        "Kita semua terjebak rasa",
-        "",
-        "Oh, metakritik",
-        "Debat kusir yang makin pelik",
-        "Oh, metakritik",
-        "Logika mati, ego pun naik",
-        "Siapa paling benar?",
-        "Siapa paling pintar?",
-        "Dalam lingkaran setan yang terus berpijar",
-        "",
-        "Koreksi ini, koreksi itu",
-        "Tapi dirimu tak pernah mau tahu",
-        "Standar ganda jadi senjata",
-        "Kebenaran cuma soal kata-kata",
-        "",
-        "Membangun dengan cela",
-        "Menghancurkan dengan doa",
-        "Kita semua sama saja",
-        "Pemuja bising tanpa jeda",
-        "",
-        "Oh, metakritik",
-        "Debat kusir yang makin pelik",
-        "Oh, metakritik",
-        "Logika mati, ego pun naik",
-        "Siapa paling benar?",
-        "Siapa paling pintar?",
-        "Dalam lingkaran setan yang terus berpijar",
+        { time: 14, text: "Malam kesekian memperdebatkan" },
+        { time: 17, text: "Tutur perkataan dan gaya penulisan" },
+        { time: 21, text: "Ada ketakutan dicaci karena" },
+        { time: 24, text: "Punya kesalahan dan gaya berpakaian" },
+        { time: 28, text: "Waswas cemas lihat yang lain, habis dilibas, aku membatin" },
+        { time: 35, text: "Apakah ku terlalu peduli dengan standarmu yang beku dan sangat tinggi?" },
+        { time: 42, text: "Bertanya-tanya apa kau benar-benar nilai dirimu dengan cara yang sama?" },
+        { time: 49, text: "Atau apa aku takut dengan aibku dan lingkunganku?" },
+        { time: 54, text: "Hidup di masa kecemasan, kita tumbang bergantian" },
+        { time: 61, text: "Penantian menyiksa, terpaksa kubungkam diriku" },
+        { time: 68, text: "Kali ini, harus main aman" },
+        { time: 71, text: "Meninggalkan yang kubicarakan" },
+        { time: 75, text: "Kehilangan jati diriku" },
+        { time: 82, text: "" }, // Instrumental break
+        { time: 96, text: "Malam kesekian mempertanyakan" },
+        { time: 99, text: "Semua keputusan yang telah diamalkan" },
+        { time: 103, text: "Ada ketakutan sewaktu tiba" },
+        { time: 106, text: "Sebuah penyesalan yang harus dijalankan" },
+        { time: 110, text: "Waswas cеmas lihat diriku, mulai kesulitan dalam menulis" },
+        { time: 117, text: "Apakah ku terlalu nyaman dеngan hidupku yang kini kian meninggi?" },
+        { time: 124, text: "Bertanya-tanya apa ku benar-benar hilang amarah karena mulai menua?" },
+        { time: 131, text: "Atau apa aku takut dengan aibku dan lingkunganku?" },
+        { time: 136, text: "Hidup di masa kecemasan kita tumbang bergantian" },
+        { time: 143, text: "Penantian menyiksa, terpaksa kubungkam diriku" },
+        { time: 150, text: "Kali ini, harus main aman" },
+        { time: 153, text: "Meninggalkan yang kubicarakan" },
+        { time: 157, text: "Terpaksa kutinggal diriku yang dahulu, runtuh dan percuma" },
+        { time: 164, text: "Meninggalkan yang kubicarakan" },
+        { time: 167, text: "Susun dan jatuhkan" },
+        { time: 171, text: "Kehilangan jati diriku" }
     ]
 };
-
-import dynamic from "next/dynamic";
-
-// Dynamic import with explicit type casting to avoid TS errors
-const ReactPlayer = dynamic(() => import("react-player"), { ssr: false }) as any;
 
 export function FavoriteSong() {
     const [isPlaying, setIsPlaying] = useState(false);
     const [progress, setProgress] = useState(0);
-    const [duration, setDuration] = useState(0);
-    const playerRef = useRef<any>(null); // ReactPlayer ref
+    const [activeLine, setActiveLine] = useState(0);
+    const audioRef = useRef<HTMLAudioElement | null>(null);
     const scrollRef = useRef<HTMLDivElement>(null);
+    const lyricsRefs = useRef<(HTMLParagraphElement | null)[]>([]);
 
-    // YouTube URL provided by user
-    const VIDEO_URL = "https://youtu.be/2jviT4CvsYc";
+    // Local file path
+    const AUDIO_SRC = "/music/metakritik.mp3";
 
     const togglePlay = () => {
+        if (!audioRef.current) return;
+
+        if (isPlaying) {
+            audioRef.current.pause();
+        } else {
+            audioRef.current.play();
+        }
         setIsPlaying(!isPlaying);
     };
 
-    const handleProgress = (state: { played: number; playedSeconds: number }) => {
-        if (!isPlaying) return; // avoid jitter when paused/seeking
-        setProgress(state.played * 100);
-    };
-
-    const handleDuration = (duration: number) => {
-        setDuration(duration);
-    };
-
-    const handleSeek = (e: React.MouseEvent<HTMLDivElement>) => {
-        const rect = e.currentTarget.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const width = rect.width;
-        const percent = x / width;
-
-        setProgress(percent * 100);
-        playerRef.current?.seekTo(percent);
-    };
-
-    // Auto-scroll lyrics based on progress percentage
-    useEffect(() => {
-        if (scrollRef.current && duration > 0) {
-            const scrollHeight = scrollRef.current.scrollHeight;
-            const clientHeight = scrollRef.current.clientHeight;
-            const maxScroll = scrollHeight - clientHeight;
-
-            // Map progress (0-100) to scroll position
-            const targetScroll = (progress / 100) * maxScroll;
-
-            scrollRef.current.scrollTo({
-                top: targetScroll,
-                behavior: 'smooth'
-            });
+    // Update progress & active line from audio element
+    const handleTimeUpdate = () => {
+        if (audioRef.current) {
+            const current = audioRef.current.currentTime;
+            const duration = audioRef.current.duration;
+            if (duration) {
+                setProgress((current / duration) * 100);
+            }
         }
-    }, [progress, duration]);
+    };
 
-    // Format time helper
-    const formatTime = (seconds: number) => {
-        const mins = Math.floor(seconds / 60);
-        const secs = Math.floor(seconds % 60);
-        return `${mins}:${secs.toString().padStart(2, '0')}`;
+    const handleEnded = () => {
+        setIsPlaying(false);
+        setProgress(0);
+        if (scrollRef.current) scrollRef.current.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
     return (
         <div className="w-full max-w-4xl mx-auto my-20">
-            {/* Hidden Player */}
-            <div className="hidden">
-                <ReactPlayer
-                    ref={playerRef}
-                    url={VIDEO_URL}
-                    playing={isPlaying}
-                    volume={1}
-                    onProgress={handleProgress}
-                    onDuration={handleDuration}
-                    onEnded={() => {
-                        setIsPlaying(false);
-                        setProgress(0);
-                    }}
-                    width="0"
-                    height="0"
-                />
-            </div>
+            <audio
+                ref={audioRef}
+                src={AUDIO_SRC}
+                onTimeUpdate={handleTimeUpdate}
+                onEnded={handleEnded}
+            />
 
             <h2 className="text-3xl font-bold mb-8 flex items-center gap-3">
                 <span className="w-8 h-8 rounded-full bg-green-500 flex items-center justify-center text-black">
@@ -185,7 +147,15 @@ export function FavoriteSong() {
                         <div className="space-y-2">
                             <div
                                 className="h-1 bg-white/10 rounded-full overflow-hidden cursor-pointer group/bar"
-                                onClick={handleSeek}
+                                onClick={(e) => {
+                                    if (audioRef.current) {
+                                        const rect = e.currentTarget.getBoundingClientRect();
+                                        const x = e.clientX - rect.left;
+                                        const width = rect.width;
+                                        const percent = x / width;
+                                        audioRef.current.currentTime = percent * audioRef.current.duration;
+                                    }
+                                }}
                             >
                                 <div
                                     className="h-full bg-white group-hover/bar:bg-green-500 transition-colors relative"
@@ -195,8 +165,12 @@ export function FavoriteSong() {
                                 </div>
                             </div>
                             <div className="flex justify-between text-xs font-mono text-neutral-500">
-                                <span>{formatTime(duration * (progress / 100))}</span>
-                                <span>{formatTime(duration)}</span>
+                                <span>
+                                    {audioRef.current ?
+                                        `${Math.floor(audioRef.current.currentTime / 60)}:${Math.floor(audioRef.current.currentTime % 60).toString().padStart(2, '0')}`
+                                        : "0:00"}
+                                </span>
+                                <span>{SONG.duration}</span>
                             </div>
                         </div>
 
@@ -234,15 +208,23 @@ export function FavoriteSong() {
                         {SONG.lyrics.map((line, i) => (
                             <p
                                 key={i}
+                                ref={(el: HTMLParagraphElement | null) => { lyricsRefs.current[i] = el; }}
+                                onClick={() => {
+                                    // Click line to jump to time
+                                    if (audioRef.current) {
+                                        audioRef.current.currentTime = line.time;
+                                        audioRef.current.play();
+                                        setIsPlaying(true);
+                                    }
+                                }}
                                 className={cn(
-                                    "text-xl md:text-2xl font-bold transition-all duration-300 cursor-default hover:text-white",
-                                    // simple lyric sync simulation based on progress chunks
-                                    i === Math.floor((progress / 100) * SONG.lyrics.length)
+                                    "text-xl md:text-2xl font-bold transition-all duration-300 cursor-pointer hover:text-white",
+                                    i === activeLine
                                         ? "text-white scale-100 opacity-100 origin-left"
                                         : "text-neutral-500 scale-95 opacity-50 blur-[0.5px]"
                                 )}
                             >
-                                {line}
+                                {line.text}
                             </p>
                         ))}
                         {/* Buffer space at bottom */}
