@@ -4,6 +4,7 @@ import { SkillsSection } from "@/components/skills-section";
 import Link from "next/link";
 import { ArrowLeft, Mail, Github, Linkedin, Download } from "lucide-react";
 import Image from "next/image";
+import { FavoriteSong } from "@/components/favorite-song";
 
 export const metadata = {
     title: "About | DexPie Portfolio",
@@ -96,6 +97,9 @@ export default function AboutPage() {
                         ))}
                     </div>
                 </div>
+
+                {/* Favorite Song */}
+                <FavoriteSong />
 
                 {/* Social Links */}
                 <div className="mt-20 text-center">
