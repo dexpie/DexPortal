@@ -52,37 +52,88 @@ const SONG = {
     ]
 };
 
+import dynamic from "next/dynamic";
+
+// Dynamic import with explicit type casting to avoid TS errors
+const ReactPlayer = dynamic(() => import("react-player"), { ssr: false }) as any;
+
 export function FavoriteSong() {
-    const [isPlaying, setIsPlaying] = useState(true);
-    const [progress, setProgress] = useState(30);
+    const [isPlaying, setIsPlaying] = useState(false);
+    const [progress, setProgress] = useState(0);
+    const [duration, setDuration] = useState(0);
+    const playerRef = useRef<any>(null); // ReactPlayer ref
     const scrollRef = useRef<HTMLDivElement>(null);
 
-    // Auto-scroll lyrics
-    useEffect(() => {
-        const interval = setInterval(() => {
-            if (scrollRef.current && isPlaying) {
-                scrollRef.current.scrollTop += 1;
-                // Loop scroll
-                if (scrollRef.current.scrollTop + scrollRef.current.clientHeight >= scrollRef.current.scrollHeight) {
-                    scrollRef.current.scrollTop = 0;
-                }
-            }
-        }, 50);
-        return () => clearInterval(interval);
-    }, [isPlaying]);
+    // YouTube URL provided by user
+    const VIDEO_URL = "https://youtu.be/2jviT4CvsYc";
 
-    // Simulate progress bar movement
+    const togglePlay = () => {
+        setIsPlaying(!isPlaying);
+    };
+
+    const handleProgress = (state: { played: number; playedSeconds: number }) => {
+        if (!isPlaying) return; // avoid jitter when paused/seeking
+        setProgress(state.played * 100);
+    };
+
+    const handleDuration = (duration: number) => {
+        setDuration(duration);
+    };
+
+    const handleSeek = (e: React.MouseEvent<HTMLDivElement>) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const width = rect.width;
+        const percent = x / width;
+
+        setProgress(percent * 100);
+        playerRef.current?.seekTo(percent);
+    };
+
+    // Auto-scroll lyrics based on progress percentage
     useEffect(() => {
-        const interval = setInterval(() => {
-            if (isPlaying) {
-                setProgress(prev => (prev >= 100 ? 0 : prev + 0.1));
-            }
-        }, 100);
-        return () => clearInterval(interval);
-    }, [isPlaying]);
+        if (scrollRef.current && duration > 0) {
+            const scrollHeight = scrollRef.current.scrollHeight;
+            const clientHeight = scrollRef.current.clientHeight;
+            const maxScroll = scrollHeight - clientHeight;
+
+            // Map progress (0-100) to scroll position
+            const targetScroll = (progress / 100) * maxScroll;
+
+            scrollRef.current.scrollTo({
+                top: targetScroll,
+                behavior: 'smooth'
+            });
+        }
+    }, [progress, duration]);
+
+    // Format time helper
+    const formatTime = (seconds: number) => {
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${mins}:${secs.toString().padStart(2, '0')}`;
+    };
 
     return (
         <div className="w-full max-w-4xl mx-auto my-20">
+            {/* Hidden Player */}
+            <div className="hidden">
+                <ReactPlayer
+                    ref={playerRef}
+                    url={VIDEO_URL}
+                    playing={isPlaying}
+                    volume={1}
+                    onProgress={handleProgress}
+                    onDuration={handleDuration}
+                    onEnded={() => {
+                        setIsPlaying(false);
+                        setProgress(0);
+                    }}
+                    width="0"
+                    height="0"
+                />
+            </div>
+
             <h2 className="text-3xl font-bold mb-8 flex items-center gap-3">
                 <span className="w-8 h-8 rounded-full bg-green-500 flex items-center justify-center text-black">
                     <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
@@ -132,7 +183,10 @@ export function FavoriteSong() {
 
                         {/* Progress Bar */}
                         <div className="space-y-2">
-                            <div className="h-1 bg-white/10 rounded-full overflow-hidden cursor-pointer group/bar">
+                            <div
+                                className="h-1 bg-white/10 rounded-full overflow-hidden cursor-pointer group/bar"
+                                onClick={handleSeek}
+                            >
                                 <div
                                     className="h-full bg-white group-hover/bar:bg-green-500 transition-colors relative"
                                     style={{ width: `${progress}%` }}
@@ -141,8 +195,8 @@ export function FavoriteSong() {
                                 </div>
                             </div>
                             <div className="flex justify-between text-xs font-mono text-neutral-500">
-                                <span>{Math.floor((parseInt(SONG.duration.split(":")[0]) * 60 + parseInt(SONG.duration.split(":")[1])) * (progress / 100) / 60)}:{Math.floor((parseInt(SONG.duration.split(":")[0]) * 60 + parseInt(SONG.duration.split(":")[1])) * (progress / 100) % 60).toString().padStart(2, '0')}</span>
-                                <span>{SONG.duration}</span>
+                                <span>{formatTime(duration * (progress / 100))}</span>
+                                <span>{formatTime(duration)}</span>
                             </div>
                         </div>
 
@@ -151,7 +205,7 @@ export function FavoriteSong() {
                             <Shuffle size={20} className="text-neutral-500 hover:text-white cursor-pointer transition-colors" />
                             <SkipBack size={24} className="text-neutral-300 hover:text-white cursor-pointer transition-colors" />
                             <button
-                                onClick={() => setIsPlaying(!isPlaying)}
+                                onClick={togglePlay}
                                 className="w-12 h-12 rounded-full bg-white text-black flex items-center justify-center hover:scale-105 transition-transform active:scale-95"
                             >
                                 {isPlaying ? <Pause size={20} fill="currentColor" /> : <Play size={20} fill="currentColor" className="ml-1" />}
@@ -182,8 +236,8 @@ export function FavoriteSong() {
                                 key={i}
                                 className={cn(
                                     "text-xl md:text-2xl font-bold transition-all duration-300 cursor-default hover:text-white",
-                                    // Highlight stylistic logic simulation
-                                    i === Math.floor(progress / 5) % SONG.lyrics.length
+                                    // simple lyric sync simulation based on progress chunks
+                                    i === Math.floor((progress / 100) * SONG.lyrics.length)
                                         ? "text-white scale-100 opacity-100 origin-left"
                                         : "text-neutral-500 scale-95 opacity-50 blur-[0.5px]"
                                 )}
