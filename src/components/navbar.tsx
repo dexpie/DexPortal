@@ -5,12 +5,14 @@ import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import { Trophy } from "lucide-react";
 import { StatusMonitor } from "@/components/status-monitor";
+import { LivePresence } from "@/components/live-presence";
 import { ThemeToggle } from "@/components/theme-toggle";
 import Magnetic from "@/components/magnetic";
 import { cn } from "@/lib/utils";
 import { useClickSound } from "@/lib/use-click-sound";
 
 const navLinks = [
+    { href: "/dashboard", label: "Dashboard" },
     { href: "/about", label: "About" },
     { href: "/blog", label: "Blog" },
     { href: "/guestbook", label: "Guestbook" },
@@ -106,6 +108,9 @@ export function Navbar() {
                         </button>
                         <div className="hidden sm:block">
                             <ThemeToggle />
+                        </div>
+                        <div className="hidden md:block">
+                            <LivePresence className="border-none bg-transparent shadow-none p-0" />
                         </div>
                         <StatusMonitor />
                     </div>

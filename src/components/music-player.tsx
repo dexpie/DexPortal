@@ -70,7 +70,7 @@ export function MusicPlayer() {
     }, []);
 
     return (
-        <div className="fixed bottom-6 right-6 z-40">
+        <div className="fixed bottom-8 right-8 z-40">
             <audio ref={audioRef} src={FALLBACK_TRACK} loop />
 
             <motion.div

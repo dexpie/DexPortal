@@ -7,10 +7,10 @@ import { useState } from "react";
 const socials = [
     { icon: Github, href: "https://github.com/dexpie", label: "GitHub", color: "#ffffff" },
     { icon: Twitter, href: "https://twitter.com/dexpie", label: "Twitter", color: "#1da1f2" },
-    { icon: Linkedin, href: "https://linkedin.com/in/dexpie", label: "LinkedIn", color: "#0a66c2" },
-    { icon: Instagram, href: "https://instagram.com/dexpie", label: "Instagram", color: "#e4405f" },
+    { icon: Linkedin, href: "https://www.linkedin.com/in/gading-putra-priyanto/", label: "LinkedIn", color: "#0a66c2" },
+    { icon: Instagram, href: "https://instagram.com/oldest.in", label: "Instagram", color: "#e4405f" },
     { icon: Youtube, href: "https://youtube.com/@dexpie", label: "YouTube", color: "#ff0000" },
-    { icon: Mail, href: "mailto:hello@dexpie.dev", label: "Email", color: "#06b6d4" },
+    { icon: Mail, href: "mailto:d.dexpiee@gmail.com", label: "Email", color: "#06b6d4" },
 ];
 
 export function SocialDock() {

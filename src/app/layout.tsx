@@ -36,12 +36,9 @@ import { TicTacToe } from "@/components/tic-tac-toe";
 import { JsonLd } from "@/components/json-ld";
 import { Toaster } from "sonner";
 import { SmoothScroll } from "@/components/smooth-scroll";
-import { LivePresence } from "@/components/live-presence";
 import { GhostCursors } from "@/components/ghost-cursors";
-import { ActivityFeed } from "@/components/activity-feed";
 import { InspectorMode } from "@/components/inspector-mode";
 import { TechScanner } from "@/components/tech-scanner";
-import { ThemeEngine } from "@/components/theme-engine";
 import { SourceCodeModal } from "@/components/source-code-modal";
 
 const outfit = Outfit({
@@ -82,7 +79,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "DexPie Portfolio | Creative Technologist",
     description: "Exploring the frontiers of web development, AI, and digital experiences.",
-    url: "https://dexportal.vercel.app",
+    url: "https://dexpie.web.id",
     siteName: "DexPortal",
     locale: "en_US",
     type: "website",
@@ -161,12 +158,11 @@ export default function RootLayout({
               <ZenMode />
               <KeyboardVisualizer />
               <TicTacToe />
-              <LivePresence />
+              <KeyboardVisualizer />
+              <TicTacToe />
               <GhostCursors />
-              <ActivityFeed />
               <InspectorMode />
               <TechScanner />
-              <ThemeEngine />
               <SourceCodeModal />
 
               {/* Corner Utilities */}

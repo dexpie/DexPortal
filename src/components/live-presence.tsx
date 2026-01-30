@@ -3,8 +3,13 @@
 import { useEffect, useState } from "react";
 import { Users } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { cn } from "@/lib/utils";
 
-export function LivePresence() {
+interface LivePresenceProps {
+    className?: string;
+}
+
+export function LivePresence({ className }: LivePresenceProps) {
     const [count, setCount] = useState(3);
 
     useEffect(() => {
@@ -20,7 +25,7 @@ export function LivePresence() {
     }, []);
 
     return (
-        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 md:left-auto md:right-24 md:translate-x-0 z-40 bg-black/50 backdrop-blur-md border border-white/10 px-3 py-1.5 rounded-full flex items-center gap-2 shadow-lg w-fit">
+        <div className={cn("flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 shadow-sm", className)}>
             <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>

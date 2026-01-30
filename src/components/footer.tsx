@@ -19,7 +19,7 @@ const footerLinks = [
 const socialLinks = [
     { icon: Github, href: "https://github.com/dexpie", label: "GitHub" },
     { icon: Twitter, href: "https://twitter.com/dexpie", label: "Twitter" },
-    { icon: Mail, href: "mailto:hello@dexpie.dev", label: "Email" },
+    { icon: Mail, href: "mailto:d.dexpiee@gmail.com", label: "Email" },
 ];
 
 export function Footer() {
@@ -72,7 +72,7 @@ export function Footer() {
                             Ready to start your next project? Drop a line or check out my resume.
                         </p>
                         <div className="flex gap-4 mt-8">
-                            <a href="mailto:hello@dexpie.dev">
+                            <a href="mailto:d.dexpiee@gmail.com">
                                 <Button className="rounded-full bg-cyan-600 hover:bg-cyan-500 text-white px-8 h-12">
                                     Send an Email
                                 </Button>

@@ -3,12 +3,12 @@ export function JsonLd() {
         "@context": "https://schema.org",
         "@type": "Person",
         "name": "Gading (DexPie)",
-        "url": "https://dexportal.vercel.app",
+        "url": "https://dexpie.web.id",
         "sameAs": [
             "https://github.com/dexpie",
             "https://twitter.com/dexpie",
-            "https://linkedin.com/in/dexpie",
-            "https://instagram.com/dexpie"
+            "https://www.linkedin.com/in/gading-putra-priyanto/",
+            "https://instagram.com/oldest.in"
         ],
         "jobTitle": "Creative Technologist",
         "worksFor": {
@@ -16,11 +16,11 @@ export function JsonLd() {
             "name": "Freelance"
         },
         "description": "Creative Technologist and Full Stack Developer specializing in modern web experiences.",
-        "image": "https://dexportal.vercel.app/avatar.png",
+        "image": "https://dexpie.web.id/avatar.png",
         "website": {
             "@type": "WebSite",
             "name": "DexPortal",
-            "url": "https://dexportal.vercel.app",
+            "url": "https://dexpie.web.id",
             "author": {
                 "@type": "Person",
                 "name": "Gading"

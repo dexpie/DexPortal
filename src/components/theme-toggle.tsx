@@ -2,9 +2,9 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Sun, Moon, Monitor } from "lucide-react";
+import { Sun, Moon } from "lucide-react";
 
-type Theme = "dark" | "light" | "system";
+type Theme = "dark" | "light";
 
 export function ThemeToggle() {
     const [theme, setTheme] = useState<Theme>("dark");
@@ -21,18 +21,14 @@ export function ThemeToggle() {
 
     const applyTheme = (newTheme: Theme) => {
         const root = document.documentElement;
-        const isDark = newTheme === "dark" ||
-            (newTheme === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches);
+        const isDark = newTheme === "dark";
 
         root.classList.toggle("light", !isDark);
         root.classList.toggle("dark", isDark);
     };
 
     const cycleTheme = () => {
-        const themes: Theme[] = ["dark", "light", "system"];
-        const currentIndex = themes.indexOf(theme);
-        const nextTheme = themes[(currentIndex + 1) % themes.length];
-
+        const nextTheme = theme === "dark" ? "light" : "dark";
         setTheme(nextTheme);
         localStorage.setItem("theme", nextTheme);
         applyTheme(nextTheme);
@@ -43,7 +39,6 @@ export function ThemeToggle() {
     const icons = {
         dark: Moon,
         light: Sun,
-        system: Monitor,
     };
 
     const Icon = icons[theme];

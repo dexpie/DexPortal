@@ -127,8 +127,8 @@ function SocialsCell() {
     const socials = [
         { icon: Github, href: "https://github.com/dexpie", color: "hover:text-white" },
         { icon: Twitter, href: "https://twitter.com/dexpie", color: "hover:text-blue-400" },
-        { icon: Linkedin, href: "https://linkedin.com/in/dexpie", color: "hover:text-blue-600" },
-        { icon: Mail, href: "mailto:hello@dexpie.dev", color: "hover:text-red-400" },
+        { icon: Linkedin, href: "https://www.linkedin.com/in/gading-putra-priyanto/", color: "hover:text-blue-600" },
+        { icon: Mail, href: "mailto:d.dexpiee@gmail.com", color: "hover:text-red-400" },
     ];
 
     return (

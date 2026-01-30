@@ -51,8 +51,8 @@ export function InspectorMode() {
 
     return (
         <>
-            {/* Inspector Toggle Indicator (Bottom Right) */}
-            <div className="fixed bottom-6 right-20 z-50">
+            {/* Inspector Toggle Indicator (Bottom Left, next to Zen Mode) */}
+            <div className="fixed bottom-6 left-20 z-50">
                 <button
                     onClick={() => setInspectorActive(!inspectorActive)}
                     className={`p-2 rounded-full transition-all duration-300 border ${inspectorActive

@@ -51,7 +51,7 @@ export default function ResumePage() {
                                 <p className="text-cyan-400 text-lg mb-4">Creative Technologist & Full-Stack Developer</p>
                                 <div className="text-sm text-neutral-400 space-y-1">
                                     <p>Indonesia</p>
-                                    <a href="mailto:contact@dexpie.dev" className="hover:text-white transition-colors">contact@dexpie.dev</a>
+                                    <a href="mailto:d.dexpiee@gmail.com" className="hover:text-white transition-colors">d.dexpiee@gmail.com</a>
                                     <p>dexpie.dev</p>
                                 </div>
                             </div>

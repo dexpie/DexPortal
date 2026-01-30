@@ -39,7 +39,7 @@ export default function AboutPage() {
 
                         <div className="flex flex-wrap gap-4">
                             <a
-                                href="mailto:contact@dexpie.dev"
+                                href="mailto:d.dexpiee@gmail.com"
                                 className="flex items-center gap-2 px-4 py-2 bg-cyan-600 hover:bg-cyan-500 rounded-lg font-medium transition-colors"
                             >
                                 <Mail size={18} />
@@ -104,10 +104,10 @@ export default function AboutPage() {
                         <a href="https://github.com/dexpie" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-neutral-400 hover:text-white transition-all">
                             <Github size={24} />
                         </a>
-                        <a href="https://linkedin.com/in/dexpie" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-neutral-400 hover:text-white transition-all">
+                        <a href="https://www.linkedin.com/in/gading-putra-priyanto/" target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-neutral-400 hover:text-white transition-all">
                             <Linkedin size={24} />
                         </a>
-                        <a href="mailto:contact@dexpie.dev" className="w-12 h-12 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-neutral-400 hover:text-white transition-all">
+                        <a href="mailto:d.dexpiee@gmail.com" className="w-12 h-12 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-neutral-400 hover:text-white transition-all">
                             <Mail size={24} />
                         </a>
                     </div>

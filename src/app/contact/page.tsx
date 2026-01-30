@@ -67,8 +67,8 @@ export default function ContactPage() {
                             <div className="p-4 rounded-xl bg-white/5 border border-white/10">
                                 <Mail className="text-cyan-400 mb-3" size={24} />
                                 <h3 className="font-bold mb-1">Email</h3>
-                                <a href="mailto:contact@dexpie.dev" className="text-sm text-neutral-400 hover:text-cyan-400 transition-colors">
-                                    contact@dexpie.dev
+                                <a href="mailto:d.dexpiee@gmail.com" className="text-sm text-neutral-400 hover:text-cyan-400 transition-colors">
+                                    d.dexpiee@gmail.com
                                 </a>
                             </div>
                             <div className="p-4 rounded-xl bg-white/5 border border-white/10">

@@ -2,13 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Briefcase, BookOpen, MessageSquare, User, Mail } from "lucide-react";
+import { Home, Briefcase, BookOpen, MessageSquare, User, Mail, Activity } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 
 const navItems = [
     { href: "/", icon: Home, label: "Home" },
     { href: "/about", icon: User, label: "About" },
+    { href: "/dashboard", icon: Activity, label: "Stats" },
     { href: "/blog", icon: BookOpen, label: "Blog" },
     { href: "/guestbook", icon: MessageSquare, label: "Guest" },
     { href: "/contact", icon: Mail, label: "Contact" },
