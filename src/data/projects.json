@@ -1,8 +1,60 @@
 [
   {
+    "id": "dexkomik",
+    "title": "DexKomik",
+    "description": "Your manga and comic reading portal with a fast reader, scraping pipeline, and a cleaner browsing flow for long reading sessions.",
+    "href": "https://dexkomik.vercel.app",
+    "githubUrl": "https://github.com/dexpie/dexkomik",
+    "category": "Manga",
+    "status": "Live",
+    "previewImage": "/previews/dexkomik.png",
+    "techStack": [
+      "Next.js",
+      "Cheerio",
+      "Puppeteer",
+      "Vercel"
+    ],
+    "likes": 143,
+    "content": "## The Reading Experience\nDexKomik provides a distraction-free environment for reading manga and comics with fast navigation, clean chapter pages, and a responsive reader.\n\n### Technical Challenges\nThe main challenge was building a robust scraping engine that can parse content quickly while keeping the interface smooth. Server-side caching and optimized parsing help keep browsing fast."
+  },
+  {
+    "id": "dexanime",
+    "title": "DexAnime",
+    "description": "An anime streaming-style web app with cinematic UI, discovery pages, smooth transitions, and a large content browsing experience.",
+    "href": "https://dex-anime.vercel.app",
+    "githubUrl": "https://github.com/dexpie/dexanime",
+    "category": "Anime",
+    "status": "Live",
+    "techStack": [
+      "Next.js",
+      "Consumet API",
+      "Framer Motion",
+      "Shadcn"
+    ],
+    "likes": 258,
+    "content": "## Streaming Next-Gen\nDexAnime brings a cinematic anime browsing experience to the web.\n\n### UI/UX Design\nThe interface is designed to feel immersive, with dark surfaces, motion-driven transitions, and a content-first layout for exploring shows quickly."
+  },
+  {
+    "id": "dexfilm",
+    "title": "DexFilm",
+    "description": "A movie discovery and watchlist experience for browsing films, checking details, and keeping entertainment picks organized.",
+    "href": "#",
+    "githubUrl": "https://github.com/dexpie/dexfilm",
+    "category": "Movie",
+    "status": "Development",
+    "techStack": [
+      "Next.js",
+      "TypeScript",
+      "TMDB API",
+      "Tailwind"
+    ],
+    "likes": 96,
+    "content": "## Overview\nDexFilm is the movie-side sibling of the Dex entertainment projects. It is shaped around discovery, detail pages, and a simple flow for finding what to watch next.\n\n### Planned Features\n- **Movie discovery**: browse trending, popular, and genre-based films.\n- **Detail pages**: cast, synopsis, rating, and related titles.\n- **Watchlist flow**: keep favorite films organized for later."
+  },
+  {
     "id": "dexpdf",
     "title": "DexPDF",
-    "description": "A comprehensive PDF management tool for organizing, converting, and editing PDF documents seamlessly.",
+    "description": "A privacy-friendly PDF management tool for organizing, converting, merging, splitting, and editing PDF documents in the browser.",
     "href": "https://dexpdf.vercel.app",
     "githubUrl": "https://github.com/dexpie/dexpdf",
     "category": "Tool",
@@ -15,49 +67,48 @@
       "Tailwind"
     ],
     "likes": 124,
-    "content": "## Overview\nCheck out **DexPDF**, the ultimate tool for handling PDF files locally in your browser. No data leaves your device, ensuring maximum privacy and security.\n\n### Key Features\n- **Client-Side Processing**: All operations happen in your browser.\n- **Merge & Split**: Combine multiple PDFs or extract pages with ease.\n- **Image to PDF**: Convert your images into professional documents."
+    "content": "## Overview\nDexPDF is a browser-based PDF utility for handling documents locally and quickly.\n\n### Key Features\n- **Client-side processing**: file operations can happen in the browser.\n- **Merge and split**: combine files or extract pages.\n- **Image to PDF**: turn images into shareable documents."
   },
   {
-    "id": "dexkomik",
-    "title": "DexKomik",
-    "description": "Your ultimate portal for manga and comic reading, featuring a vast library and intuitive reader.",
-    "href": "https://dexkomik.vercel.app",
-    "githubUrl": "https://github.com/dexpie/dexkomik",
-    "category": "Manga",
-    "status": "Live",
-    "previewImage": "/previews/dexkomik.png",
+    "id": "dexfilemanager",
+    "title": "DexFileManager",
+    "description": "A file management utility for organizing uploads, browsing assets, and building a cleaner file workflow.",
+    "href": "#",
+    "githubUrl": "https://github.com/dexpie/DexFileManager",
+    "category": "Tool",
+    "status": "Development",
     "techStack": [
-      "Next.js",
-      "Cheerio",
-      "Puppeteer",
-      "Vercel"
+      "React",
+      "TypeScript",
+      "File API",
+      "Tailwind"
     ],
-    "likes": 89,
-    "content": "## The Reading Experience\nDexKomik provides a distraction-free environment for reading your favorite manga. \n\n### Technical Challenges\nBuilding a robust scraping engine that respects rate limits while delivering fast content was the main challenge. We utilized **server-side caching** and optimized parsing logic to achieve sub-second load times."
+    "likes": 61,
+    "content": "## Overview\nDexFileManager is a utility project for making file workflows easier to browse, organize, and maintain.\n\n### Focus Areas\n- **Asset organization**: cleaner file listing and metadata surfaces.\n- **Upload workflows**: predictable file handling flows.\n- **Utility-first UI**: dense, practical interfaces for repeated use."
   },
   {
-    "id": "dexanime",
-    "title": "DexAnime",
-    "description": "Premium anime streaming platform with immersive UI and vast collection.",
-    "href": "https://dex-anime.vercel.app",
-    "githubUrl": "https://github.com/dexpie/dexanime",
-    "category": "Web App",
-    "status": "Live",
+    "id": "dexautoeda",
+    "title": "DexAutoEDA",
+    "description": "An automated exploratory data analysis tool for turning raw datasets into useful summaries, visuals, and early insights.",
+    "href": "#",
+    "githubUrl": "https://github.com/dexpie/DexAutoEDA",
+    "category": "Data",
+    "status": "Development",
     "techStack": [
-      "Next.js",
-      "Consumet API",
-      "Framer Motion",
-      "Shadcn"
+      "Python",
+      "Pandas",
+      "Streamlit",
+      "Plotly"
     ],
-    "likes": 257,
-    "content": "## Streaming Next-Gen\nDexAnime brings a Netflix-like experience to anime streaming. \n\n### UI/UX Design\nThe interface is designed to be immersive, with auto-playing trailers, smooth transitions powered by **Framer Motion**, and a dark, cinematic aesthetic."
+    "likes": 53,
+    "content": "## Overview\nDexAutoEDA helps speed up the early stage of data exploration by generating summaries, charts, and useful signals from datasets.\n\n### Focus Areas\n- **Dataset profiling**: surface missing values, types, distributions, and correlations.\n- **Automatic charts**: generate starter visuals for quick analysis.\n- **Insight workflow**: reduce setup time before deeper modeling or reporting."
   },
   {
     "id": "dexkasir",
     "title": "DexKasir",
-    "description": "An advanced POS utility for managing inventory, sales, and employee shifts.",
+    "description": "A POS utility for managing inventory, sales, cashier workflows, and employee shifts.",
     "href": "#",
-    "githubUrl": "https://github.com/dexpie/dexkasir",
+    "githubUrl": "https://github.com/dexpie/DexKasir",
     "category": "Web App",
     "status": "Development",
     "techStack": [
@@ -66,14 +117,15 @@
       "PostgreSQL",
       "React"
     ],
-    "likes": 42
+    "likes": 42,
+    "content": "## Overview\nDexKasir is a point-of-sale project focused on practical store operations.\n\n### Core Ideas\n- **Sales flow**: transaction handling for cashier workflows.\n- **Inventory**: item, stock, and catalog management.\n- **Operations**: employee shifts and daily reporting."
   },
   {
     "id": "dexscrapper",
     "title": "DexScrapper",
-    "description": "High-performance web scraping engine with AI capabilities.",
+    "description": "A high-performance scraping engine for collecting web data, automating extraction, and preparing content pipelines.",
     "href": "#",
-    "githubUrl": "https://github.com/dexpie/dexscrapper",
+    "githubUrl": "https://github.com/dexpie/DexScrapper",
     "category": "Tool",
     "status": "Development",
     "techStack": [
@@ -82,6 +134,7 @@
       "OpenAI API",
       "FastAPI"
     ],
-    "likes": 15
+    "likes": 35,
+    "content": "## Overview\nDexScrapper is a data extraction utility for scraping, parsing, and preparing web data.\n\n### Focus Areas\n- **Automation**: repeatable scraping workflows.\n- **Parsing**: extract useful fields from messy pages.\n- **API layer**: expose scraping jobs through service endpoints."
   }
 ]

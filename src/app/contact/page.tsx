@@ -1,138 +1,155 @@
 "use client";
 
 import { useState } from "react";
-import { Navbar } from "@/components/navbar";
-import { Footer } from "@/components/footer";
 import Link from "next/link";
-import { ArrowLeft, Send, Mail, MapPin, Clock } from "lucide-react";
+import { ArrowLeft, Clock, Mail, MapPin, Send } from "lucide-react";
 import { toast } from "sonner";
+import { Footer } from "@/components/footer";
+import { Navbar } from "@/components/navbar";
 
 export default function ContactPage() {
-    const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
-    const [message, setMessage] = useState("");
-    const [isSending, setIsSending] = useState(false);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [isSending, setIsSending] = useState(false);
 
-    async function handleSubmit(e: React.FormEvent) {
-        e.preventDefault();
-        if (!name.trim() || !email.trim() || !message.trim()) {
-            toast.error("Please fill in all fields");
-            return;
-        }
+  async function handleSubmit(event: React.FormEvent) {
+    event.preventDefault();
 
-        setIsSending(true);
-        try {
-            const res = await fetch("/api/contact", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ name, email, message }),
-            });
-
-            if (res.ok) {
-                toast.success("Message sent! I'll get back to you soon 🚀");
-                setName("");
-                setEmail("");
-                setMessage("");
-            } else {
-                toast.error("Failed to send message");
-            }
-        } catch (error) {
-            toast.error("Connection failed");
-        } finally {
-            setIsSending(false);
-        }
+    if (!name.trim() || !email.trim() || !message.trim()) {
+      toast.error("Please fill in all fields");
+      return;
     }
 
-    return (
-        <main className="min-h-screen bg-background text-foreground">
-            <Navbar />
+    setIsSending(true);
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, message }),
+      });
 
-            <section className="container mx-auto px-6 pt-32 pb-20">
-                <Link href="/" className="inline-flex items-center gap-2 text-sm text-neutral-500 hover:text-cyan-400 transition-colors mb-8">
-                    <ArrowLeft size={16} />
-                    <span>Back to Portal</span>
-                </Link>
+      if (response.ok) {
+        toast.success("Message sent. I will get back to you soon.");
+        setName("");
+        setEmail("");
+        setMessage("");
+      } else {
+        toast.error("Failed to send message");
+      }
+    } catch {
+      toast.error("Connection failed");
+    } finally {
+      setIsSending(false);
+    }
+  }
 
-                <div className="max-w-4xl mx-auto">
-                    <h1 className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-b from-white to-neutral-500 mb-6">
-                        Get in Touch
-                    </h1>
-                    <p className="text-lg text-neutral-400 mb-12">
-                        Have a project in mind or just want to say hi? I&apos;d love to hear from you.
-                    </p>
+  return (
+    <>
+      <Navbar />
+      <main className="soft-grid relative min-h-screen overflow-x-hidden bg-[var(--background)] text-[var(--foreground)]">
+        <div className="grain-overlay pointer-events-none absolute inset-0" />
+        <section className="relative mx-auto max-w-6xl px-6 pb-24 pt-32">
+          <Link
+            href="/"
+            className="mb-10 inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--card)] px-4 py-2 text-sm font-bold text-[var(--muted-foreground)] transition-colors hover:border-[var(--primary)] hover:text-[var(--foreground)]"
+          >
+            <ArrowLeft size={16} />
+            Back to portal
+          </Link>
 
-                    <div className="grid md:grid-cols-3 gap-8">
-                        {/* Contact Info */}
-                        <div className="space-y-6">
-                            <div className="p-4 rounded-xl bg-white/5 border border-white/10">
-                                <Mail className="text-cyan-400 mb-3" size={24} />
-                                <h3 className="font-bold mb-1">Email</h3>
-                                <a href="mailto:d.dexpiee@gmail.com" className="text-sm text-neutral-400 hover:text-cyan-400 transition-colors">
-                                    d.dexpiee@gmail.com
-                                </a>
-                            </div>
-                            <div className="p-4 rounded-xl bg-white/5 border border-white/10">
-                                <MapPin className="text-cyan-400 mb-3" size={24} />
-                                <h3 className="font-bold mb-1">Location</h3>
-                                <p className="text-sm text-neutral-400">Indonesia 🇮🇩</p>
-                            </div>
-                            <div className="p-4 rounded-xl bg-white/5 border border-white/10">
-                                <Clock className="text-cyan-400 mb-3" size={24} />
-                                <h3 className="font-bold mb-1">Response Time</h3>
-                                <p className="text-sm text-neutral-400">Usually within 24 hours</p>
-                            </div>
-                        </div>
+          <div className="grid gap-8 border-t border-[var(--border)] pt-10 lg:grid-cols-[minmax(0,0.72fr)_minmax(360px,0.58fr)]">
+            <div>
+              <p className="mb-4 text-sm font-bold uppercase tracking-[0.28em] text-[var(--primary)]">Contact</p>
+              <h1 className="section-heading font-heading font-extrabold">
+                Send the messy brief.
+              </h1>
+              <p className="mt-7 max-w-2xl text-xl leading-9 text-[var(--muted-foreground)]">
+                Project idea, collaboration, feedback, or just a quick hello. Keep it rough, I can help shape it.
+              </p>
 
-                        {/* Contact Form */}
-                        <form onSubmit={handleSubmit} className="md:col-span-2 space-y-6">
-                            <div className="grid md:grid-cols-2 gap-6">
-                                <div>
-                                    <label className="block text-sm font-medium mb-2">Name</label>
-                                    <input
-                                        type="text"
-                                        value={name}
-                                        onChange={(e) => setName(e.target.value)}
-                                        placeholder="Your name"
-                                        className="w-full bg-black/40 border border-white/10 rounded-lg px-4 py-3 focus:border-cyan-500 outline-none transition-colors"
-                                        required
-                                    />
-                                </div>
-                                <div>
-                                    <label className="block text-sm font-medium mb-2">Email</label>
-                                    <input
-                                        type="email"
-                                        value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
-                                        placeholder="you@example.com"
-                                        className="w-full bg-black/40 border border-white/10 rounded-lg px-4 py-3 focus:border-cyan-500 outline-none transition-colors"
-                                        required
-                                    />
-                                </div>
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium mb-2">Message</label>
-                                <textarea
-                                    value={message}
-                                    onChange={(e) => setMessage(e.target.value)}
-                                    placeholder="Tell me about your project..."
-                                    rows={6}
-                                    className="w-full bg-black/40 border border-white/10 rounded-lg px-4 py-3 focus:border-cyan-500 outline-none transition-colors resize-none"
-                                    required
-                                />
-                            </div>
-                            <button
-                                type="submit"
-                                disabled={isSending}
-                                className="w-full md:w-auto bg-cyan-600 hover:bg-cyan-500 text-white px-8 py-3 rounded-lg font-medium flex items-center justify-center gap-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-                            >
-                                {isSending ? "Sending..." : <><Send size={18} /> Send Message</>}
-                            </button>
-                        </form>
-                    </div>
+              <div className="mt-10 grid gap-4 sm:grid-cols-3">
+                <div className="rounded-[1.5rem] border border-[var(--border)] bg-[var(--card)] p-5">
+                  <Mail className="text-[var(--primary)]" size={22} />
+                  <p className="mt-4 text-sm font-bold">Email</p>
+                  <a href="mailto:d.dexpiee@gmail.com" className="mt-1 block text-sm text-[var(--muted-foreground)] hover:text-[var(--primary)]">
+                    d.dexpiee@gmail.com
+                  </a>
                 </div>
-            </section>
+                <div className="rounded-[1.5rem] border border-[var(--border)] bg-[var(--card)] p-5">
+                  <MapPin className="text-[var(--secondary)]" size={22} />
+                  <p className="mt-4 text-sm font-bold">Base</p>
+                  <p className="mt-1 text-sm text-[var(--muted-foreground)]">Jakarta, Indonesia</p>
+                </div>
+                <div className="rounded-[1.5rem] border border-[var(--border)] bg-[var(--card)] p-5">
+                  <Clock className="text-[var(--accent)]" size={22} />
+                  <p className="mt-4 text-sm font-bold">Reply</p>
+                  <p className="mt-1 text-sm text-[var(--muted-foreground)]">Usually within a day</p>
+                </div>
+              </div>
+            </div>
 
-            <Footer />
-        </main>
-    );
+            <form
+              onSubmit={handleSubmit}
+              className="rounded-[2rem] border border-[var(--border)] bg-[var(--card)] p-5 shadow-2xl shadow-black/10 md:p-7"
+            >
+              <div className="grid gap-5">
+                <label className="block">
+                  <span className="mb-2 block text-sm font-bold text-[var(--foreground)]">Name</span>
+                  <input
+                    type="text"
+                    value={name}
+                    onChange={(event) => setName(event.target.value)}
+                    placeholder="Your name"
+                    className="w-full rounded-2xl border border-[var(--border)] bg-[var(--background)] px-4 py-3 text-[var(--foreground)] outline-none transition-colors placeholder:text-[var(--muted-foreground)] focus:border-[var(--primary)]"
+                    required
+                  />
+                </label>
+
+                <label className="block">
+                  <span className="mb-2 block text-sm font-bold text-[var(--foreground)]">Email</span>
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(event) => setEmail(event.target.value)}
+                    placeholder="you@example.com"
+                    className="w-full rounded-2xl border border-[var(--border)] bg-[var(--background)] px-4 py-3 text-[var(--foreground)] outline-none transition-colors placeholder:text-[var(--muted-foreground)] focus:border-[var(--primary)]"
+                    required
+                  />
+                </label>
+
+                <label className="block">
+                  <span className="mb-2 block text-sm font-bold text-[var(--foreground)]">Message</span>
+                  <textarea
+                    value={message}
+                    onChange={(event) => setMessage(event.target.value)}
+                    placeholder="Tell me what you want to build..."
+                    rows={7}
+                    className="w-full resize-none rounded-2xl border border-[var(--border)] bg-[var(--background)] px-4 py-3 text-[var(--foreground)] outline-none transition-colors placeholder:text-[var(--muted-foreground)] focus:border-[var(--primary)]"
+                    required
+                  />
+                </label>
+              </div>
+
+              <button
+                type="submit"
+                disabled={isSending}
+                className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-[var(--foreground)] px-6 py-4 text-sm font-bold text-[var(--background)] transition-transform hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {isSending ? (
+                  "Sending..."
+                ) : (
+                  <>
+                    <Send size={17} />
+                    Send message
+                  </>
+                )}
+              </button>
+            </form>
+          </div>
+        </section>
+      </main>
+      <Footer />
+    </>
+  );
 }

@@ -3,7 +3,7 @@ export interface Project {
     title: string;
     description: string;
     href: string;
-    category: "Web App" | "Tool" | "Experiment" | "Game";
+    category: string;
     status: "Live" | "Development" | "Archived" | "Concept";
     previewImage?: string;
     techStack?: string[];

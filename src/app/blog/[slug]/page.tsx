@@ -1,110 +1,147 @@
-import { getBlogPosts } from "@/lib/blog";
-import { Navbar } from "@/components/navbar";
-import { Footer } from "@/components/footer";
-import { notFound } from "next/navigation";
+import type { ComponentPropsWithoutRef } from "react";
 import Link from "next/link";
-import { ArrowLeft, Clock, User, Calendar, Tag } from "lucide-react";
+import { notFound } from "next/navigation";
+import { ArrowLeft, Calendar, Clock, User } from "lucide-react";
 import { MDXRemote } from "next-mdx-remote/rsc";
+import { Footer } from "@/components/footer";
+import { Navbar } from "@/components/navbar";
+import { getBlogPosts } from "@/lib/blog";
 
 interface Props {
-    params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string }>;
 }
 
 export async function generateMetadata({ params }: Props) {
-    const { slug } = await params;
-    const posts = await getBlogPosts();
-    const post = posts.find(p => p.slug === slug);
+  const { slug } = await params;
+  const posts = await getBlogPosts();
+  const post = posts.find((item) => item.slug === slug);
 
-    if (!post) return { title: "Post Not Found" };
+  if (!post) return { title: "Post Not Found" };
 
-    return {
-        title: `${post.title} | DexPie Blog`,
-        description: post.excerpt,
-    };
+  return {
+    title: `${post.title} | DexPie Blog`,
+    description: post.excerpt,
+  };
 }
 
 const components = {
-    h1: (props: any) => <h1 {...props} className="text-3xl font-bold text-white mt-8 mb-4 border-b border-white/10 pb-2" />,
-    h2: (props: any) => <h2 {...props} className="text-2xl font-bold text-white mt-8 mb-4" />,
-    h3: (props: any) => <h3 {...props} className="text-xl font-bold text-cyan-400 mt-6 mb-3" />,
-    p: (props: any) => <p {...props} className="text-neutral-300 leading-relaxed mb-4" />,
-    ul: (props: any) => <ul {...props} className="list-disc list-inside text-neutral-300 mb-4 space-y-1 ml-4" />,
-    ol: (props: any) => <ol {...props} className="list-decimal list-inside text-neutral-300 mb-4 space-y-1 ml-4" />,
-    li: (props: any) => <li {...props} className="pl-1" />,
-    blockquote: (props: any) => <blockquote {...props} className="border-l-4 border-cyan-500 pl-4 italic text-neutral-400 my-6 bg-white/5 py-2 pr-2 rounded-r-lg" />,
-    code: (props: any) => <code {...props} className="bg-black/50 text-cyan-300 px-1 py-0.5 rounded text-sm font-mono border border-white/10" />,
-    pre: (props: any) => <pre {...props} className="bg-black/50 p-4 rounded-lg overflow-x-auto border border-white/10 mb-6 text-sm" />,
-    a: (props: any) => <a {...props} className="text-cyan-400 hover:text-cyan-300 transition-colors underline decoration-cyan-500/30 underline-offset-2" target="_blank" rel="noopener noreferrer" />,
-    table: (props: any) => <div className="overflow-x-auto mb-6"><table {...props} className="w-full text-left border-collapse border border-white/10" /></div>,
-    th: (props: any) => <th {...props} className="bg-white/5 border border-white/10 p-2 font-bold text-white" />,
-    td: (props: any) => <td {...props} className="border border-white/10 p-2 text-neutral-300" />,
+  h1: (props: ComponentPropsWithoutRef<"h1">) => (
+    <h1 {...props} className="mb-5 mt-10 border-b border-[var(--border)] pb-4 font-heading text-4xl font-black text-[var(--foreground)]" />
+  ),
+  h2: (props: ComponentPropsWithoutRef<"h2">) => (
+    <h2 {...props} className="mb-5 mt-12 font-heading text-3xl font-black text-[var(--foreground)]" />
+  ),
+  h3: (props: ComponentPropsWithoutRef<"h3">) => (
+    <h3 {...props} className="mb-4 mt-8 font-heading text-2xl font-bold text-[var(--foreground)]" />
+  ),
+  p: (props: ComponentPropsWithoutRef<"p">) => (
+    <p {...props} className="mb-6 text-lg leading-8 text-[var(--muted-foreground)]" />
+  ),
+  ul: (props: ComponentPropsWithoutRef<"ul">) => (
+    <ul {...props} className="mb-8 ml-5 list-disc space-y-3 text-lg leading-8 text-[var(--muted-foreground)]" />
+  ),
+  ol: (props: ComponentPropsWithoutRef<"ol">) => (
+    <ol {...props} className="mb-8 ml-5 list-decimal space-y-3 text-lg leading-8 text-[var(--muted-foreground)]" />
+  ),
+  li: (props: ComponentPropsWithoutRef<"li">) => <li {...props} className="pl-1" />,
+  blockquote: (props: ComponentPropsWithoutRef<"blockquote">) => (
+    <blockquote {...props} className="my-8 rounded-3xl border border-[var(--border)] bg-[var(--muted)] p-6 text-lg italic text-[var(--muted-foreground)]" />
+  ),
+  code: (props: ComponentPropsWithoutRef<"code">) => (
+    <code {...props} className="rounded-md border border-[var(--border)] bg-[var(--muted)] px-1.5 py-0.5 text-sm text-[var(--foreground)]" />
+  ),
+  pre: (props: ComponentPropsWithoutRef<"pre">) => (
+    <pre {...props} className="mb-8 overflow-x-auto rounded-3xl border border-[var(--border)] bg-[var(--card)] p-6 text-sm" />
+  ),
+  a: (props: ComponentPropsWithoutRef<"a">) => (
+    <a {...props} className="font-semibold text-[var(--primary)] underline underline-offset-4" target="_blank" rel="noopener noreferrer" />
+  ),
+  table: (props: ComponentPropsWithoutRef<"table">) => (
+    <div className="mb-8 overflow-x-auto rounded-3xl border border-[var(--border)]">
+      <table {...props} className="w-full border-collapse text-left" />
+    </div>
+  ),
+  th: (props: ComponentPropsWithoutRef<"th">) => (
+    <th {...props} className="border-b border-[var(--border)] bg-[var(--muted)] p-4 font-bold text-[var(--foreground)]" />
+  ),
+  td: (props: ComponentPropsWithoutRef<"td">) => (
+    <td {...props} className="border-b border-[var(--border)] p-4 text-[var(--muted-foreground)]" />
+  ),
 };
 
 export default async function BlogPostPage({ params }: Props) {
-    const { slug } = await params;
-    const posts = await getBlogPosts();
-    const post = posts.find(p => p.slug === slug);
+  const { slug } = await params;
+  const posts = await getBlogPosts();
+  const post = posts.find((item) => item.slug === slug);
 
-    if (!post) {
-        notFound();
-    }
+  if (!post) {
+    notFound();
+  }
 
-    return (
-        <main className="min-h-screen bg-background text-foreground">
-            <Navbar />
+  const morePosts = posts.filter((item) => item.slug !== post.slug).slice(0, 2);
 
-            <article className="container mx-auto px-6 pt-32 pb-20 max-w-3xl">
-                <Link href="/blog" className="inline-flex items-center gap-2 text-sm text-neutral-500 hover:text-cyan-400 transition-colors mb-8">
-                    <ArrowLeft size={16} />
-                    <span>Back to Blog</span>
+  return (
+    <>
+      <Navbar />
+      <main className="soft-grid relative min-h-screen overflow-x-hidden bg-[var(--background)] text-[var(--foreground)]">
+        <div className="grain-overlay pointer-events-none absolute inset-0" />
+        <article className="relative mx-auto max-w-4xl px-6 pb-24 pt-32">
+          <Link
+            href="/blog"
+            className="mb-10 inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--card)] px-4 py-2 text-sm font-bold text-[var(--muted-foreground)] transition-colors hover:border-[var(--primary)] hover:text-[var(--foreground)]"
+          >
+            <ArrowLeft size={16} />
+            Back to notes
+          </Link>
+
+          <header className="rounded-[2rem] border border-[var(--border)] bg-[var(--card)] p-7 md:p-10">
+            <span className="rounded-full border border-[var(--border)] bg-[var(--background)]/55 px-3 py-1 text-xs font-bold uppercase tracking-[0.18em] text-[var(--muted-foreground)]">
+              {post.category}
+            </span>
+            <h1 className="mt-8 font-heading text-5xl font-black leading-none md:text-7xl">
+              {post.title}
+            </h1>
+            <p className="mt-6 text-xl leading-9 text-[var(--muted-foreground)]">
+              {post.excerpt}
+            </p>
+
+            <div className="mt-8 flex flex-wrap gap-4 text-sm font-semibold text-[var(--muted-foreground)]">
+              <span className="inline-flex items-center gap-2">
+                <User size={16} />
+                {post.author}
+              </span>
+              <span className="inline-flex items-center gap-2">
+                <Calendar size={16} />
+                {post.date}
+              </span>
+              <span className="inline-flex items-center gap-2">
+                <Clock size={16} />
+                {post.readTime}
+              </span>
+            </div>
+          </header>
+
+          <div className="mt-8 rounded-[2rem] border border-[var(--border)] bg-[var(--card)] p-7 md:p-10">
+            <MDXRemote source={post.content} components={components} />
+          </div>
+
+          {morePosts.length > 0 && (
+            <section className="mt-8 grid gap-4 md:grid-cols-2">
+              {morePosts.map((item) => (
+                <Link
+                  key={item.id}
+                  href={`/blog/${item.slug}`}
+                  className="rounded-[1.75rem] border border-[var(--border)] bg-[var(--card)] p-6 transition-colors hover:border-[var(--primary)]"
+                >
+                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--muted-foreground)]">{item.category}</p>
+                  <h2 className="mt-4 font-heading text-2xl font-black leading-tight">{item.title}</h2>
                 </Link>
-
-                {/* Header */}
-                <header className="mb-12">
-                    <div className="flex items-center gap-3 mb-4">
-                        <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${post.category === "Changelog" ? "bg-green-500/10 text-green-400" :
-                            post.category === "Tutorial" ? "bg-blue-500/10 text-blue-400" :
-                                "bg-yellow-500/10 text-yellow-400"
-                            }`}>
-                            {post.category}
-                        </span>
-                    </div>
-
-                    <h1 className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-b from-white to-neutral-500 mb-6">
-                        {post.title}
-                    </h1>
-
-                    <div className="flex flex-wrap items-center gap-6 text-sm text-neutral-500">
-                        <div className="flex items-center gap-2">
-                            <User size={16} />
-                            <span>{post.author}</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                            <Calendar size={16} />
-                            <span>{post.date}</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                            <Clock size={16} />
-                            <span>{post.readTime}</span>
-                        </div>
-                    </div>
-                </header>
-
-                {/* Content */}
-                <div className="prose prose-invert prose-cyan max-w-none">
-                    <MDXRemote source={post.content} components={components} />
-                </div>
-
-                {/* Navigation */}
-                <div className="mt-16 pt-8 border-t border-white/10">
-                    <Link href="/blog" className="text-cyan-400 hover:text-cyan-300 flex items-center gap-2">
-                        <ArrowLeft size={16} />
-                        View all posts
-                    </Link>
-                </div>
-            </article>
-
-            <Footer />
-        </main>
-    );
+              ))}
+            </section>
+          )}
+        </article>
+      </main>
+      <Footer />
+    </>
+  );
 }

@@ -1,105 +1,79 @@
-"use client";
+import { ArrowDownRight, ArrowUpRight, Mail } from "lucide-react";
+import Image from "next/image";
 
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { useEffect } from "react";
-import { CreatorCard } from "./creator-card";
-import { GlitchText } from "./glitch-text";
-import { TypewriterText } from "./typewriter-text";
-import { AuroraBackground } from "./ui/aurora-background";
-import { Button } from "./ui/button";
-import { ArrowDown, Command } from "lucide-react";
-import { Spotlight } from "@/components/ui/spotlight";
+const floatingProjects = ["DexKomik", "DexAnime", "DexFilm", "DexPDF"];
 
 export function Hero() {
-    return (
-        <section
-            data-component="Hero"
-            data-type="Server Component (Async)"
-            className="relative min-h-[90vh] w-full overflow-hidden flex flex-col items-center justify-center"
-        >
-            <AuroraBackground className="absolute inset-0 z-0">
-                <Spotlight
-                    className="-top-40 left-0 md:left-60 md:-top-20"
-                    fill="white"
-                />
+  return (
+    <section className="relative w-full max-w-full overflow-hidden px-6 pb-10 pt-32 md:min-h-[820px] md:pt-36">
+      <div className="absolute right-[-10vw] top-28 h-[38vw] min-h-72 w-[38vw] min-w-72 rounded-full bg-[var(--primary)]/20 blur-3xl" />
+      <div className="absolute bottom-12 left-[-12vw] h-[30vw] min-h-64 w-[30vw] min-w-64 rounded-full bg-[var(--secondary)]/16 blur-3xl" />
 
-                <div className="relative z-10 flex flex-col md:flex-row items-center justify-center gap-12 px-6 h-full w-full max-w-7xl mx-auto">
+      <div className="relative mx-auto flex w-full max-w-6xl flex-col justify-between gap-10 md:min-h-[640px]">
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,0.95fr)_minmax(360px,0.72fr)] lg:items-center lg:gap-16">
+          <div className="relative z-10 min-w-0 max-w-[21rem] sm:max-w-full">
+            <p className="mb-6 inline-flex rounded-full border border-[var(--border)] bg-[var(--background)]/70 px-4 py-2 text-sm font-semibold text-[var(--muted-foreground)] backdrop-blur-md">
+              Full-stack developer from Jakarta
+            </p>
+            <h1 className="display-tight font-heading text-[clamp(4rem,9vw,9.25rem)] font-extrabold text-[var(--foreground)]">
+              DexPie
+            </h1>
+            <p className="mt-7 max-w-[21rem] text-lg leading-8 text-[var(--muted-foreground)] sm:max-w-2xl md:text-xl md:leading-9">
+              Simple web products with a little stage presence. I build readers, media apps, tools, and data utilities that feel clean, fast, and personal.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <a
+                href="#projects"
+                className="inline-flex items-center gap-2 rounded-full bg-[var(--foreground)] px-5 py-3 text-sm font-bold text-[var(--background)] transition-transform hover:-translate-y-0.5"
+              >
+                See projects
+                <ArrowDownRight size={17} />
+              </a>
+              <a
+                href="mailto:d.dexpiee@gmail.com"
+                className="inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--background)]/70 px-5 py-3 text-sm font-bold text-[var(--foreground)] backdrop-blur-md transition-colors hover:border-[var(--primary)]"
+              >
+                <Mail size={17} />
+                Contact
+              </a>
+            </div>
+          </div>
 
-                    {/* Left Content */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 40 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.3, duration: 0.8, ease: "easeOut" }}
-                        className="flex flex-col items-start gap-8 max-w-3xl"
-                    >
-                        {/* Premium Badge */}
-                        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-md text-xs font-mono tracking-widest text-neutral-300 uppercase shadow-[0_0_15px_rgba(6,182,212,0.1)] hover:shadow-[0_0_25px_rgba(6,182,212,0.2)] transition-shadow">
-                            <span className="relative flex h-2 w-2">
-                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
-                                <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
-                            </span>
-                            v2.0 System Online
-                        </div>
+          <div className="relative mx-auto min-h-[360px] w-full max-w-[22rem] lg:min-h-[520px] lg:max-w-[440px]">
+            <div className="absolute inset-x-8 bottom-0 top-8 rounded-[2.5rem] bg-[var(--primary)]" />
+            <div className="absolute inset-x-0 bottom-10 top-0 overflow-hidden rounded-[2.5rem] border border-[var(--border)] bg-[var(--card)] shadow-2xl shadow-black/10">
+              <Image
+                src="https://github.com/dexpie.png"
+                alt="DexPie portrait"
+                fill
+                priority
+                sizes="(max-width: 1024px) 90vw, 42vw"
+                className="object-cover grayscale-[15%]"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent" />
+            </div>
+            <div className="absolute bottom-0 left-1/2 flex w-[88%] -translate-x-1/2 items-center justify-between rounded-3xl border border-[var(--border)] bg-[var(--background)]/92 p-4 backdrop-blur-xl">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--muted-foreground)]">Currently</p>
+                <p className="mt-1 text-lg font-bold text-[var(--foreground)]">Building the Dex ecosystem</p>
+              </div>
+              <ArrowUpRight className="text-[var(--primary)]" size={24} />
+            </div>
+          </div>
+        </div>
 
-                        <h1 className="text-6xl md:text-9xl font-bold tracking-tighter text-white leading-[0.9] font-heading">
-                            Digital <br />
-                            <GlitchText text="Alchemist" />
-                        </h1>
-
-                        <div className="text-lg md:text-xl text-neutral-400 max-w-xl leading-relaxed font-light">
-                            <TypewriterText
-                                text="Crafting heavy-duty web experiences with a touch of magic. Full-stack developer based in Jakarta."
-                                delay={1000}
-                                speed={20}
-                            />
-                        </div>
-
-                        <div className="flex flex-wrap gap-4 mt-2">
-                            <Button
-                                size="lg"
-                                className="bg-white text-black hover:bg-neutral-200 rounded-full px-8 h-12 text-base font-bold shadow-[0_0_20px_rgba(255,255,255,0.3)] transition-transform hover:scale-105 active:scale-95"
-                                onClick={() => window.dispatchEvent(new KeyboardEvent("keydown", { shiftKey: true, key: "k" }))}
-                            >
-                                <Command className="mr-2 h-4 w-4" /> Open Command
-                            </Button>
-                            <Button
-                                variant="outline"
-                                size="lg"
-                                className="rounded-full px-8 h-12 border-white/10 hover:bg-white/5 text-white backdrop-blur-sm transition-transform hover:scale-105 active:scale-95"
-                                onClick={() => document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" })}
-                            >
-                                View Projects
-                            </Button>
-                        </div>
-                    </motion.div>
-
-                    {/* Right Content - 3D Card */}
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.8, rotate: -10 }}
-                        animate={{ opacity: 1, scale: 1, rotate: 0 }}
-                        transition={{ delay: 0.5, duration: 1, type: "spring" }}
-                        className="hidden lg:block relative z-20"
-                    >
-                        <div className="relative">
-                            <div className="absolute inset-0 bg-cyan-500/20 blur-[100px] rounded-full" />
-                            <CreatorCard />
-                        </div>
-                    </motion.div>
-
-                </div>
-
-                {/* Scroll Indicator */}
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 2, duration: 1 }}
-                    className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-neutral-500"
-                >
-                    <span className="text-[10px] uppercase tracking-[0.2em] font-mono">Scroll to Explore</span>
-                    <ArrowDown className="animate-bounce" size={16} />
-                </motion.div>
-
-            </AuroraBackground>
-        </section>
-    );
+        <div className="flex max-w-[22rem] flex-wrap items-center gap-3 border-t border-[var(--border)] pt-6 sm:max-w-full">
+          <span className="text-sm font-semibold uppercase tracking-[0.22em] text-[var(--muted-foreground)]">Featured</span>
+          {floatingProjects.map((project) => (
+            <span
+              key={project}
+              className="rounded-full border border-[var(--border)] bg-[var(--background)]/70 px-4 py-2 text-sm font-bold text-[var(--foreground)] backdrop-blur-md"
+            >
+              {project}
+            </span>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
 }

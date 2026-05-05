@@ -1,142 +1,183 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { ArrowUpRight } from "lucide-react";
+import type { MouseEvent } from "react";
+import {
+  ArrowUpRight,
+  BarChart3,
+  BookOpen,
+  Clapperboard,
+  FileText,
+  FolderOpen,
+  Heart,
+  Play,
+  Receipt,
+  ScanSearch,
+} from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { Project } from "@/lib/types";
 import { cn } from "@/lib/utils";
-import { TechBadge } from "@/components/tech-badge";
-import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
-import { Card3D } from "@/components/ui/card-3d";
 
 interface ProjectCardProps {
-    project: Project;
-    index: number;
+  project: Project;
+  index: number;
+  featured?: boolean;
 }
 
-export function ProjectCard({ project, index }: ProjectCardProps) {
-    const [likes, setLikes] = useState(project.likes || 0);
-    const [isLiked, setIsLiked] = useState(false);
+const projectIcons = {
+  dexkomik: BookOpen,
+  dexanime: Play,
+  dexfilm: Clapperboard,
+  dexpdf: FileText,
+  dexfilemanager: FolderOpen,
+  dexautoeda: BarChart3,
+  dexkasir: Receipt,
+  dexscrapper: ScanSearch,
+};
 
-    const handleLike = async (e: React.MouseEvent) => {
-        e.preventDefault();
-        e.stopPropagation();
+const panelColors = [
+  "bg-[var(--primary)]",
+  "bg-[var(--secondary)]",
+  "bg-[#8ab6ff]",
+  "bg-[var(--accent)]",
+  "bg-[#c7b7ff]",
+  "bg-[#ffb3c2]",
+];
 
-        if (isLiked) return;
+const statusStyles = {
+  Live: "border-[var(--primary)]/35 bg-[var(--primary)]/14 text-[var(--foreground)]",
+  Development: "border-[var(--secondary)]/35 bg-[var(--secondary)]/14 text-[var(--foreground)]",
+  Archived: "border-[var(--border)] bg-[var(--muted)] text-[var(--muted-foreground)]",
+  Concept: "border-[var(--accent)]/40 bg-[var(--accent)]/18 text-[var(--foreground)]",
+};
 
-        setIsLiked(true);
-        setLikes(prev => prev + 1);
+export function ProjectCard({ project, index, featured = false }: ProjectCardProps) {
+  const [likes, setLikes] = useState(project.likes || 0);
+  const [isLiked, setIsLiked] = useState(false);
+  const Icon = projectIcons[project.id as keyof typeof projectIcons] ?? ArrowUpRight;
+  const panelColor = panelColors[index % panelColors.length];
+  const detailHref = `/projects/${project.id}`;
 
-        try {
-            await fetch("/api/projects/like", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ id: project.id }),
-            });
-        } catch (error) {
-            setLikes(prev => prev - 1);
-            setIsLiked(false);
-        }
-    };
+  const handleLike = async (event: MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
 
-    return (
-        <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: index * 0.1 }}
-            className="h-full perspective-1000"
+    if (isLiked) return;
+
+    setIsLiked(true);
+    setLikes((prev) => prev + 1);
+
+    try {
+      const response = await fetch("/api/projects/like", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: project.id }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to like project");
+      }
+    } catch {
+      setLikes((prev) => prev - 1);
+      setIsLiked(false);
+    }
+  };
+
+  return (
+    <article
+      className={cn(
+        "group h-full overflow-hidden rounded-[1.75rem] border border-[var(--border)] bg-[var(--card)] shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-[var(--primary)]/45 hover:shadow-xl hover:shadow-black/10",
+        featured && "md:grid md:grid-cols-[minmax(0,1fr)_minmax(300px,0.78fr)]"
+      )}
+    >
+      <Link
+        href={detailHref}
+        className={cn(
+          "relative block min-h-[230px] overflow-hidden",
+          featured ? "md:min-h-[360px]" : "md:min-h-[250px]"
+        )}
+        aria-label={`Open ${project.title} project`}
+      >
+        <div className={cn("absolute inset-0 flex items-center justify-center", panelColor)}>
+          {project.previewImage ? (
+            <Image
+              src={project.previewImage}
+              alt={project.title}
+              fill
+              sizes={featured ? "(max-width: 768px) 100vw, 45vw" : "(max-width: 768px) 100vw, 30vw"}
+              className="object-cover transition-transform duration-500 group-hover:scale-105"
+            />
+          ) : (
+            <Icon className="h-20 w-20 text-white/35 transition-all duration-500 group-hover:scale-110 group-hover:text-white/60" />
+          )}
+        </div>
+        <div className="absolute inset-0 bg-gradient-to-br from-white/18 via-transparent to-black/16" />
+        <span className="absolute left-4 top-4 rounded-full bg-white/86 px-3 py-1 text-xs font-bold text-black shadow-sm backdrop-blur-md">
+          {project.category}
+        </span>
+        <span className="absolute bottom-4 right-4 flex h-11 w-11 items-center justify-center rounded-full bg-white/88 text-black shadow-sm backdrop-blur-md transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5">
+          <ArrowUpRight size={18} />
+        </span>
+      </Link>
+
+      <div className={cn("flex min-h-[285px] flex-col p-6", featured && "md:p-8")}>
+        <div className="flex items-start justify-between gap-5">
+          <div>
+            <span
+              className={cn(
+                "inline-flex rounded-full border px-3 py-1 text-xs font-bold",
+                statusStyles[project.status]
+              )}
+            >
+              {project.status}
+            </span>
+            <Link href={detailHref} className="mt-4 block">
+              <h3 className="font-heading text-2xl font-extrabold leading-none text-[var(--foreground)] transition-colors group-hover:text-[var(--primary)] md:text-3xl">
+                {project.title}
+              </h3>
+            </Link>
+          </div>
+
+          <button
+            onClick={handleLike}
+            className={cn(
+              "inline-flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-bold transition-colors",
+              isLiked
+                ? "border-[var(--secondary)] bg-[var(--secondary)] text-[var(--secondary-foreground)]"
+                : "border-[var(--border)] text-[var(--muted-foreground)] hover:border-[var(--primary)] hover:text-[var(--foreground)]"
+            )}
+            aria-label={`Like ${project.title}`}
+          >
+            <Heart size={14} fill={isLiked ? "currentColor" : "none"} />
+            {likes}
+          </button>
+        </div>
+
+        <p className="mt-4 line-clamp-4 text-base leading-7 text-[var(--muted-foreground)]">
+          {project.description}
+        </p>
+
+        {project.techStack && (
+          <div className="mt-5 flex flex-wrap gap-2">
+            {project.techStack.slice(0, featured ? 6 : 4).map((tech) => (
+              <span
+                key={tech}
+                className="rounded-full border border-[var(--border)] bg-[var(--background)]/45 px-3 py-1 text-xs font-semibold text-[var(--muted-foreground)]"
+              >
+                {tech}
+              </span>
+            ))}
+          </div>
+        )}
+
+        <Link
+          href={detailHref}
+          className="mt-auto inline-flex w-fit items-center gap-2 pt-6 text-sm font-bold text-[var(--foreground)] transition-colors hover:text-[var(--primary)]"
         >
-            <Card3D className="h-full">
-                <Link href={`/projects/${project.id}`} className="block group h-full">
-                    <HoverBorderGradient
-                        containerClassName="rounded-2xl h-full"
-                        className="h-full bg-black p-0 overflow-hidden flex flex-col"
-                        duration={1.5}
-                        as="div"
-                    >
-                        {/* Card Content Wrapper */}
-                        <div className="relative z-10 p-6 flex flex-col h-full bg-black/40 backdrop-blur-sm">
-
-                            {/* Header: Category & Arrow */}
-                            <div className="flex justify-between items-center mb-6">
-                                <span className={cn(
-                                    "text-[10px] font-mono uppercase tracking-widest px-2 py-1 rounded border",
-                                    project.status === "Live" ? "text-green-400 border-green-500/20 bg-green-500/5" :
-                                        project.status === "Development" ? "text-yellow-400 border-yellow-500/20 bg-yellow-500/5" :
-                                            "text-blue-400 border-blue-500/20 bg-blue-500/5"
-                                )}>
-                                    {project.category}
-                                </span>
-                                <ArrowUpRight className="text-neutral-500 group-hover:text-cyan-400 transition-colors duration-300 transform group-hover:-translate-y-1 group-hover:translate-x-1" size={18} />
-                            </div>
-
-                            {/* Title & Description */}
-                            <div className="mb-6">
-                                <h3 className="text-xl font-bold text-white mb-2 leading-tight group-hover:text-cyan-400 transition-colors font-heading">
-                                    {project.title}
-                                </h3>
-                                <p className="text-neutral-400 text-sm leading-relaxed line-clamp-3">
-                                    {project.description}
-                                </p>
-                            </div>
-
-                            {/* Tech Stack */}
-                            <div className="mt-auto mb-6">
-                                {project.techStack && (
-                                    <div className="flex flex-wrap gap-2">
-                                        {project.techStack.slice(0, 3).map(tech => (
-                                            <TechBadge key={tech} name={tech} />
-                                        ))}
-                                        {project.techStack.length > 3 && (
-                                            <span className="text-xs text-neutral-500 py-1">+ {project.techStack.length - 3}</span>
-                                        )}
-                                    </div>
-                                )}
-                            </div>
-
-                            {/* Footer: Status & Like */}
-                            <div className="pt-4 border-t border-white/5 flex items-center justify-between mt-auto">
-                                <span className="text-xs text-neutral-600 font-mono flex items-center gap-1.5">
-                                    <span className={cn("w-1.5 h-1.5 rounded-full",
-                                        project.status === "Live" ? "bg-green-500 animate-pulse" :
-                                            project.status === "Development" ? "bg-yellow-500" :
-                                                "bg-blue-500"
-                                    )} />
-                                    {project.status.toUpperCase()}
-                                </span>
-
-                                <button
-                                    onClick={handleLike}
-                                    className={cn(
-                                        "flex items-center gap-1.5 text-xs font-medium transition-all px-3 py-1.5 rounded-full border border-transparent",
-                                        isLiked
-                                            ? "text-red-400 bg-red-500/10 border-red-500/20"
-                                            : "text-neutral-500 hover:text-white hover:bg-white/5 hover:border-white/10"
-                                    )}
-                                >
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="14"
-                                        height="14"
-                                        viewBox="0 0 24 24"
-                                        fill={isLiked ? "currentColor" : "none"}
-                                        stroke="currentColor"
-                                        strokeWidth="2"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        className={cn("transition-transform duration-300", isLiked && "scale-110")}
-                                    >
-                                        <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
-                                    </svg>
-                                    {likes}
-                                </button>
-                            </div>
-                        </div>
-                    </HoverBorderGradient>
-                </Link>
-            </Card3D>
-        </motion.div>
-    );
+          Open case
+          <ArrowUpRight size={16} />
+        </Link>
+      </div>
+    </article>
+  );
 }

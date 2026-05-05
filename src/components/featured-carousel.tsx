@@ -80,6 +80,8 @@ export function FeaturedCarousel({ projects }: FeaturedCarouselProps) {
                                     alt={project.title}
                                     fill
                                     className="object-cover"
+                                    priority={currentIndex === 0}
+                                    loading={currentIndex === 0 ? "eager" : "lazy"}
                                 />
                             ) : (
                                 <div className="absolute inset-0 flex items-center justify-center text-neutral-600 font-mono">
