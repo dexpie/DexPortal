@@ -7,6 +7,7 @@ import { Footer } from "@/components/footer";
 import { getProjects } from "@/lib/projects";
 import { getBlogPosts } from "@/lib/blog";
 import { BentoGrid } from "@/components/bento-grid";
+import { ExperienceSection } from "@/components/experience-section";
 
 export default async function Home() {
   const projects = await getProjects();
@@ -19,6 +20,7 @@ export default async function Home() {
         <div className="grain-overlay pointer-events-none absolute inset-0" />
         <Hero />
         <ProjectsSection initialProjects={projects} />
+        <ExperienceSection />
         <BentoGrid projects={projects} />
 
         <section id="notes" className="relative py-20 md:py-28">

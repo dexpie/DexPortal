@@ -13,6 +13,7 @@ import {
   Play,
   Receipt,
   ScanSearch,
+  UtensilsCrossed,
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -33,6 +34,7 @@ const projectIcons = {
   dexfilemanager: FolderOpen,
   dexautoeda: BarChart3,
   dexkasir: Receipt,
+  laperin: UtensilsCrossed,
   dexscrapper: ScanSearch,
 };
 

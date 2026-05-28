@@ -8,6 +8,8 @@ import { useTheme } from "./theme-provider";
 
 const navLinks = [
   { href: "/#projects", label: "Work" },
+  { href: "/#experience", label: "Experience" },
+  { href: "/about", label: "About" },
   { href: "/#stack", label: "Stack" },
   { href: "/#notes", label: "Notes" },
   { href: "/#contact", label: "Contact" },

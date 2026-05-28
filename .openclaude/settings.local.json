@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find .next -type f -name *.js)",
+      "Bash(powershell -Command \"\\(Get-Content 'C:\\\\Users\\\\Gading\\\\Documents\\\\github\\\\DexPortal\\\\src\\\\components\\\\bento-grid.tsx' -Raw\\) -replace 'fill\\\\r\\\\n          className', 'fill\\\\r\\\\n          sizes=\\\\\"80px\\\\\"\\\\r\\\\n          className'\")",
+      "Bash(powershell -Command \"\\(Get-Content 'C:\\\\Users\\\\Gading\\\\Documents\\\\github\\\\DexPortal\\\\src\\\\components\\\\bento-grid.tsx' | Select-Object -First 25\\)\")",
+      "Bash(powershell -Command \"\\\\$content = Get-Content 'C:\\\\Users\\\\Gading\\\\Documents\\\\github\\\\DexPortal\\\\src\\\\components\\\\bento-grid.tsx' -Raw; \\\\$newContent = \\\\$content -replace 'alt=\\\\\"Profile\\\\\"\\(.*?\\)fill\\\\r?\\\\n\\(.*?\\)className=\\\\\"object-cover\\\\\"', 'alt=\\\\\"Profile\\\\\"\\\\$1fill\\\\$2sizes=\\\\\"80px\\\\\" className=\\\\\"object-cover\\\\\"'; [System.IO.File]::WriteAllText\\('C:\\\\Users\\\\Gading\\\\Documents\\\\github\\\\DexPortal\\\\src\\\\components\\\\bento-grid.tsx', \\\\$newContent\\)\")",
+      "Bash(node:*)",
+      "Bash(powershell -Command \"\\(Get-Content 'C:\\\\Users\\\\Gading\\\\Documents\\\\github\\\\DexPortal\\\\src\\\\components\\\\bento-grid.tsx' | Select-Object -First 30\\)\")",
+      "Bash(powershell -Command \"[System.IO.File]::ReadAllText\\('C:\\\\Users\\\\Gading\\\\Documents\\\\github\\\\DexPortal\\\\src\\\\components\\\\bento-grid.tsx'\\).Substring\\(680, 200\\)\")",
+      "Bash(powershell -Command \"[System.IO.File]::ReadAllText\\('C:\\\\Users\\\\Gading\\\\Documents\\\\github\\\\DexPortal\\\\src\\\\components\\\\bento-grid.tsx'\\).Substring\\(680, 300\\)\")",
+      "Bash(powershell -Command \"\\\\$content = [System.IO.File]::ReadAllText\\('C:\\\\Users\\\\Gading\\\\Documents\\\\github\\\\DexPortal\\\\src\\\\components\\\\bento-grid.tsx'\\); \\\\$idx = \\\\$content.IndexOf\\('alt=\\\\\"\\\\\"\\\\\"Profile\\\\\"\\\\\"\\\\\"'\\); if\\(\\\\$idx -ge 0\\) { \\\\$snippet = \\\\$content.Substring\\(\\\\$idx-10, 100\\); Write-Host \\('Found at ' + \\\\$idx + ':'\\); for\\(\\\\$i=0;\\\\$i -lt \\\\$snippet.Length;\\\\$i++\\) { \\\\$char = [int]\\\\$snippet[\\\\$i]; if\\(\\\\$char -eq 13\\) { Write-Host 'CR' -NoNewline; } elseif\\(\\\\$char -eq 10\\) { Write-Host 'LF' -NoNewline; } else { Write-Host \\\\$snippet[\\\\$i] -NoNewline; } } }\")",
+      "Bash(git:*)",
+      "Bash(npm run:*)",
+      "Bash(find \"File\\(s\\)\")",
+      "Bash(ls src/components/*.tsx)"
+    ]
+  }
+}

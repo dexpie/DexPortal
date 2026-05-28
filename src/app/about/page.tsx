@@ -1,45 +1,16 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, Download, Github, Linkedin, Mail } from "lucide-react";
+import { ArrowLeft, BriefcaseBusiness, Download, Github, Linkedin, Mail } from "lucide-react";
 import { Footer } from "@/components/footer";
 import { Navbar } from "@/components/navbar";
 import { TechBadge } from "@/components/tech-badge";
+import { cvDownloadPath, resumeExperience } from "@/lib/resume";
+import { coreTechStack } from "@/lib/tech-stack";
 
 export const metadata = {
   title: "About | DexPie Portfolio",
   description: "Learn more about DexPie, a full-stack developer from Jakarta building simple web products with personality.",
 };
-
-const stack = [
-  "Next.js",
-  "TypeScript",
-  "React",
-  "Tailwind",
-  "Node.js",
-  "Python",
-  "Puppeteer",
-  "PostgreSQL",
-  "Framer Motion",
-  "Vercel",
-];
-
-const timeline = [
-  {
-    year: "2024",
-    title: "Dex ecosystem",
-    desc: "Shaping DexKomik, DexAnime, DexFilm, DexPDF, and supporting tools into a more cohesive product line.",
-  },
-  {
-    year: "2023",
-    title: "Full-stack web apps",
-    desc: "Building practical interfaces, scraping pipelines, content apps, and utility dashboards.",
-  },
-  {
-    year: "2022",
-    title: "React foundation",
-    desc: "Deepening frontend fundamentals and turning experiments into usable web experiences.",
-  },
-];
 
 export default function AboutPage() {
   return (
@@ -63,7 +34,7 @@ export default function AboutPage() {
                 I build small products with a clear pulse.
               </h1>
               <p className="mt-7 max-w-3xl text-xl leading-9 text-[var(--muted-foreground)]">
-                I am DexPie, a full-stack developer from Jakarta. I like web products that feel direct, personal, fast, and not over-designed for the sake of looking busy.
+                I am DexPie, an Information Systems student and web developer from Indonesia. I build web products, event systems, and team workflows with a focus on clarity, collaboration, and useful interfaces.
               </p>
 
               <div className="mt-9 flex flex-wrap gap-3">
@@ -75,11 +46,12 @@ export default function AboutPage() {
                   Get in touch
                 </a>
                 <a
-                  href="/resume.pdf"
+                  href={cvDownloadPath}
+                  download
                   className="inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--card)] px-5 py-3 text-sm font-bold text-[var(--foreground)] transition-colors hover:border-[var(--primary)]"
                 >
                   <Download size={17} />
-                  Resume
+                  Download CV
                 </a>
               </div>
             </div>
@@ -119,7 +91,7 @@ export default function AboutPage() {
               <h2 className="mt-4 font-heading text-4xl font-black leading-none">Tools I keep reaching for.</h2>
             </div>
             <div className="flex flex-wrap gap-2 self-center">
-              {stack.map((item) => (
+              {coreTechStack.map((item) => (
                 <TechBadge key={item} name={item} className="px-4 py-2 text-sm" />
               ))}
             </div>
@@ -137,18 +109,26 @@ export default function AboutPage() {
             </div>
 
             <div className="rounded-[2rem] border border-[var(--border)] bg-[var(--card)] p-7 md:p-8">
-              <h2 className="font-heading text-3xl font-black">Journey</h2>
+              <h2 className="font-heading text-3xl font-black">Experience</h2>
               <div className="mt-7 space-y-6">
-                {timeline.map((item) => (
-                  <div key={item.year} className="grid grid-cols-[70px_minmax(0,1fr)] gap-4">
-                    <div className="font-heading text-xl font-black text-[var(--primary)]">{item.year}</div>
+                {resumeExperience.slice(0, 4).map((item) => (
+                  <div key={`${item.organization}-${item.role}`} className="grid grid-cols-[70px_minmax(0,1fr)] gap-4">
+                    <div className="font-heading text-sm font-black text-[var(--primary)]">{item.period}</div>
                     <div>
-                      <h3 className="font-heading text-xl font-black">{item.title}</h3>
-                      <p className="mt-2 text-sm leading-6 text-[var(--muted-foreground)]">{item.desc}</p>
+                      <h3 className="font-heading text-xl font-black">{item.role}</h3>
+                      <p className="mt-1 text-sm font-bold text-[var(--primary)]">{item.organization}</p>
+                      <p className="mt-2 text-sm leading-6 text-[var(--muted-foreground)]">{item.summary}</p>
                     </div>
                   </div>
                 ))}
               </div>
+              <Link
+                href="/resume"
+                className="mt-7 inline-flex items-center gap-2 rounded-full border border-[var(--border)] px-4 py-2 text-sm font-bold text-[var(--foreground)] transition-colors hover:border-[var(--primary)]"
+              >
+                <BriefcaseBusiness size={16} />
+                Full resume
+              </Link>
             </div>
           </section>
 

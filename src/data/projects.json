@@ -121,6 +121,25 @@
     "content": "## Overview\nDexKasir is a point-of-sale project focused on practical store operations.\n\n### Core Ideas\n- **Sales flow**: transaction handling for cashier workflows.\n- **Inventory**: item, stock, and catalog management.\n- **Operations**: employee shifts and daily reporting."
   },
   {
+    "id": "laperin",
+    "title": "Laper.in",
+    "description": "A campus food ordering app for the ITS area, connecting students with nearby canteens and student couriers who can pick up delivery orders.",
+    "href": "https://www.laper-in.site",
+    "githubUrl": "https://github.com/dexpie/laper.in",
+    "category": "Food Delivery",
+    "status": "Live",
+    "previewImage": "/previews/laperin.png",
+    "techStack": [
+      "React",
+      "TypeScript",
+      "Supabase",
+      "Vite",
+      "Vercel"
+    ],
+    "likes": 87,
+    "content": "## Overview\nLaper.in brings ITS canteens into one ordering flow, helping students discover nearby food, reorder favorites, and manage campus meals from a mobile-first web app.\n\n### Core Features\n- **Campus ordering**: browse food around ITS, search menus, and place orders from canteen listings.\n- **Student courier flow**: students can become couriers, go online, and claim available delivery orders.\n- **Order experience**: LaperPay points, order history, pre-order flow, and tracking keep the food journey easier to follow.\n\n### Product Direction\nThe app is shaped for the rhythm of campus life: fast lunch decisions, affordable menu discovery, and a delivery network that can be powered by students themselves."
+  },
+  {
     "id": "dexscrapper",
     "title": "DexScrapper",
     "description": "A high-performance scraping engine for collecting web data, automating extraction, and preparing content pipelines.",

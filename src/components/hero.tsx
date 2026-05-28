@@ -1,5 +1,6 @@
-import { ArrowDownRight, ArrowUpRight, Mail } from "lucide-react";
+import { ArrowDownRight, ArrowUpRight, Download, Mail } from "lucide-react";
 import Image from "next/image";
+import { cvDownloadPath } from "@/lib/resume";
 
 const floatingProjects = ["DexKomik", "DexAnime", "DexFilm", "DexPDF"];
 
@@ -35,6 +36,14 @@ export function Hero() {
               >
                 <Mail size={17} />
                 Contact
+              </a>
+              <a
+                href={cvDownloadPath}
+                download
+                className="inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--background)]/70 px-5 py-3 text-sm font-bold text-[var(--foreground)] backdrop-blur-md transition-colors hover:border-[var(--primary)]"
+              >
+                <Download size={17} />
+                Download CV
               </a>
             </div>
           </div>

@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { Brain, Code2, Database, Layers, MapPin, Sparkles, Wand2 } from "lucide-react";
 import type { Project } from "@/lib/types";
+import { coreTechStack } from "@/lib/tech-stack";
 
 const services = [
   {
@@ -23,7 +24,7 @@ const services = [
 ];
 
 export function BentoGrid({ projects }: { projects: Project[] }) {
-  const stack = Array.from(new Set(projects.flatMap((project) => project.techStack ?? []))).slice(0, 16);
+  const stack = Array.from(new Set([...coreTechStack, ...projects.flatMap((project) => project.techStack ?? [])]));
   const liveProjects = projects.filter((project) => project.status === "Live").length;
 
   return (
@@ -48,7 +49,7 @@ export function BentoGrid({ projects }: { projects: Project[] }) {
               I like portfolios that feel like products, not brochures.
             </h3>
             <p className="mt-6 max-w-xl text-lg leading-8 opacity-75">
-              DexPortal is shaped around real builds: manga, anime, film, PDF, POS, scraping, and data tooling.
+              DexPortal is shaped around real builds: manga, anime, film, PDF, POS, campus delivery, scraping, and data tooling.
             </p>
           </motion.div>
 
