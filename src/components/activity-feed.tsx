@@ -2,11 +2,12 @@
 
 import { useEffect, useState } from "react";
 import { Globe, Heart, Eye, Music } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import { useSysConfig } from "@/store/use-sys-config";
 
 const LOCATIONS = [
-    "Jakarta, ID", "Tokyo, JP", "New York, US", "London, UK",
-    "Seoul, KR", "Berlin, DE", "Surabaya, ID", "Singapore, SG",
+    "Surabaya, ID", "Tokyo, JP", "New York, US", "London, UK",
+    "Seoul, KR", "Berlin, DE", "Singapore, SG",
     "Toronto, CA", "Sydney, AU", "Amsterdam, NL"
 ];
 
@@ -18,20 +19,27 @@ const ACTIONS = [
     { text: "is reading the Guestbook", icon: Globe },
 ];
 
+type Activity = {
+    id: number;
+    text: string;
+    location: string;
+    icon: LucideIcon;
+    time: string;
+};
+
+const INITIAL_ACTIVITIES: Activity[] = [
+    { id: 1, text: "viewed Projects", location: "Surabaya, ID", icon: Eye, time: "Just now" },
+    { id: 2, text: "is listening to music", location: "Tokyo, JP", icon: Music, time: "2m ago" },
+    { id: 3, text: "viewed About page", location: "London, UK", icon: Eye, time: "5m ago" },
+];
+
 export function ActivityFeed() {
     const { zenMode } = useSysConfig();
 
-    const [activities, setActivities] = useState<{ id: number, text: string, location: string, icon: any, time: string }[]>([]);
+    const [activities, setActivities] = useState<Activity[]>(INITIAL_ACTIVITIES);
 
     useEffect(() => {
         if (zenMode) return;
-
-        // Initial population
-        setActivities([
-            { id: 1, text: "viewed Projects", location: "Jakarta, ID", icon: Eye, time: "Just now" },
-            { id: 2, text: "is listening to music", location: "Tokyo, JP", icon: Music, time: "2m ago" },
-            { id: 3, text: "viewed About page", location: "London, UK", icon: Eye, time: "5m ago" }
-        ]);
 
         const interval = setInterval(() => {
             const location = LOCATIONS[Math.floor(Math.random() * LOCATIONS.length)];
@@ -51,6 +59,8 @@ export function ActivityFeed() {
 
         return () => clearInterval(interval);
     }, [zenMode]);
+
+    if (zenMode) return null;
 
     return (
         <div className="space-y-4">

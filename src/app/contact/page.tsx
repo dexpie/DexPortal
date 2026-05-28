@@ -79,7 +79,7 @@ export default function ContactPage() {
                 <div className="rounded-[1.5rem] border border-[var(--border)] bg-[var(--card)] p-5">
                   <MapPin className="text-[var(--secondary)]" size={22} />
                   <p className="mt-4 text-sm font-bold">Base</p>
-                  <p className="mt-1 text-sm text-[var(--muted-foreground)]">Jakarta, Indonesia</p>
+                  <p className="mt-1 text-sm text-[var(--muted-foreground)]">Surabaya, Indonesia</p>
                 </div>
                 <div className="rounded-[1.5rem] border border-[var(--border)] bg-[var(--card)] p-5">
                   <Clock className="text-[var(--accent)]" size={22} />

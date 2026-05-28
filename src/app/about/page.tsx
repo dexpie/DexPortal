@@ -9,7 +9,7 @@ import { coreTechStack } from "@/lib/tech-stack";
 
 export const metadata = {
   title: "About | DexPie Portfolio",
-  description: "Learn more about DexPie, a full-stack developer from Jakarta building simple web products with personality.",
+  description: "Learn more about DexPie, a full-stack developer from Surabaya building simple web products with personality.",
 };
 
 export default function AboutPage() {
@@ -81,7 +81,7 @@ export default function AboutPage() {
             </div>
             <div className="rounded-[1.75rem] border border-[var(--border)] bg-[var(--card)] p-6">
               <p className="text-sm font-bold uppercase tracking-[0.18em] text-[var(--muted-foreground)]">Base</p>
-              <p className="mt-4 font-heading text-3xl font-black">Jakarta, Indonesia</p>
+              <p className="mt-4 font-heading text-3xl font-black">Surabaya, Indonesia</p>
             </div>
           </div>
 

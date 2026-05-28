@@ -14,7 +14,7 @@ export function Hero() {
         <div className="grid gap-10 lg:grid-cols-[minmax(0,0.95fr)_minmax(360px,0.72fr)] lg:items-center lg:gap-16">
           <div className="relative z-10 min-w-0 max-w-[21rem] sm:max-w-full">
             <p className="mb-6 inline-flex rounded-full border border-[var(--border)] bg-[var(--background)]/70 px-4 py-2 text-sm font-semibold text-[var(--muted-foreground)] backdrop-blur-md">
-              Full-stack developer from Jakarta
+              Full-stack developer from Surabaya
             </p>
             <h1 className="display-tight font-heading text-[clamp(4rem,9vw,9.25rem)] font-extrabold text-[var(--foreground)]">
               DexPie

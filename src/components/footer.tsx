@@ -24,7 +24,7 @@ export function Footer() {
           <Link href="/" className="font-heading text-2xl font-extrabold text-[var(--foreground)]">
             DexPie
           </Link>
-          <p className="mt-2 text-sm text-[var(--muted-foreground)]">Built in Jakarta. Shaped for the Dex ecosystem.</p>
+          <p className="mt-2 text-sm text-[var(--muted-foreground)]">Built in Surabaya. Shaped for the Dex ecosystem.</p>
         </div>
 
         <div className="flex flex-wrap gap-2">

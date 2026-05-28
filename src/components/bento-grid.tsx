@@ -106,7 +106,7 @@ export function BentoGrid({ projects }: { projects: Project[] }) {
             className="rounded-[2rem] bg-[var(--card)] p-8 md:col-span-2"
           >
             <MapPin className="mb-8 text-[var(--primary)]" size={28} />
-            <p className="font-heading text-4xl font-bold text-[var(--foreground)]">Jakarta</p>
+            <p className="font-heading text-4xl font-bold text-[var(--foreground)]">Surabaya</p>
             <p className="mt-4 text-lg leading-8 text-[var(--muted-foreground)]">Available for remote product work and collaboration.</p>
           </motion.div>
 
